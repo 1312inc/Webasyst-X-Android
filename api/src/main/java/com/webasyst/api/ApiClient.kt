@@ -28,6 +28,17 @@ class ApiClient private constructor(context: Context) : ApiClientBase(context) {
         return Response.success(r)
     }
 
+    suspend fun postCloudSignUp(): Response<CloudSignup> = wrapApiCall {
+        authService.withFreshAccessToken { accessToken ->
+            client.post(CLOUD_SIGNUP_ENDPOINT) {
+                headers {
+                    accept(ContentType.Application.Json)
+                    append("Authorization", "Bearer $accessToken")
+                }
+            }
+        }
+    }
+
     suspend fun downloadUserpic(url: String, file: File): Unit =
         downloadFile(url, file)
 
@@ -61,6 +72,7 @@ class ApiClient private constructor(context: Context) : ApiClientBase(context) {
     }
 
     companion object : SingletonHolder<ApiClient, Context>(::ApiClient) {
+        private const val CLOUD_SIGNUP_ENDPOINT = "${BuildConfig.WEBASYST_HOST}/id/api/v1/cloud/signup/"
         private const val INSTALLATION_LIST_ENDPOINT = "${BuildConfig.WEBASYST_HOST}/id/api/v1/installations/"
         private const val USER_LIST_ENDPOINT = "${BuildConfig.WEBASYST_HOST}/id/api/v1/profile/"
         private const val CLIENT_LIST = "${BuildConfig.WEBASYST_HOST}/id/api/v1/auth/client/"

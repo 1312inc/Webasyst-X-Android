@@ -9,8 +9,11 @@
     <string name="btn_add_webasyst">Добавить Webasyst</string>
     <string name="add_webasyst_installation_description">Если у вас уже есть установка Webasyst в облаке или на вашем сервере, зайдите в её бекенд с вашим Webasyst ID. Установка появится в списке автоматически. Либо создайте новый облачный аккаунт Webasyst нажав кнопку ниже:</string>
     <string name="btn_create_new_account">Создать аккаунт</string>
+    <string name="webasyst_added">Ваш облачный аккаунт Webasyst готов. Вы можете зайти в него по одноразоаой ссылке: %1$s</string>
+    <string name="btn_open_wa_auth">Открыть в браузере</string>
 
     <string name="btn_cancel">Отмена</string>
+    <string name="btn_ok">OK</string>
 
     <string name="domain_list">Домены</string>
     <string name="data_fetch_error">Не удалось загрузить данные.\nПопробуйте позже.</string>
