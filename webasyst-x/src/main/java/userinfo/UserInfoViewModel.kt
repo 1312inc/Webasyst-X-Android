@@ -1,6 +1,8 @@
 package com.webasyst.x.userinfo
 
 import android.app.Application
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -13,6 +15,7 @@ import com.webasyst.x.MainActivity
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.util.getActivity
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
@@ -76,6 +79,19 @@ class UserInfoViewModel(val app: Application) :
 
     fun onSignOut(view: View) {
         val activity = view.getActivity() as MainActivity
-        activity.waSignOut()
+        GlobalScope.launch(Dispatchers.IO) {
+            apiClient
+                .signOut { Handler(view.context.mainLooper).post { activity.waSignOut() } }
+                .onSuccess {
+                    Log.i(TAG, "Sign out successful")
+                }
+                .onFailure {
+                    Log.w(TAG, "Failed to sign out on server", it)
+                }
+        }
+    }
+
+    companion object {
+        private const val TAG = "user_info"
     }
 }

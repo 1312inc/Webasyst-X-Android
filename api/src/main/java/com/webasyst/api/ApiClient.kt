@@ -4,6 +4,7 @@ import android.content.Context
 import com.webasyst.auth.withFreshAccessToken
 import com.webasyst.util.SingletonHolder
 import io.ktor.client.request.accept
+import io.ktor.client.request.delete
 import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.request
@@ -42,6 +43,20 @@ class ApiClient private constructor(context: Context) : ApiClientBase(context) {
     suspend fun downloadUserpic(url: String, file: File): Unit =
         downloadFile(url, file)
 
+    /**
+     * [block] is called after fresh access token is acquired but before delete request completes.
+     */
+    suspend fun signOut(block: (() -> Unit)? = null): Response<Unit> = wrapApiCall {
+        authService.withFreshAccessToken { accessToken ->
+            if (null != block) block()
+            client.delete(SIGN_OUT_ENDPOINT) {
+                headers {
+                    append("Authorization", "Bearer $accessToken")
+                }
+            }
+        }
+    }
+
     private suspend inline fun <reified T> doPost(url: String, data: Any): T =
         authService.withFreshAccessToken { accessToken ->
             client.post(url) {
@@ -72,6 +87,7 @@ class ApiClient private constructor(context: Context) : ApiClientBase(context) {
     }
 
     companion object : SingletonHolder<ApiClient, Context>(::ApiClient) {
+        private const val SIGN_OUT_ENDPOINT = "${BuildConfig.WEBASYST_HOST}/id/api/v1/delete/"
         private const val CLOUD_SIGNUP_ENDPOINT = "${BuildConfig.WEBASYST_HOST}/id/api/v1/cloud/signup/"
         private const val INSTALLATION_LIST_ENDPOINT = "${BuildConfig.WEBASYST_HOST}/id/api/v1/installations/"
         private const val USER_LIST_ENDPOINT = "${BuildConfig.WEBASYST_HOST}/id/api/v1/profile/"
