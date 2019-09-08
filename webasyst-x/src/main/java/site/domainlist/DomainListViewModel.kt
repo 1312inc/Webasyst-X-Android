@@ -1,6 +1,7 @@
 package com.webasyst.x.site.domainlist
 
 import android.app.Application
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -52,6 +53,7 @@ class DomainListViewModel(
                 mutableDomainList.postValue(it.domains.map { domain -> Domain(domain) })
             }
             .onFailure {
+                Log.e(TAG, "failed to fetch domain list: $it", it)
                 mutableState.postValue(STATE_ERROR)
             }
     }
@@ -66,6 +68,7 @@ class DomainListViewModel(
     }
 
     companion object {
+        private const val TAG = "domain_list"
         const val STATE_LOADING_DATA = 1
         const val STATE_DATA_READY = 2
         const val STATE_ERROR = 3
