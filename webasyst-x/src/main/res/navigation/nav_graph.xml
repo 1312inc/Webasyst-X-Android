@@ -30,10 +30,14 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="installationId"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
         <argument
             android:name="installationUrl"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="null" />
         <action
             android:id="@+id/action_mainFragment_to_addWebasystFragment"
             app:destination="@id/addWebasystFragment" />
