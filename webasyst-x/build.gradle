@@ -3,21 +3,40 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'idea'
 
+def webasystProperties = new Properties()
+webasystProperties.load(new FileInputStream(rootProject.file('webasyst.properties')))
+
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     defaultConfig {
         applicationId 'com.webasyst.x'
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName '0.0.1'
+        manifestPlaceholders = ['appAuthRedirectScheme': 'YOURSCHEME']
+
+        buildConfigField('String', 'CLIENT_ID', webasystProperties['webasyst.x.client_id'])
+        buildConfigField('String', 'AUTH_URL', webasystProperties['webasyst.x.auth_url'])
+        buildConfigField('String', 'TOKEN_URL', webasystProperties['webasyst.x.token_url'])
     }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "androidx.core:core-ktx:1.3.1"
     implementation 'com.google.android.material:material:1.2.0'
+    implementation 'net.openid:appauth:0.7.1'
 }

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Webasyst X</string>
+    <string name="btn_sign_in">Sign in</string>
+
+    <string name="app_redirect_scheme" translatable="false">com.webasyst.x</string>
 </resources>
