@@ -7,8 +7,7 @@
 2. Create new file `webasyst.properties` in repository root:
 ```
 webasyst.x.client_id="client id"
-webasyst.x.auth_url="https://waid.dev.webasyst.com/id/oauth2/auth/code"
-webasyst.x.token_url="https://waid.dev.webasyst.com/id/oauth2/auth/token"
+webasyst.x.host="https://waid.dev.webasyst.com"
 ```
 (replace client id with actual client id)
 

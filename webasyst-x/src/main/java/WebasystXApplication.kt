@@ -9,8 +9,8 @@ class WebasystXApplication : Application() {
 
         WebasystAuthService.configure {
             this.clientId = BuildConfig.CLIENT_ID
-            this.authEndpoint = BuildConfig.AUTH_URL
-            this.tokenEndpoint = BuildConfig.TOKEN_URL
+            this.authEndpoint = "${BuildConfig.WEBASYST_HOST}/id/oauth2/auth/code"
+            this.tokenEndpoint = "${BuildConfig.WEBASYST_HOST}/id/oauth2/auth/token"
             this.callbackUri = getString(R.string.app_redirect_scheme) + "://oidc_callback"
         }
     }

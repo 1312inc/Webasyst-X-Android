@@ -28,8 +28,7 @@ android {
         manifestPlaceholders = ['appAuthRedirectScheme': 'YOURSCHEME']
 
         buildConfigField('String', 'CLIENT_ID', webasystProperties['webasyst.x.client_id'])
-        buildConfigField('String', 'AUTH_URL', webasystProperties['webasyst.x.auth_url'])
-        buildConfigField('String', 'TOKEN_URL', webasystProperties['webasyst.x.token_url'])
+        buildConfigField('String', 'WEBASYST_HOST', webasystProperties['webasyst.x.host'])
     }
 }
 
