@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.WebasystX" parent="Theme.MaterialComponents.Light.DarkActionBar" />
+    <style name="Theme.WebasystX" parent="Theme.MaterialComponents.Light.DarkActionBar">
+
+        <item name="screenPaddingHorizontal">16dp</item>
+    </style>
 </resources>

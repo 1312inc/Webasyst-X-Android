@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".installations.InstallationListFragment">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.webasyst.x.installations.InstallationListViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/installationList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/row_installation_list" />
+
+        <ProgressBar
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.spinnerVisibility}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_installations"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:visibility="@{viewModel.emptyPlaceholderVisibility}" />
+    </FrameLayout>
+</layout>

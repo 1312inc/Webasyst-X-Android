@@ -4,7 +4,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.net.Uri
 import com.webasyst.x.util.SingletonHolder
-import kotlinx.coroutines.runBlocking
 import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
@@ -12,6 +11,7 @@ import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.CodeVerifierUtil
 import net.openid.appauth.ResponseTypeValues
 import net.openid.appauth.TokenRequest
+import kotlin.coroutines.suspendCoroutine
 
 class WebasystAuthService internal constructor(
     context: Context,
@@ -62,12 +62,19 @@ class WebasystAuthService internal constructor(
         }
     }
 
-    suspend fun withFreshToken(block: suspend (accessToken: String?) -> Unit) {
-        this.stateStore.getCurrent().performActionWithFreshTokens(authService) { accessToken, idToken, ex ->
-            runBlocking {
-                block(accessToken)
+    suspend fun <T> withFreshToken(block: suspend (accessToken: String?) -> T): T {
+        val token = suspendCoroutine<String> { continuation ->
+            stateStore.getCurrent().performActionWithFreshTokens(authService) { accessToken, _, ex ->
+                continuation.resumeWith(when {
+                    accessToken != null -> Result.success(accessToken)
+                    ex != null -> Result.failure(ex)
+                    else -> Result.failure(
+                        IllegalStateException("Either token or exception should be set")
+                    )
+                })
             }
         }
+        return block(token)
     }
 
     companion object : SingletonHolder<WebasystAuthService, Context>(::createWebasystAuthService) {

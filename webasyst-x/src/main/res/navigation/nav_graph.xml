@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/authFragment">
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.webasyst.x.auth.AuthFragment"
+        android:label="frag_auth"
+        tools:layout="@layout/frag_auth" >
+        <action
+            android:id="@+id/action_authFragment_to_installationListFragment"
+            app:destination="@id/installationListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/installationListFragment"
+        android:name="com.webasyst.x.installations.InstallationListFragment"
+        android:label="frag_installation_list"
+        tools:layout="@layout/frag_installation_list" />
+</navigation>

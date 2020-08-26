@@ -4,24 +4,20 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.webasyst.x.auth.WebasystAuthService
 import com.webasyst.x.auth.WebasystAuthStateManager
-import kotlinx.android.synthetic.main.activity_main.login
-import kotlinx.android.synthetic.main.activity_main.refreshTokenTextView
-import kotlinx.android.synthetic.main.activity_main.tokenExpirationTextView
-import kotlinx.android.synthetic.main.activity_main.tokenTextView
 import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationResponse
 import net.openid.appauth.AuthorizationServiceDiscovery
-import java.util.Date
 
 class MainActivity : AppCompatActivity(), WebasystAuthStateManager.AuthStateObserver {
     private val stateStore by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthStateManager.getInstance(this)
     }
-    val webasystAuthService by lazy(LazyThreadSafetyMode.NONE) {
+    private val webasystAuthService by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthService.getInstance(this)
     }
 
@@ -43,8 +39,6 @@ class MainActivity : AppCompatActivity(), WebasystAuthStateManager.AuthStateObse
                 }
             }
         }
-
-        login.setOnClickListener { authorize() }
     }
 
     override fun onResume() {
@@ -58,12 +52,15 @@ class MainActivity : AppCompatActivity(), WebasystAuthStateManager.AuthStateObse
     }
 
     override fun onChange(state: AuthState) {
-        tokenTextView.text = state.accessToken
-        tokenExpirationTextView.text = state.accessTokenExpirationTime?.let { Date(it).toString() }
-        refreshTokenTextView.text = state.refreshToken
+        val navController = findNavController(R.id.navRoot)
+        if (state.isAuthorized) {
+            if (navController.currentDestination?.id == R.id.authFragment) {
+                navController.navigate(R.id.action_authFragment_to_installationListFragment)
+            }
+        }
     }
 
-    private fun authorize() {
+    fun authorize() {
         val authRequest = webasystAuthService.createAuthorizationRequest()
         val intent = createPostAuthorizationIntent(authRequest, null)
         webasystAuthService.authorize(authRequest, intent)
