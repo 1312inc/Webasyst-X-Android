@@ -29,7 +29,5 @@
                 <data android:scheme="@string/app_redirect_scheme"/>
             </intent-filter>
         </activity>
-
-        <service android:name=".auth.WebasystAuthHelperService" />
     </application>
 </manifest>
