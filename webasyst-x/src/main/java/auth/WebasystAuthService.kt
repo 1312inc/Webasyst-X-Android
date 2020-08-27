@@ -43,6 +43,10 @@ class WebasystAuthService internal constructor(
         authService.performAuthorizationRequest(authRequest, pi)
     }
 
+    fun logoff() {
+        stateStore.replace(AuthState())
+    }
+
     fun createAuthorizationRequest(): AuthorizationRequest {
         val codeVerivier = CodeVerifierUtil.generateRandomCodeVerifier()
 

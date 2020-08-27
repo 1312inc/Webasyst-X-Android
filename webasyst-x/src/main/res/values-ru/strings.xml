@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Webasyst X</string>
     <string name="btn_sign_in">Войти</string>
+    <string name="btn_sign_out">Выйти</string>
 
     <string name="no_installations">Установок Webasyst не найдено</string>
 </resources>

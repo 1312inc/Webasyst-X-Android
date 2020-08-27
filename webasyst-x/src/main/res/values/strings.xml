@@ -2,7 +2,8 @@
 <resources>
     <string name="app_name">Webasyst X</string>
     <string name="btn_sign_in">Sign in</string>
-`
+    <string name="btn_sign_out">Sign out</string>
+
     <string name="no_installations">There are no installations</string>
 
     <string name="app_redirect_scheme" translatable="false">com.webasyst.x</string>

@@ -12,7 +12,10 @@
         tools:layout="@layout/frag_auth" >
         <action
             android:id="@+id/action_authFragment_to_installationListFragment"
-            app:destination="@id/installationListFragment" />
+            app:destination="@id/installationListFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/installationListFragment"
