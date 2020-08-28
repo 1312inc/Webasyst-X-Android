@@ -36,7 +36,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
                 if (navController.currentDestination?.id == R.id.authFragment) {
-                    navController.navigate(R.id.action_authFragment_to_installationListFragment)
+                    navController.navigate(R.id.action_authFragment_to_mainFragment)
                 }
             } else {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

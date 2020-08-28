@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/vini"
+        android:icon="@drawable/ic_star"
+        android:title="Vini" />
+    <item
+        android:id="@+id/vidi"
+        android:icon="@drawable/ic_star"
+        android:title="Vidi" />
+    <item
+        android:id="@+id/vici"
+        android:icon="@drawable/ic_star"
+        android:title="Vici" />
+</menu>
