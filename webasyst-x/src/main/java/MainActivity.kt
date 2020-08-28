@@ -30,6 +30,8 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
         headerBinding.viewModel = viewModel
         headerBinding.signOutButton.setOnClickListener { waSignOut() }
 
+        setSupportActionBar(binding.toolbar)
+
         viewModel.authState.observe(this, { state ->
             val navController = findNavController(R.id.navRoot)
             if (state.isAuthorized) {
