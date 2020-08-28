@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="screenPaddingHorizontal" format="dimension" />
+    <attr name="navigationDrawerHeaderHeight" format="dimension" />
+    <attr name="colorOnPrimaryLighter" format="color" />
 </resources>

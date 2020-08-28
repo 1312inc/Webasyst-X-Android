@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.webasyst.x.MainActivityViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="?navigationDrawerHeaderHeight"
+        android:background="?colorPrimary"
+        android:paddingLeft="?screenPaddingHorizontal"
+        android:paddingRight="?screenPaddingHorizontal">
+
+        <ImageView
+            android:id="@+id/userpicView"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="@string/userpic"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/ic_userpic_placeholder" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:singleLine="true"
+            android:text="@{viewModel.userName}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="?colorOnPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userpicView"
+            tools:text="Firstname Lastname" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@{viewModel.userEmail}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="?colorOnPrimaryLighter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:text="email@example.com" />
+
+        <Button
+            android:id="@+id/signOutButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_sign_out"
+            android:textColor="?colorOnPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/userpicView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

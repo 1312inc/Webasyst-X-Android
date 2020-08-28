@@ -1,12 +1,14 @@
 package com.webasyst.x
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.webasyst.auth.WebasystAuthActivity
 import com.webasyst.auth.WebasystAuthStateStore
+import com.webasyst.x.databinding.ActivityMainBinding
+import com.webasyst.x.databinding.NavHeaderAuthorizedBinding
 import net.openid.appauth.AuthState
 
 class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
@@ -16,59 +18,34 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
     private val stateStore by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthStateStore.getInstance(this)
     }
-//    private val webasystAuthService by lazy(LazyThreadSafetyMode.NONE) {
-//        WebasystAuthService.getInstance(this)
-//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-/*
-        val intent = intent
-        if (null != intent) {
-            when (intent.action) {
-                ACTION_UPDATE_AFTER_AUTHORIZATION -> {
-                    val response = AuthorizationResponse.fromIntent(intent)
-                    val e = AuthorizationException.fromIntent(intent)
-                    stateStore.updateAfterAuthorization(response, e)
 
-                    if (null != response) {
-                        WebasystAuthService.getInstance(this).performTokenRequest(response.createTokenExchangeRequest())
-                    }
-                }
-            }
-        }
- */
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
+
+        val headerBinding = NavHeaderAuthorizedBinding.bind(binding.navigation.getHeaderView(0))
+        headerBinding.lifecycleOwner = this
+        headerBinding.viewModel = viewModel
+        headerBinding.signOutButton.setOnClickListener { waSignOut() }
 
         viewModel.authState.observe(this, { state ->
             val navController = findNavController(R.id.navRoot)
             if (state.isAuthorized) {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+
                 if (navController.currentDestination?.id == R.id.authFragment) {
                     navController.navigate(R.id.action_authFragment_to_installationListFragment)
                 }
             } else {
+                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
                 if (navController.currentDestination?.id != R.id.authFragment) {
                     navController.setGraph(R.navigation.nav_graph)
                 }
             }
         })
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        val logoffMenuItem = menu.findItem(R.id.logoff)
-        viewModel.authState.observe(this, {
-            logoffMenuItem.isEnabled = it.isAuthorized
-        })
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.logoff -> {
-            this.waSignOut()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onResume() {
@@ -84,25 +61,4 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
     override fun onAuthStateChange(state: AuthState) {
         viewModel.setAuthState(state)
     }
-
-    /*
-    fun authorize() {
-        val authRequest = webasystAuthService.createAuthorizationRequest()
-        val intent = createPostAuthorizationIntent(authRequest, null)
-        webasystAuthService.authorize(authRequest, intent)
-    }
-     */
-/*
-    private fun createPostAuthorizationIntent(
-        request: AuthorizationRequest,
-        discoveryDoc: AuthorizationServiceDiscovery?
-    ) : PendingIntent {
-        val intent = Intent(this, this.javaClass)
-        intent.action = ACTION_UPDATE_AFTER_AUTHORIZATION
-        if (null != discoveryDoc) {
-            intent.putExtra(WebasystAuthService.EXTRA_AUTH_SERVICE_DISCOVERY, discoveryDoc.docJson.toString())
-        }
-        return PendingIntent.getActivity(this, request.hashCode(), intent, 0)
-    }
- */
 }

@@ -31,6 +31,8 @@ android {
         versionName '0.0.1'
         manifestPlaceholders = ['appAuthRedirectScheme': 'YOURSCHEME']
 
+        vectorDrawables.useSupportLibrary = true
+
         buildConfigField('String', 'CLIENT_ID', webasystProperties['webasyst.x.client_id'])
         buildConfigField('String', 'WEBASYST_HOST', webasystProperties['webasyst.x.host'])
     }
