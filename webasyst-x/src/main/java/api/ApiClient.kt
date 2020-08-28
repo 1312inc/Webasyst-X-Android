@@ -28,12 +28,10 @@ class ApiClient private constructor(context: Context) {
     }
 
     suspend fun installationList(): Response<List<Installation>> = try {
-        Response.success(
-            doGet<Map<String, Installation>>(INSTALLATION_LIST_ENDPOINT)
-                .map { (id, installation) -> installation.copy(id = id) })
-        } catch (e: Throwable) {
-            Response.failure(e)
-        }
+        Response.success(doGet(INSTALLATION_LIST_ENDPOINT))
+    } catch (e: Throwable) {
+        Response.failure(e)
+    }
 
     private suspend inline fun <reified T> doGet(url: String): T =
         authService.withFreshAccessToken { accessToken ->
