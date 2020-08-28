@@ -36,23 +36,14 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
     }
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            apiClient.installationList()
-                .onSuccess {
-                    mutableInstallations.postValue(it)
-                }
-                .onFailure {
-                    // TODO
-                }
-            mutableLoadingData.postValue(false)
-        }
+        updateInstallationList()
     }
 
     private fun updateInstallationList() {
         viewModelScope.launch(Dispatchers.IO) {
             apiClient.installationList()
                 .onSuccess {
-                    mutableInstallations.postValue(it)
+                    mutableInstallations.postValue(it.map { installation -> Installation(installation) })
                 }
                 .onFailure {
                     // TODO

@@ -6,12 +6,16 @@
     <data>
         <variable
             name="installation"
-            type="com.webasyst.x.api.Installation" />
+            type="com.webasyst.x.installations.Installation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="72dp"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{installation::onClick}"
         android:paddingLeft="?screenPaddingHorizontal"
         android:paddingRight="?screenPaddingHorizontal">
 
@@ -21,9 +25,10 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@{installation.domain}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintBottom_toTopOf="@+id/urlView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
@@ -33,11 +38,13 @@
             android:id="@+id/urlView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:singleLine="true"
             android:text="@{installation.url}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hostView"
             tools:text="https://example.com/webasyst/" />
