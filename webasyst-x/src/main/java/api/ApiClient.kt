@@ -1,8 +1,9 @@
 package com.webasyst.x.api
 
 import android.content.Context
+import com.webasyst.auth.WebasystAuthService
+import com.webasyst.auth.withFreshAccessToken
 import com.webasyst.x.BuildConfig
-import com.webasyst.x.auth.WebasystAuthService
 import com.webasyst.x.util.SingletonHolder
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -35,7 +36,7 @@ class ApiClient private constructor(context: Context) {
         }
 
     private suspend inline fun <reified T> doGet(url: String): T =
-        authService.withFreshToken { accessToken ->
+        authService.withFreshAccessToken { accessToken ->
             client.get(url) {
                 headers {
                     accept(ContentType.Application.Json)

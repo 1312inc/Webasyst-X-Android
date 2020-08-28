@@ -12,7 +12,7 @@ class AuthFragment : Fragment(R.layout.frag_auth) {
         super.onViewCreated(view, savedInstanceState)
 
         signInButton.setOnClickListener {
-            (requireActivity() as MainActivity).authorize()
+            (requireActivity() as MainActivity).waSignIn()
         }
     }
 }

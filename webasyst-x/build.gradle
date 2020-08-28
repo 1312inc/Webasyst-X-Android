@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation project(':auth:kt')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.core:core-ktx:1.3.1"
@@ -48,7 +49,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'net.openid:appauth:0.7.1'
     def ktor_version='1.4.0'
     implementation "io.ktor:ktor-client-android:$ktor_version"
     implementation "io.ktor:ktor-client-gson:$ktor_version"
