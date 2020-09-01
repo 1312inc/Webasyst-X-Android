@@ -27,7 +27,7 @@ class ApiClient private constructor(context: Context) {
         }
     }
 
-    suspend fun installationList(): Response<List<Installation>> = try {
+    suspend fun getInstallationList(): Response<List<Installation>> = try {
         Response.success(doGet(INSTALLATION_LIST_ENDPOINT))
     } catch (e: Throwable) {
         Response.failure(e)

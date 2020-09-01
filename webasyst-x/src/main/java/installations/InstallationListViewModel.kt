@@ -41,7 +41,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
 
     private fun updateInstallationList() {
         viewModelScope.launch(Dispatchers.IO) {
-            apiClient.installationList()
+            apiClient.getInstallationList()
                 .onSuccess {
                     mutableInstallations.postValue(it.map { installation -> Installation(installation) })
                 }
