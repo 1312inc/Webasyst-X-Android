@@ -4,14 +4,25 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.webasyst.auth.WebasystAuthActivity
 import com.webasyst.auth.WebasystAuthStateStore
+import com.webasyst.x.api.ApiClient
 import com.webasyst.x.databinding.ActivityMainBinding
 import com.webasyst.x.databinding.NavHeaderAuthorizedBinding
+import com.webasyst.x.util.USERPIC_FILE
+import com.webasyst.x.util.decodeBitmap
+import com.webasyst.x.util.getCacheFile
+import kotlinx.android.synthetic.main.nav_header_authorized.userpicView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
 
 class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
+    private val apiClient by lazy(LazyThreadSafetyMode.NONE) { ApiClient.getInstance(this) }
+
     private val viewModel by lazy {
         ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
@@ -48,6 +59,27 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
                 }
             }
         })
+
+        viewModel.userpicUrl.observe(this) { url ->
+            if (url.isEmpty()) {
+                userpicView.setImageResource(R.drawable.ic_userpic_placeholder)
+            } else {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    val userpicFile = this@MainActivity.getCacheFile(USERPIC_FILE)
+                    if (!userpicFile.exists() ||
+                        userpicFile.lastModified() + MAX_USERPIC_AGE < System.currentTimeMillis()) {
+                        apiClient.downloadUserpic(url, userpicFile)
+                    }
+                    if (userpicFile.exists()) {
+                        userpicView.setImageBitmap(withContext(Dispatchers.Default) {
+                            userpicFile.decodeBitmap(userpicView)
+                        })
+                    } else {
+                        userpicView.setImageResource(R.drawable.ic_userpic_placeholder)
+                    }
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -62,5 +94,9 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
 
     override fun onAuthStateChange(state: AuthState) {
         viewModel.setAuthState(state)
+    }
+
+    companion object {
+        private const val MAX_USERPIC_AGE = 1000 * 60 * 60 * 2 // 2 hours
     }
 }

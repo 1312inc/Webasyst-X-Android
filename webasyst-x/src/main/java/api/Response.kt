@@ -1,10 +1,20 @@
 package com.webasyst.x.api
 
 sealed class Response<out T> {
+    open fun getSuccess(): T =
+        throw IllegalStateException("getSuccess() can be called only on successful response")
+    open fun getFailureCause(): Throwable =
+        throw IllegalStateException("getFailureCause() can be called only on failed response")
+
     open fun onSuccess(block: (value: T) -> Unit) : Response<T> = this
     open fun onFailure(block: (cause: Throwable) -> Unit) : Response<T> = this
 
+    open fun isSuccess(): Boolean = false
+    open fun isFailure(): Boolean = false
+
     private class Success<out T>(val value: T) : Response<T>() {
+        override fun getSuccess(): T = value
+        override fun isSuccess() = true
         override fun onSuccess(block: (value: T) -> Unit): Response<T> {
             block(value)
             return this
@@ -12,6 +22,8 @@ sealed class Response<out T> {
     }
 
     private class Failure<out T>(val cause: Throwable) : Response<T>() {
+        override fun getFailureCause(): Throwable = cause
+        override fun isFailure(): Boolean = false
         override fun onFailure(block: (cause: Throwable) -> Unit): Response<T> {
             block(cause)
             return this
