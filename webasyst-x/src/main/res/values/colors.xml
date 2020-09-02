@@ -2,4 +2,5 @@
 <resources>
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="color_on_primary_lighter">#CCCCCC</color>
+    <color name="selected_list_item">#33000000</color>
 </resources>

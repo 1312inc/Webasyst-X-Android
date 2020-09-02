@@ -10,6 +10,8 @@ import com.webasyst.x.R
 import com.webasyst.x.databinding.RowInstallationListBinding
 
 class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapter.InstallationViewHolder>(Companion) {
+    private var selectedPosition = RecyclerView.NO_POSITION
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InstallationViewHolder =
         DataBindingUtil.inflate<RowInstallationListBinding>(
             LayoutInflater.from(parent.context),
@@ -21,10 +23,16 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
         }
 
     override fun onBindViewHolder(holder: InstallationViewHolder, position: Int) =
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position == selectedPosition)
 
-    class InstallationViewHolder(private val binding: RowInstallationListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(installation: Installation) {
+    inner class InstallationViewHolder(private val binding: RowInstallationListBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(installation: Installation, selected: Boolean) {
+            itemView.setOnClickListener {
+                notifyItemChanged(selectedPosition)
+                selectedPosition = layoutPosition
+                notifyItemChanged(selectedPosition)
+            }
+            itemView.isSelected = selected
             binding.installation = installation
             binding.executePendingBindings()
         }
