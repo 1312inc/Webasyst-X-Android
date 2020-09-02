@@ -15,7 +15,7 @@ data class UserInfo(
     fun getEmail(): String = email.firstOrNull()?.value ?: ""
 
     data class Email(
-        @SerializedName("email")
+        @SerializedName("value")
         val value: String
     )
 }
