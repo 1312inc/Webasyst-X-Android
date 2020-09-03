@@ -1,8 +1,5 @@
 package com.webasyst.x.installations
 
-import android.view.View
-import androidx.drawerlayout.widget.DrawerLayout
-import com.webasyst.x.R
 import com.webasyst.x.api.Installation
 
 data class Installation(
@@ -15,8 +12,4 @@ data class Installation(
         installation.domain,
         installation.url
     )
-
-    fun onClick(view: View) {
-        view.rootView.findViewById<DrawerLayout>(R.id.drawerLayout)?.closeDrawers()
-    }
 }

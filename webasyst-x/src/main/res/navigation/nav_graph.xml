@@ -21,5 +21,18 @@
         android:id="@+id/mainFragment"
         android:name="com.webasyst.x.main.MainFragment"
         android:label="frag_main"
-        tools:layout="@layout/frag_main" />
+        tools:layout="@layout/frag_main" >
+        <action
+            android:id="@+id/action_mainFragment_self"
+            app:destination="@id/mainFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="installationId"
+            app:argType="string" />
+        <argument
+            android:name="installationUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>

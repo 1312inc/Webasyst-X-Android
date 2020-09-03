@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragInstallationListBinding
@@ -40,8 +41,8 @@ class InstallationListFragment : Fragment(R.layout.frag_installation_list) {
             false
         )
 
-        viewModel.installations.observe(viewLifecycleOwner, { installations ->
+        viewModel.installations.observe(viewLifecycleOwner) { installations ->
             adapter.submitList(installations)
-        })
+        }
     }
 }

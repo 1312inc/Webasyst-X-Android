@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.webasyst.x.R
 import kotlinx.android.synthetic.main.frag_main.bottomNav
 
 class MainFragment : Fragment(R.layout.frag_main) {
+    private val args: MainFragmentArgs by navArgs()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
