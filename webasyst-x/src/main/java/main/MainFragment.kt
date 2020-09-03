@@ -6,6 +6,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.webasyst.x.R
+import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.frag_main.bottomNav
 
 class MainFragment : Fragment(R.layout.frag_main) {
