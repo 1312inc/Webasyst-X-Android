@@ -34,6 +34,7 @@ class MainFragment : Fragment(R.layout.frag_main) {
             }
         )
         loadFragment(fragment)
+        requireActivity().toolbar.title = bottomNav.menu.findItem(id).title
     }
 
     private fun loadFragment(fragment: Fragment) {

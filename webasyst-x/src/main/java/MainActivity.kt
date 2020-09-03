@@ -97,6 +97,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
                 when (destination.id) {
                     R.id.authFragment -> {
                         toolbar.navigationIcon = null
+                        toolbar.title = getString(R.string.app_name)
                     }
                     R.id.mainFragment -> {
                         toolbar.setNavigationIcon(R.drawable.ic_hamburger)
