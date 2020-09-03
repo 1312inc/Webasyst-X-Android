@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
+import java.io.File
 
 class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
     private val apiClient by lazy(LazyThreadSafetyMode.NONE) { ApiClient.getInstance(this) }
@@ -73,19 +74,28 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
             } else {
                 lifecycleScope.launch(Dispatchers.Main) {
                     val userpicFile = this@MainActivity.getCacheFile(USERPIC_FILE)
-                    if (!userpicFile.exists() ||
-                        userpicFile.lastModified() + MAX_USERPIC_AGE < System.currentTimeMillis()) {
-                        apiClient.downloadUserpic(url, userpicFile)
-                    }
-                    if (userpicFile.exists()) {
-                        userpicView.setImageBitmap(withContext(Dispatchers.Default) {
-                            userpicFile.decodeBitmap(userpicView)
-                        })
-                    } else {
-                        userpicView.setImageResource(R.drawable.ic_userpic_placeholder)
+                    try {
+                        if (!userpicFile.exists() ||
+                            userpicFile.lastModified() + MAX_USERPIC_AGE < System.currentTimeMillis()
+                        ) {
+                            apiClient.downloadUserpic(url, userpicFile)
+                        }
+                        updateUserpicFromFile(userpicFile)
+                    } catch (e: Throwable) {
+                        updateUserpicFromFile(userpicFile)
                     }
                 }
             }
+        }
+    }
+
+    private suspend fun updateUserpicFromFile(userpicFile: File) {
+        if (userpicFile.exists()) {
+            userpicView.setImageBitmap(withContext(Dispatchers.Default) {
+                userpicFile.decodeBitmap(userpicView)
+            })
+        } else {
+            userpicView.setImageResource(R.drawable.ic_userpic_placeholder)
         }
     }
 

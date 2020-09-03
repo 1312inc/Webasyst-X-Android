@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.webasyst.x.api.ApiClient
 import com.webasyst.x.api.UserInfo
+import com.webasyst.x.cache.DataCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -15,6 +16,7 @@ import net.openid.appauth.AuthState
 
 class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private val apiClient by lazy { ApiClient.getInstance(getApplication()) }
+    private val cache by lazy { DataCache.getInstance(getApplication()) }
 
     private val mutableUserName = MutableLiveData<String>()
     val userName: LiveData<String> = mutableUserName
@@ -32,25 +34,32 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         mutableAuthState.value = state
         if (state.isAuthorized) {
             updateUserInfo()
+        } else {
+            cache.clearUserInfo()
         }
     }
 
     init {
+        cache.readUserInfo()?.let {
+            setUserInfo(it)
+        }
         updateUserInfo()
     }
 
     private fun updateUserInfo() {
         viewModelScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) { apiClient.getUserInfo() }
-                .onSuccess { setUserInfo(it) }
+                .onSuccess {
+                    cache.storeUserInfo(it)
+                    setUserInfo(it)
+                }
                 .onFailure { println(it)/* TODO */ }
         }
     }
 
-    @MainThread
     private fun setUserInfo(userInfo: UserInfo) {
-        mutableUserName.value = userInfo.name
-        mutableUserEmail.value = userInfo.getEmail()
-        mutableUserpicUrl.value = userInfo.userpic
+        mutableUserName.postValue(userInfo.name)
+        mutableUserEmail.postValue(userInfo.getEmail())
+        mutableUserpicUrl.postValue(userInfo.userpic)
     }
 }
