@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.webasyst.auth.WebasystAuthActivity
 import com.webasyst.auth.WebasystAuthStateStore
@@ -14,6 +15,8 @@ import com.webasyst.x.databinding.NavHeaderAuthorizedBinding
 import com.webasyst.x.util.USERPIC_FILE
 import com.webasyst.x.util.decodeBitmap
 import com.webasyst.x.util.getCacheFile
+import kotlinx.android.synthetic.main.activity_main.drawerLayout
+import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.nav_header_authorized.userpicView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,7 +46,11 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
 
         setSupportActionBar(binding.toolbar)
 
-        viewModel.authState.observe(this, { state ->
+        binding.toolbar.setNavigationOnClickListener {
+            drawerLayout.openDrawer(binding.navigation)
+        }
+
+        viewModel.authState.observe(this) { state ->
             val navController = findNavController(R.id.navRoot)
             if (state.isAuthorized) {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
@@ -58,7 +65,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
                     navController.setGraph(R.navigation.nav_graph)
                 }
             }
-        })
+        }
 
         viewModel.userpicUrl.observe(this) { url ->
             if (url.isEmpty()) {
@@ -80,6 +87,22 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        findNavController(R.id.navRoot)
+            .addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id) {
+                    R.id.authFragment -> {
+                        toolbar.navigationIcon = null
+                    }
+                    R.id.mainFragment -> {
+                        toolbar.setNavigationIcon(R.drawable.ic_hamburger)
+                    }
+                }
+            }
     }
 
     override fun onResume() {
