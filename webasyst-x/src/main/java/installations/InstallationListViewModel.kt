@@ -7,9 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.webasyst.api.ApiClient
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.R
-import com.webasyst.x.api.ApiClient
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
@@ -50,7 +50,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         }
     }
 
-    private fun List<com.webasyst.x.api.Installation>.mapToVM() = this.map { Installation(it) }
+    private fun List<com.webasyst.api.Installation>.mapToVM() = this.map { Installation(it) }
 
     init {
         authStateStore.addObserver(this)

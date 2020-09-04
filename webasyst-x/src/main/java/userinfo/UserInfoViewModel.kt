@@ -6,10 +6,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.webasyst.api.ApiClient
+import com.webasyst.api.UserInfo
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.MainActivity
-import com.webasyst.x.api.ApiClient
-import com.webasyst.x.api.UserInfo
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.util.getActivity
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
 
-class UserInfoViewModel(val app: Application) : AndroidViewModel(app), WebasystAuthStateStore.Observer {
+class UserInfoViewModel(val app: Application) :
+    AndroidViewModel(app),
+    WebasystAuthStateStore.Observer
+{
     private val apiClient by lazy { ApiClient.getInstance(getApplication()) }
     private val stateStore by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthStateStore.getInstance(getApplication())

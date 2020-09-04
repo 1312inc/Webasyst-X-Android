@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.webasyst.x.api.Installation
-import com.webasyst.x.api.UserInfo
-import com.webasyst.x.util.SingletonHolder
+import com.webasyst.api.Installation
+import com.webasyst.api.UserInfo
+import com.webasyst.util.SingletonHolder
 
 class DataCache private constructor(context: Context) {
     private val prefs = context

@@ -1,4 +1,4 @@
-package com.webasyst.x.api
+package com.webasyst.api
 
 sealed class Response<out T> {
     open fun getSuccess(): T =

@@ -1,4 +1,4 @@
-package com.webasyst.x.util
+package com.webasyst.util
 
 abstract class SingletonHolder<out T: Any, in A>(creator: (A) -> T) {
     private var creator : ((A) -> T)? = creator

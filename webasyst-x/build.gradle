@@ -51,6 +51,7 @@ android {
 }
 
 dependencies {
+    implementation project(':api')
     implementation project(':auth:kt')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'

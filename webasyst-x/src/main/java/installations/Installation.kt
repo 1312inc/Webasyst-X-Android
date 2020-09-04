@@ -1,6 +1,6 @@
 package com.webasyst.x.installations
 
-import com.webasyst.x.api.Installation
+import com.webasyst.api.Installation
 
 data class Installation(
     val id: String,

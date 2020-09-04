@@ -1,10 +1,9 @@
-package com.webasyst.x.api
+package com.webasyst.api
 
 import android.content.Context
 import com.webasyst.auth.WebasystAuthService
 import com.webasyst.auth.withFreshAccessToken
-import com.webasyst.x.BuildConfig
-import com.webasyst.x.util.SingletonHolder
+import com.webasyst.util.SingletonHolder
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.GsonSerializer

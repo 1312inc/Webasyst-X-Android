@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import com.webasyst.api.ApiClient
 import com.webasyst.x.R
-import com.webasyst.x.api.ApiClient
 import com.webasyst.x.databinding.NavHeaderAuthorizedBinding
 import com.webasyst.x.util.USERPIC_FILE
 import com.webasyst.x.util.decodeBitmap
