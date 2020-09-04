@@ -34,15 +34,25 @@
             android:id="@+id/navigation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/nav_header_authorized">
+            android:layout_gravity="start">
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/test"
-                android:name="com.webasyst.x.installations.InstallationListFragment"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="?navigationDrawerHeaderHeight" />
+                android:orientation="vertical">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/header"
+                    android:name="com.webasyst.x.userinfo.UserInfoFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="?navigationDrawerHeaderHeight" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/test"
+                    android:name="com.webasyst.x.installations.InstallationListFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
         </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
