@@ -8,8 +8,11 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.webasyst.auth.WebasystAuthStateStore
+import com.webasyst.x.R
 import com.webasyst.x.api.ApiClient
 import com.webasyst.x.cache.DataCache
+import com.webasyst.x.main.MainFragmentDirections
+import com.webasyst.x.util.findRootNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
@@ -27,16 +30,6 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
     private val mutableLoadingData = MutableLiveData<Boolean>().apply { value = true }
     val spinnerVisibility = MediatorLiveData<Int>().apply {
         addSource(mutableLoadingData) { value = if (it) View.VISIBLE else View.GONE }
-    }
-    val emptyPlaceholderVisibility = MediatorLiveData<Int>().apply {
-        fun get(): Int =
-            if (mutableLoadingData.value == false && installations.value?.isNotEmpty() == true) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
-        addSource(mutableLoadingData) { value = if (it) View.GONE else get() }
-        addSource(installations) { value = if (it.isNotEmpty()) View.VISIBLE else get() }
     }
 
     init {
@@ -74,6 +67,15 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         if (state?.isAuthorized == false) {
             cache.clearInstallationList()
             mutableInstallations.value = emptyList()
+        }
+    }
+
+    fun onAddWebasystClicked(view: View) {
+        val navController = view.findRootNavController()
+        if (navController.currentDestination?.id == R.id.mainFragment) {
+            view.findRootNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToAddWebasystFragment()
+            )
         }
     }
 }

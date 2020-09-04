@@ -4,14 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.webasyst.x.R
 import com.webasyst.x.databinding.RowInstallationListBinding
 import com.webasyst.x.main.MainFragmentDirections
-import com.webasyst.x.util.getActivity
+import com.webasyst.x.util.findRootNavController
 
 class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapter.InstallationViewHolder>(Companion) {
     private var selectedPosition = RecyclerView.NO_POSITION
@@ -37,9 +36,7 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
                 notifyItemChanged(selectedPosition)
 
                 view.rootView.findViewById<DrawerLayout>(R.id.drawerLayout)?.closeDrawers()
-                val activity = view.getActivity() ?: return@setOnClickListener
-                val navController = Navigation.findNavController(activity, R.id.navRoot)
-                navController.navigate(
+                view.findRootNavController().navigate(
                     MainFragmentDirections.actionMainFragmentSelf(
                         installationId = installation.id,
                         installationUrl = installation.url

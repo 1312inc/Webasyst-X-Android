@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".installations.InstallationListFragment">
 
@@ -10,7 +11,7 @@
             type="com.webasyst.x.installations.InstallationListViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -18,8 +19,15 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/installationList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/add_webasyst_button_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             tools:itemCount="5"
             tools:listitem="@layout/row_installation_list" />
 
@@ -27,15 +35,24 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:visibility="@{viewModel.spinnerVisibility}" />
+            android:visibility="@{viewModel.spinnerVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/no_installations"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:visibility="@{viewModel.emptyPlaceholderVisibility}" />
-    </FrameLayout>
+        <Button
+            android:id="@+id/buttonAddWebasyst"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/add_webasyst_button_height"
+            android:layout_marginStart="?screenPaddingHorizontal"
+            android:layout_marginLeft="?screenPaddingHorizontal"
+            android:layout_marginEnd="?screenPaddingHorizontal"
+            android:layout_marginRight="?screenPaddingHorizontal"
+            android:onClick="@{viewModel::onAddWebasystClicked}"
+            android:text="@string/btn_add_webasyst"
+            app:layout_constraintBottom_toBottomOf="@+id/installationList"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

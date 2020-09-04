@@ -16,6 +16,7 @@ import com.webasyst.x.util.USERPIC_FILE
 import com.webasyst.x.util.decodeBitmap
 import com.webasyst.x.util.getCacheFile
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
+import kotlinx.android.synthetic.main.activity_main.navRoot
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.nav_header_authorized.userpicView
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +49,11 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
         setSupportActionBar(binding.toolbar)
 
         binding.toolbar.setNavigationOnClickListener {
-            drawerLayout.openDrawer(binding.navigation)
+            val navController = navRoot.findNavController()
+            when (navRoot.findNavController().currentDestination?.id ?: Int.MIN_VALUE) {
+                R.id.mainFragment -> drawerLayout.openDrawer(binding.navigation)
+                R.id.addWebasystFragment -> navController.popBackStack()
+            }
         }
 
         viewModel.authState.observe(this) { state ->
@@ -107,10 +112,16 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
                 when (destination.id) {
                     R.id.authFragment -> {
                         toolbar.navigationIcon = null
-                        toolbar.title = getString(R.string.app_name)
+                        toolbar.setTitle(R.string.app_name)
                     }
                     R.id.mainFragment -> {
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                         toolbar.setNavigationIcon(R.drawable.ic_hamburger)
+                    }
+                    R.id.addWebasystFragment -> {
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                        toolbar.setTitle(R.string.add_webasyst)
+                        toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
                     }
                 }
             }

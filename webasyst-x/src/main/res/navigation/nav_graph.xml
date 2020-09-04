@@ -34,5 +34,13 @@
         <argument
             android:name="installationUrl"
             app:argType="string" />
+        <action
+            android:id="@+id/action_mainFragment_to_addWebasystFragment"
+            app:destination="@id/addWebasystFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addWebasystFragment"
+        android:name="com.webasyst.x.add_wa.AddWebasystFragment"
+        android:label="frag_add_webasyst"
+        tools:layout="@layout/frag_add_webasyst" />
 </navigation>
