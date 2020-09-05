@@ -86,6 +86,7 @@ public class WebasystAuthService {
             configuration.callbackUri
         )
             .setCodeVerifier(codeVerifier)
+            .setScopes(configuration.scope)
             .build();
     }
 

@@ -11,4 +11,7 @@
     <string name="btn_create_new_account">Создать аккаунт</string>
 
     <string name="btn_cancel">Отмена</string>
+
+    <string name="domain_list">Домены</string>
+    <string name="data_fetch_error">Не удалось загрузить данные.\nПопробуйте позже.</string>
 </resources>
