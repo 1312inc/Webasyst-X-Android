@@ -5,15 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.webasyst.x.R
+import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.databinding.FragInstallationListBinding
+import com.webasyst.x.main.MainFragmentDirections
+import com.webasyst.x.util.findRootNavController
 import kotlinx.android.synthetic.main.frag_installation_list.installationList
 
-class InstallationListFragment : Fragment(R.layout.frag_installation_list) {
+class InstallationListFragment :
+    Fragment(R.layout.frag_installation_list),
+    InstallationListAdapter.SelectionChangeListener
+{
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(this).get(InstallationListViewModel::class.java)
     }
@@ -34,6 +42,7 @@ class InstallationListFragment : Fragment(R.layout.frag_installation_list) {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = InstallationListAdapter()
+        adapter.addSelectionListener(this)
         installationList.adapter = adapter
         installationList.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -43,6 +52,28 @@ class InstallationListFragment : Fragment(R.layout.frag_installation_list) {
 
         viewModel.installations.observe(viewLifecycleOwner) { installations ->
             adapter.submitList(installations)
+            if (adapter.selectedPosition == RecyclerView.NO_POSITION && installations.isNotEmpty()) {
+                adapter.setSelectedItem(0)
+            }
+        }
+    }
+
+    override fun onSelectionChange(position: Int, installation: Installation) {
+        val navController = view?.findRootNavController() ?: return
+        requireActivity().findViewById<DrawerLayout>(R.id.drawerLayout)?.closeDrawers()
+        when (navController.currentDestination?.id ?: Int.MIN_VALUE) {
+            R.id.mainFragment ->
+                navController.navigate(
+                    MainFragmentDirections.actionMainFragmentSelf(
+                        installationId = installation.id,
+                        installationUrl = installation.url
+                    ))
+            R.id.authFragment ->
+                navController.navigate(
+                    AuthFragmentDirections.actionAuthFragmentToMainFragment(
+                        installationId = installation.id,
+                        installationUrl = installation.url
+                    ))
         }
     }
 }

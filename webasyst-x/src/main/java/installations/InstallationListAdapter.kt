@@ -3,17 +3,17 @@ package com.webasyst.x.installations
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.webasyst.x.R
 import com.webasyst.x.databinding.RowInstallationListBinding
-import com.webasyst.x.main.MainFragmentDirections
-import com.webasyst.x.util.findRootNavController
+import com.webasyst.x.util.Observable
 
 class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapter.InstallationViewHolder>(Companion) {
-    private var selectedPosition = RecyclerView.NO_POSITION
+    var selectedPosition = RecyclerView.NO_POSITION
+        private set
+    private val selectionListeners = Observable<SelectionChangeListener>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InstallationViewHolder =
         DataBindingUtil.inflate<RowInstallationListBinding>(
@@ -28,25 +28,34 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
     override fun onBindViewHolder(holder: InstallationViewHolder, position: Int) =
         holder.bind(getItem(position), position == selectedPosition)
 
+    fun setSelectedItem(position: Int) {
+        if (position < itemCount) {
+            notifyItemChanged(selectedPosition)
+            selectedPosition = position
+            notifyItemChanged(selectedPosition)
+            selectionListeners.notifyObservers {
+                onSelectionChange(selectedPosition, getItem(selectedPosition))
+            }
+        }
+    }
+
+    fun addSelectionListener(listener: SelectionChangeListener) =
+        selectionListeners.addObserver(listener)
+
     inner class InstallationViewHolder(private val binding: RowInstallationListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(installation: Installation, selected: Boolean) {
-            itemView.setOnClickListener { view ->
-                notifyItemChanged(selectedPosition)
-                selectedPosition = layoutPosition
-                notifyItemChanged(selectedPosition)
-
-                view.rootView.findViewById<DrawerLayout>(R.id.drawerLayout)?.closeDrawers()
-                view.findRootNavController().navigate(
-                    MainFragmentDirections.actionMainFragmentSelf(
-                        installationId = installation.id,
-                        installationUrl = installation.url
-                    ))
+            itemView.setOnClickListener {
+                setSelectedItem(layoutPosition)
             }
 
             itemView.isSelected = selected
             binding.installation = installation
             binding.executePendingBindings()
         }
+    }
+
+    fun interface SelectionChangeListener {
+        fun onSelectionChange(position: Int, installation: Installation)
     }
 
     companion object : DiffUtil.ItemCallback<Installation>() {
