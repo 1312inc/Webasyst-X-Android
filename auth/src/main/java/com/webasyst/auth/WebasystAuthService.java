@@ -56,7 +56,14 @@ public class WebasystAuthService {
 
     public <T> void withFreshAccessToken(final AccessTokenTask<T> task) {
         stateStore.getCurrent().performActionWithFreshTokens(authorizationService,
-            (accessToken, idToken, exception) -> task.apply(accessToken, exception));
+            (AuthState.AuthStateAction) (accessToken, idToken, exception) -> {
+                if (exception != null) {
+                    if (exception.code >= 2000) {
+                        stateStore.replace(new AuthState());
+                    }
+                }
+                task.apply(accessToken, exception);
+            });
     }
 
     public <T> void withFreshAccessToken(final AccessTokenTask<T> task, final Consumer<T> callback) {
