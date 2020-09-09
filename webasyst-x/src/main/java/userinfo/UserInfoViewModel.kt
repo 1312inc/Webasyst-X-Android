@@ -1,9 +1,10 @@
 package com.webasyst.x.userinfo
 
 import android.app.Application
-import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,10 +13,11 @@ import com.webasyst.api.ApiClient
 import com.webasyst.api.UserInfo
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.MainActivity
+import com.webasyst.x.R
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.util.getActivity
+import kotlinx.android.synthetic.main.dialog_progress.view.messageView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
@@ -79,14 +81,33 @@ class UserInfoViewModel(val app: Application) :
 
     fun onSignOut(view: View) {
         val activity = view.getActivity() as MainActivity
-        GlobalScope.launch(Dispatchers.IO) {
-            apiClient
-                .signOut { Handler(view.context.mainLooper).post { activity.waSignOut() } }
+
+        val dialog = AlertDialog
+            .Builder(activity)
+            .setView(LayoutInflater.from(activity).inflate(
+                R.layout.dialog_progress,
+                null,
+                false
+            ).also {
+                it.messageView.setText(R.string.signing_out)
+            })
+            .show()
+
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) { apiClient.signOut() }
                 .onSuccess {
                     Log.i(TAG, "Sign out successful")
+                    dialog.dismiss()
+                    activity.waSignOut()
                 }
                 .onFailure {
                     Log.w(TAG, "Failed to sign out on server", it)
+                    AlertDialog
+                        .Builder(activity)
+                        .setMessage(R.string.sign_out_failed)
+                        .setPositiveButton(R.string.btn_ok) { dialog, _ ->
+                            dialog.dismiss()
+                        }
                 }
         }
     }

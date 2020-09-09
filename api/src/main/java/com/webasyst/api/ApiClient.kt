@@ -43,12 +43,8 @@ class ApiClient private constructor(context: Context) : ApiClientBase(context) {
     suspend fun downloadUserpic(url: String, file: File): Unit =
         downloadFile(url, file)
 
-    /**
-     * [block] is called after fresh access token is acquired but before delete request completes.
-     */
-    suspend fun signOut(block: (() -> Unit)? = null): Response<Unit> = wrapApiCall {
+    suspend fun signOut(): Response<Unit> = wrapApiCall {
         authService.withFreshAccessToken { accessToken ->
-            if (null != block) block()
             client.delete(SIGN_OUT_ENDPOINT) {
                 headers {
                     append("Authorization", "Bearer $accessToken")

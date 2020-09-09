@@ -4,6 +4,8 @@
     <string name="btn_sign_in">Sign in</string>
     <string name="btn_sign_out">Sign out</string>
     <string name="userpic">Userpic</string>
+    <string name="signing_out">Signing out…</string>
+    <string name="sign_out_failed">Sign out failed</string>
 
     <string name="add_webasyst">Add Webasyst</string>
     <string name="btn_add_webasyst">Add Webasyst</string>
