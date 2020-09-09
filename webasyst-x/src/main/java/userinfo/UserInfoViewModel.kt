@@ -21,11 +21,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
+import java.util.concurrent.atomic.AtomicLong
 
 class UserInfoViewModel(val app: Application) :
     AndroidViewModel(app),
     WebasystAuthStateStore.Observer
 {
+    private var lastUpdate = AtomicLong(0)
     private val apiClient by lazy { ApiClient.getInstance(getApplication()) }
     private val stateStore by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthStateStore.getInstance(getApplication())
@@ -62,14 +64,22 @@ class UserInfoViewModel(val app: Application) :
         stateStore.removeObserver(this)
     }
 
-    private fun updateUserInfo() {
+    fun updateUserInfo() {
+        if (lastUpdate.get() + MIN_USER_INFO_UPDATE_UNTERVAL > System.currentTimeMillis()) {
+            Log.d(TAG, "Skipping user info update (debounce)")
+            return
+        }
+
         viewModelScope.launch(Dispatchers.Main) {
             withContext(Dispatchers.IO) { apiClient.getUserInfo() }
                 .onSuccess {
                     cache.storeUserInfo(it)
                     setUserInfo(it)
+                    lastUpdate.set(System.currentTimeMillis())
                 }
-                .onFailure { println(it)/* TODO */ }
+                .onFailure {
+                    Log.w(TAG, "Failed to fetch user info", it)
+                }
         }
     }
 
@@ -114,5 +124,7 @@ class UserInfoViewModel(val app: Application) :
 
     companion object {
         private const val TAG = "user_info"
+
+        private const val MIN_USER_INFO_UPDATE_UNTERVAL = 1000 * 60 * 5 // 5 minutes
     }
 }

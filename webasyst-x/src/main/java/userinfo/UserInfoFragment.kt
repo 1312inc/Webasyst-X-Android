@@ -69,6 +69,12 @@ class UserInfoFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.updateUserInfo()
+    }
+
     private suspend fun updateUserpicFromFile(userpicFile: File) {
         if (userpicFile.exists()) {
             userpicView.setImageBitmap(withContext(Dispatchers.Default) {
