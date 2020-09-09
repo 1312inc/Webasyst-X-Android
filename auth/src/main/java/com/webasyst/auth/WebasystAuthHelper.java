@@ -16,8 +16,8 @@ import net.openid.appauth.AuthorizationServiceDiscovery;
 
 import java.lang.ref.WeakReference;
 
-class WebasystAuthHelper {
-    private static final String ACTION_UPDATE_AFTER_AUTHORIZATION = "update_post_auth";
+public class WebasystAuthHelper {
+    public static final String ACTION_UPDATE_AFTER_AUTHORIZATION = "update_post_auth";
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
 
     private final WeakReference<Context> contextRef;

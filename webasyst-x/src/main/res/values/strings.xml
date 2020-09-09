@@ -4,6 +4,7 @@
     <string name="btn_sign_in">Sign in</string>
     <string name="btn_sign_out">Sign out</string>
     <string name="userpic">Userpic</string>
+    <string name="signing_in">Signing in…</string>
     <string name="signing_out">Signing out…</string>
     <string name="sign_out_failed">Sign out failed</string>
 
