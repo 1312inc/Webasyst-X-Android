@@ -92,22 +92,10 @@ class UserInfoViewModel(val app: Application) :
     fun onSignOut(view: View) {
         val activity = view.getActivity() as MainActivity
 
-        val dialog = AlertDialog
-            .Builder(activity)
-            .setView(LayoutInflater.from(activity).inflate(
-                R.layout.dialog_progress,
-                null,
-                false
-            ).also {
-                it.messageView.setText(R.string.signing_out)
-            })
-            .show()
-
         viewModelScope.launch {
             withContext(Dispatchers.IO) { apiClient.signOut() }
                 .onSuccess {
                     Log.i(TAG, "Sign out successful")
-                    dialog.dismiss()
                     activity.waSignOut()
                 }
                 .onFailure {
