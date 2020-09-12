@@ -17,7 +17,7 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_ok">OK</string>
 
-    <string name="domain_list">Domains</string>
+    <string name="app_site">Site</string>
     <string name="data_fetch_error">Failed to fetch data.\nPlease try again later.\n%1$s</string>
 
     <string name="app_redirect_scheme" translatable="false">com.webasyst.x</string>

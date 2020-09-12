@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/domains"
-        android:icon="@drawable/ic_star"
-        android:title="@string/domain_list" />
+        android:id="@+id/site"
+        android:icon="@drawable/ic_site"
+        android:title="@string/app_site" />
     <item
         android:id="@+id/x"
         android:icon="@drawable/ic_star"

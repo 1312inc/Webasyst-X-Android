@@ -48,7 +48,7 @@ class MainFragment : Fragment() {
 
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.domains, R.id.x, R.id.y -> {
+                R.id.site, R.id.x, R.id.y -> {
                     onTabChange(item.itemId)
                     true
                 }
@@ -70,7 +70,7 @@ class MainFragment : Fragment() {
 
     private fun onTabChange(@IdRes id: Int) {
         val fragment = when(id) {
-            R.id.domains -> initDomainsFragment()
+            R.id.site -> initDomainsFragment()
             R.id.x -> ExampleFragment.newInstance("Hello X!")
             R.id.y -> ExampleFragment.newInstance("Hello Y!")
             else -> throw IllegalArgumentException("Tab not found")
