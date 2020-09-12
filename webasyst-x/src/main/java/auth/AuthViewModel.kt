@@ -24,6 +24,7 @@ class AuthViewModel : ViewModel() {
     }
 
     fun onSignIn(view: View) {
+        state.value = STATE_AUTHENTICATING
         (view.getActivity() as MainActivity).waSignIn()
     }
 

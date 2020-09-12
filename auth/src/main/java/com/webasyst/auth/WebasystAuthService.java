@@ -71,8 +71,8 @@ public class WebasystAuthService {
             (accessToken, idToken, exception) -> callback.accept(task.apply(accessToken, exception)));
     }
 
-    public void signIn(AuthorizationRequest request, PendingIntent success) {
-        getAuthorizationService().performAuthorizationRequest(request, success);
+    public void signIn(AuthorizationRequest request, PendingIntent success, PendingIntent cancelled) {
+        getAuthorizationService().performAuthorizationRequest(request, success, cancelled);
     }
 
     public void signOff() {

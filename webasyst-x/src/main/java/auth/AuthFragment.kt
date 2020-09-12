@@ -11,6 +11,7 @@ import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragAuthBinding
 import com.webasyst.x.util.getActivity
+import net.openid.appauth.AuthorizationException
 
 class AuthFragment : Fragment() {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
@@ -32,13 +33,25 @@ class AuthFragment : Fragment() {
         binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
 
-        view.getActivity()?.intent?.let { intent ->
-            if (intent.action == WebasystAuthHelper.ACTION_UPDATE_AFTER_AUTHORIZATION) {
-                viewModel.state.value = AuthViewModel.STATE_AUTHENTICATING
+        val intent = view?.getActivity()?.intent
+        if (null == intent) {
+            viewModel.state.value = AuthViewModel.STATE_IDLE
+            return
+        }
+        viewModel.state.value = when (intent.action) {
+            WebasystAuthHelper.ACTION_UPDATE_AFTER_AUTHORIZATION -> {
+                val exception = AuthorizationException.fromIntent(intent)
+                if (null != exception) {
+                    AuthViewModel.STATE_IDLE
+                } else {
+                    AuthViewModel.STATE_AUTHENTICATING
+                }
             }
+            else ->
+                AuthViewModel.STATE_IDLE
         }
     }
 }

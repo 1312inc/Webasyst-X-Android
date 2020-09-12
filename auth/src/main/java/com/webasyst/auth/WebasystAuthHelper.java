@@ -18,6 +18,7 @@ import java.lang.ref.WeakReference;
 
 public class WebasystAuthHelper {
     public static final String ACTION_UPDATE_AFTER_AUTHORIZATION = "update_post_auth";
+    public static final String ACTION_AFTER_AUTHORIZATION_CANCELLED = "handle_auth_cancel";
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
 
     private final WeakReference<Context> contextRef;
@@ -47,7 +48,8 @@ public class WebasystAuthHelper {
     public void signIn(@NonNull final Class<? extends Activity> activityClass) {
         final AuthorizationRequest request = authService.createAuthorizationRequest();
         final PendingIntent successIntent = createPostAuthorizationIntent(request, null, activityClass);
-        authService.signIn(request, successIntent);
+        final PendingIntent cancelIntent = createAuthorizationCancelIntent(request, activityClass);
+        authService.signIn(request, successIntent, cancelIntent);
     }
 
     public void signOut() {
@@ -69,6 +71,16 @@ public class WebasystAuthHelper {
         if (null != discoveryDoc) {
             intent.putExtra(EXTRA_AUTH_SERVICE_DISCOVERY, discoveryDoc.docJson.toString());
         }
+        return PendingIntent.getActivity(context, request.hashCode(), intent, 0);
+    }
+
+    private PendingIntent createAuthorizationCancelIntent(
+        @NonNull final AuthorizationRequest request,
+        @NonNull final Class<? extends Activity> activityClass
+    ) {
+        final Context context = contextRef.get();
+        final Intent intent = new Intent(context, activityClass);
+        intent.setAction(ACTION_AFTER_AUTHORIZATION_CANCELLED);
         return PendingIntent.getActivity(context, request.hashCode(), intent, 0);
     }
 }
