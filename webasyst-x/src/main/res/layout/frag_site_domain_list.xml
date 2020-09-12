@@ -35,10 +35,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="@string/data_fetch_error"
+            android:text="@{@string/data_fetch_error(viewModel.errorText)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?colorError"
-            android:visibility="@{viewModel.errorVisibility}" />
+            android:visibility="@{viewModel.errorVisibility}"
+            tools:text="@string/data_fetch_error" />
 
     </FrameLayout>
 </layout>

@@ -30,6 +30,8 @@ class DomainListViewModel(
     val errorVisibility: LiveData<Int> = MediatorLiveData<Int>().apply {
         addSource(mutableState) { value = if (it == STATE_ERROR) View.VISIBLE else View.GONE }
     }
+    private val mutableErrorText = MutableLiveData<String>()
+    val errorText: LiveData<String> = mutableErrorText
 
     private val mutableDomainList = MutableLiveData<List<Domain>>()
     val domainList: LiveData<List<Domain>> = mutableDomainList
@@ -49,11 +51,13 @@ class DomainListViewModel(
         siteApiClient
             .domainGetList(installationUrl, installationId)
             .onSuccess {
+                mutableErrorText.postValue("")
                 mutableState.postValue(STATE_DATA_READY)
                 mutableDomainList.postValue(it.domains.map { domain -> Domain(domain) })
             }
             .onFailure {
                 Log.e(TAG, "failed to fetch domain list: $it", it)
+                mutableErrorText.postValue(it.localizedMessage)
                 mutableState.postValue(STATE_ERROR)
             }
     }
