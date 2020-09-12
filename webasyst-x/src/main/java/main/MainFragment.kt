@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragMainBinding
+import com.webasyst.x.shop.orders.OrderListFragment
 import com.webasyst.x.site.domainlist.DomainListFragment
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.frag_main.bottomNav
@@ -48,7 +49,7 @@ class MainFragment : Fragment() {
 
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.site, R.id.x, R.id.y -> {
+                R.id.site, R.id.shop, R.id.y -> {
                     onTabChange(item.itemId)
                     true
                 }
@@ -62,16 +63,24 @@ class MainFragment : Fragment() {
     private fun initDomainsFragment(): Fragment =
         DomainListFragment::class.java.newInstance().apply {
             arguments = Bundle().apply {
-                putString(DomainListFragment.INSTALLATION_ID, args.installationId)
-                putString(DomainListFragment.INSTALLATION_URL, args.installationUrl)
+                putString(INSTALLATION_ID, args.installationId)
+                putString(INSTALLATION_URL, args.installationUrl)
 
+            }
+        }
+
+    private fun initShopFragment(): Fragment =
+        OrderListFragment::class.java.newInstance().apply {
+            arguments = Bundle().apply {
+                putString(INSTALLATION_ID, args.installationId)
+                putString(INSTALLATION_URL, args.installationUrl)
             }
         }
 
     private fun onTabChange(@IdRes id: Int) {
         val fragment = when(id) {
             R.id.site -> initDomainsFragment()
-            R.id.x -> ExampleFragment.newInstance("Hello X!")
+            R.id.shop -> initShopFragment()
             R.id.y -> ExampleFragment.newInstance("Hello Y!")
             else -> throw IllegalArgumentException("Tab not found")
         }
@@ -86,5 +95,10 @@ class MainFragment : Fragment() {
             .beginTransaction()
             .replace(R.id.tabContent, fragment)
             .commit()
+    }
+
+    companion object {
+        const val INSTALLATION_ID = "installationId"
+        const val INSTALLATION_URL = "installationUrl"
     }
 }

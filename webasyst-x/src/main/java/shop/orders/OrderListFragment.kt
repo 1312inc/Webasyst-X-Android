@@ -1,39 +1,35 @@
-package com.webasyst.x.site.domainlist
+package com.webasyst.x.shop.orders
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.webasyst.x.R
-import com.webasyst.x.databinding.FragSiteDomainListBinding
+import com.webasyst.x.databinding.FragShopOrderListBinding
 import com.webasyst.x.main.MainFragment
-import kotlinx.android.synthetic.main.frag_site_domain_list.domainList
+import kotlinx.android.synthetic.main.frag_shop_order_list.orderListView
 
-class DomainListFragment : Fragment(R.layout.frag_site_domain_list) {
+class OrderListFragment : Fragment() {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(
             this,
-            DomainListViewModel.Factory(
+            OrderListViewModel.Factory(
                 requireActivity().application,
                 arguments?.getString(MainFragment.INSTALLATION_ID),
                 arguments?.getString(MainFragment.INSTALLATION_URL)
             )
         )
-            .get(DomainListViewModel::class.java)
+            .get(OrderListViewModel::class.java)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = DataBindingUtil.inflate<FragSiteDomainListBinding>(
+    ): View = FragShopOrderListBinding.inflate(
         inflater,
-        R.layout.frag_site_domain_list,
         container,
         false
     ).let { binding ->
@@ -45,11 +41,14 @@ class DomainListFragment : Fragment(R.layout.frag_site_domain_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = DomainListAdapter(viewLifecycleOwner)
-        domainList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        domainList.adapter = adapter
+        val adapter = OrderListAdapter()
+        orderListView.layoutManager = LinearLayoutManager(
+            orderListView.context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        orderListView.adapter = adapter
 
-        viewModel.domainList.observe(viewLifecycleOwner,
-            Observer<List<Domain>> { t -> adapter.submitList(t) })
+        viewModel.orderList.observe(viewLifecycleOwner) { adapter.submitList(it) }
     }
 }

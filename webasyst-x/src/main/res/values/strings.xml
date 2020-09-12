@@ -20,5 +20,9 @@
     <string name="app_site">Site</string>
     <string name="data_fetch_error">Failed to fetch data.\nPlease try again later.\n%1$s</string>
 
+    <string name="app_shop">Shop</string>
+
+    <string name="empty_api_response">REST API returned empty list</string>
+
     <string name="app_redirect_scheme" translatable="false">com.webasyst.x</string>
 </resources>

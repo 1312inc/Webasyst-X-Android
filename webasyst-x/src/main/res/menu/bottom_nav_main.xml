@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_site"
         android:title="@string/app_site" />
     <item
-        android:id="@+id/x"
-        android:icon="@drawable/ic_star"
-        android:title="X" />
+        android:id="@+id/shop"
+        android:icon="@drawable/ic_shop"
+        android:title="@string/app_shop" />
     <item
         android:id="@+id/y"
         android:icon="@drawable/ic_star"

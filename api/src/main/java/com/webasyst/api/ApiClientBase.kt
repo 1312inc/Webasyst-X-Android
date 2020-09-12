@@ -3,6 +3,7 @@ package com.webasyst.api
 import android.content.Context
 import com.webasyst.auth.WebasystAuthService
 import com.webasyst.auth.withFreshAccessToken
+import com.webasyst.util.CalendarAdapter
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.GsonSerializer
@@ -12,6 +13,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
+import java.util.Calendar
 
 abstract class ApiClientBase(context: Context) {
     protected val authService: WebasystAuthService = WebasystAuthService.getInstance(context)
@@ -23,7 +25,9 @@ abstract class ApiClientBase(context: Context) {
         }
 
         install(JsonFeature) {
-            serializer = GsonSerializer()
+            serializer = GsonSerializer {
+                registerTypeAdapter(Calendar::class.java, CalendarAdapter())
+            }
         }
     }
 
