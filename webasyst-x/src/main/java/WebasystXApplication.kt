@@ -1,6 +1,7 @@
 package com.webasyst.x
 
 import android.app.Application
+import com.webasyst.api.blog.BlogApiClient
 import com.webasyst.api.shop.ShopApiClient
 import com.webasyst.api.site.SiteApiClient
 import com.webasyst.auth.configureWebasystAuth
@@ -17,7 +18,8 @@ class WebasystXApplication : Application() {
             setScope(
                 listOf(
                     SiteApiClient.SCOPE,
-                    ShopApiClient.SCOPE
+                    ShopApiClient.SCOPE,
+                    BlogApiClient.SCOPE
                 ).joinToString(
                     prefix = "token:",
                     separator = "."

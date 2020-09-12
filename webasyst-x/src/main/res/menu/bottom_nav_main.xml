@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_shop"
         android:title="@string/app_shop" />
     <item
-        android:id="@+id/y"
-        android:icon="@drawable/ic_star"
-        android:title="Y" />
+        android:id="@+id/blog"
+        android:icon="@drawable/ic_blog"
+        android:title="@string/app_blog" />
 </menu>
