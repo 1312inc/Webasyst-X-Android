@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.webasyst.x.com.webasyst.x.blog.postlist.PostListAdapter
 import com.webasyst.x.databinding.FragBlogPostListBinding
 import com.webasyst.x.main.MainFragment
 import kotlinx.android.synthetic.main.frag_blog_post_list.postListView
@@ -48,8 +47,8 @@ class PostListFragment : Fragment() {
         )
         postListView.adapter = adapter
 
-        viewModel.postList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        viewModel.postList.observe(viewLifecycleOwner) { posts ->
+            adapter.submitList(posts.map { Post(it) })
         }
     }
 }

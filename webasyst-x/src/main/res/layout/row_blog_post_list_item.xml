@@ -8,21 +8,24 @@
         <import type="android.text.format.DateUtils" />
         <variable
             name="post"
-            type="com.webasyst.api.blog.Post" />
+            type="com.webasyst.x.blog.postlist.Post" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="88dp"
+        android:background="@drawable/bg_selectable_list_item"
+        android:clickable="true"
         android:clipToPadding="false"
+        android:focusable="true"
         android:paddingLeft="?screenPaddingHorizontal"
-        android:paddingTop="16dp"
         android:paddingRight="?screenPaddingHorizontal">
 
         <com.webasyst.x.view.ClippingImageView
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_shopping_cart" />
@@ -41,6 +44,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="Line 1" />
 
         <TextView

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.webasyst.x.MainActivity
 import com.webasyst.x.R
-import com.webasyst.x.blog.postlist.PostListFragment
+import com.webasyst.x.blog.BlogRootFragment
 import com.webasyst.x.databinding.FragMainBinding
 import com.webasyst.x.shop.orders.OrderListFragment
 import com.webasyst.x.site.domainlist.DomainListFragment
@@ -79,7 +79,7 @@ class MainFragment : Fragment() {
         }
 
     private fun initBlogFragment(): Fragment =
-        PostListFragment::class.java.newInstance().apply {
+        BlogRootFragment::class.java.newInstance().apply {
             arguments = Bundle().apply {
                 putString(INSTALLATION_ID, args.installationId)
                 putString(INSTALLATION_URL, args.installationUrl)

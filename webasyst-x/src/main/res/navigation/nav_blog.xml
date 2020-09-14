@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_blog"
+    app:defaultNavHost="true"
+    app:startDestination="@id/postListFragment">
+
+    <fragment
+        android:id="@+id/postListFragment"
+        android:name="com.webasyst.x.blog.postlist.PostListFragment"
+        android:label="frag_blog_post_list"
+        tools:layout="@layout/frag_blog_post_list" >
+        <argument
+            android:name="installationId"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="installationUrl"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_postListFragment_to_postViewFragment"
+            app:destination="@id/postViewFragment"
+            app:popUpTo="@id/postListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postViewFragment"
+        android:name="com.webasyst.x.blog.post.PostViewFragment"
+        android:label="frag_blog_post_view"
+        tools:layout="@layout/frag_blog_post_view" >
+        <argument
+            android:name="post"
+            app:argType="com.webasyst.x.blog.postlist.Post" />
+    </fragment>
+</navigation>
