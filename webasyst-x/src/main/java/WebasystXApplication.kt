@@ -4,6 +4,7 @@ import android.app.Application
 import com.webasyst.api.blog.BlogApiClient
 import com.webasyst.api.shop.ShopApiClient
 import com.webasyst.api.site.SiteApiClient
+import com.webasyst.api.webasyst.WebasystApiClient
 import com.webasyst.auth.configureWebasystAuth
 
 class WebasystXApplication : Application() {
@@ -19,7 +20,8 @@ class WebasystXApplication : Application() {
                 listOf(
                     SiteApiClient.SCOPE,
                     ShopApiClient.SCOPE,
-                    BlogApiClient.SCOPE
+                    BlogApiClient.SCOPE,
+                    WebasystApiClient.SCOPE
                 ).joinToString(
                     prefix = "token:",
                     separator = "."
