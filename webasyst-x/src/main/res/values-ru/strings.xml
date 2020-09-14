@@ -18,7 +18,7 @@
     <string name="btn_ok">OK</string>
 
     <string name="app_site">Сайт</string>
-    <string name="data_fetch_error">Не удалось загрузить данные.\nПопробуйте позже.\n%1$s</string>
+    <string name="data_fetch_error">Не удалось загрузить данные.\n%1$s</string>
 
     <string name="app_shop">Магазин</string>
 

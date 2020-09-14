@@ -18,7 +18,7 @@
     <string name="btn_ok">OK</string>
 
     <string name="app_site">Site</string>
-    <string name="data_fetch_error">Failed to fetch data.\nPlease try again later.\n%1$s</string>
+    <string name="data_fetch_error">Failed to fetch data.\n%1$s</string>
 
     <string name="app_shop">Shop</string>
 

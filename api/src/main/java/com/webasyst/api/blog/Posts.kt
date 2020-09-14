@@ -1,6 +1,7 @@
 package com.webasyst.api.blog
 
 import com.google.gson.annotations.SerializedName
+import com.webasyst.api.ApiError
 
 data class Posts(
     @SerializedName("offset")
@@ -10,5 +11,9 @@ data class Posts(
     @SerializedName("count")
     val count: Int,
     @SerializedName("posts")
-    val posts: List<Post>?
-)
+    val posts: List<Post>?,
+    @SerializedName("error")
+    override val error: String?,
+    @SerializedName("error_description")
+    override val errorDescription: String?
+) : ApiError.ApiCallResponse

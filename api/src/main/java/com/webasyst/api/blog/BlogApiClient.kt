@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.webasyst.api.ApiClient
 import com.webasyst.api.ApiClientBase
+import com.webasyst.api.ApiError
 import com.webasyst.api.Response
 import com.webasyst.api.site.AccessToken
 import com.webasyst.util.SingletonHolder
@@ -49,13 +50,19 @@ class BlogApiClient private constructor (private val apiClient: ApiClient, conte
 
         val accessToken = getToken(url, authCode)
 
-        client.get("$url/api.php/blog.post.search") {
+        val res = client.get<Posts>("$url/api.php/blog.post.search") {
             parameter("access_token", accessToken.token)
             parameter("limit", 10)
             parameter("hash", "author")
             headers {
                 accept(ContentType.Application.Json)
             }
+        }
+
+        if (res.error != null) {
+            throw ApiError(res)
+        } else {
+            res
         }
     }
 

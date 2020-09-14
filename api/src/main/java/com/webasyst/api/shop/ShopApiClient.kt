@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import com.webasyst.api.ApiClient
 import com.webasyst.api.ApiClientBase
+import com.webasyst.api.ApiError
 import com.webasyst.api.Response
 import com.webasyst.api.site.AccessToken
 import com.webasyst.util.SingletonHolder
@@ -49,12 +50,18 @@ class ShopApiClient private constructor(private val apiClient: ApiClient, contex
 
         val accessToken = getToken(url, authCode)
 
-        client.get("$url/api.php/shop.order.search") {
+        val res = client.get<OrderList>("$url/api.php/shop.order.search") {
             parameter("access_token", accessToken.token)
             parameter("limit", 10)
             headers {
                 accept(ContentType.Application.Json)
             }
+        }
+
+        if (res.error != null) {
+            throw ApiError(res)
+        } else {
+            res
         }
     }
 
