@@ -45,7 +45,7 @@ class PostListViewModel(
             .onSuccess { posts ->
                 mutableErrorText.postValue("")
                 mutablePostList.postValue(posts.posts)
-                mutableState.postValue(if (posts.posts.isEmpty()) {
+                mutableState.postValue(if (posts.posts?.isEmpty() == true) {
                     STATE_LOADED_EMPTY
                 } else {
                     STATE_LOADED

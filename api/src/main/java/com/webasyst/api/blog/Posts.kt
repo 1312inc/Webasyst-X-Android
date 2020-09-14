@@ -10,5 +10,5 @@ data class Posts(
     @SerializedName("count")
     val count: Int,
     @SerializedName("posts")
-    val posts: List<Post>
+    val posts: List<Post>?
 )
