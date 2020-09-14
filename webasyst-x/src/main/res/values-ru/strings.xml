@@ -5,7 +5,7 @@
     <string name="btn_sign_out">Выйти</string>
     <string name="userpic">Аватарка</string>
     <string name="signing_in">Выполняется вход…</string>
-    <string name="sign_out_failed">Не удалось выполнить выход</string>
+    <string name="sign_out_failed">Не удалось выполнить выход:\n%1$s</string>
 
     <string name="add_webasyst">Добавление Webasyst</string>
     <string name="btn_add_webasyst">Добавить Webasyst</string>

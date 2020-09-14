@@ -2,7 +2,6 @@ package com.webasyst.x.userinfo
 
 import android.app.Application
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
@@ -16,7 +15,6 @@ import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.util.getActivity
-import kotlinx.android.synthetic.main.dialog_progress.view.messageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -102,10 +100,11 @@ class UserInfoViewModel(val app: Application) :
                     Log.w(TAG, "Failed to sign out on server", it)
                     AlertDialog
                         .Builder(activity)
-                        .setMessage(R.string.sign_out_failed)
+                        .setMessage(activity.getString(R.string.sign_out_failed, it.localizedMessage))
                         .setPositiveButton(R.string.btn_ok) { dialog, _ ->
                             dialog.dismiss()
                         }
+                        .show()
                 }
         }
     }

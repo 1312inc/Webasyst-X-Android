@@ -5,7 +5,7 @@
     <string name="btn_sign_out">Sign out</string>
     <string name="userpic">Userpic</string>
     <string name="signing_in">Signing in…</string>
-    <string name="sign_out_failed">Sign out failed</string>
+    <string name="sign_out_failed">Sign out failed:\n%1$s</string>
 
     <string name="add_webasyst">Add Webasyst</string>
     <string name="btn_add_webasyst">Add Webasyst</string>
