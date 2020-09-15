@@ -23,12 +23,6 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
         app.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    init {
-        preferences.edit {
-            putString(AUTH_ENDPOINT_KEY, "https://w200828-6536.test.webasyst.cloud/link.php/207ee20c7cec2201e4a14448d885975e/")
-        }
-    }
-
     fun onAddWebasyst(view: View) {
         try {
             val authUrl = preferences.getString(AUTH_ENDPOINT_KEY, null)
@@ -42,12 +36,22 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
                 val cloudSignup = withContext(Dispatchers.IO) {
                     apiClient.postCloudSignUp()
                 }
-                cloudSignup.onSuccess {
-                    preferences.edit {
-                        putString(AUTH_ENDPOINT_KEY, it.authEndpoint)
+                cloudSignup
+                    .onSuccess {
+                        preferences.edit {
+                            putString(AUTH_ENDPOINT_KEY, it.authEndpoint)
+                        }
+                        showAuthEndpointDialog(view, it.authEndpoint)
                     }
-                    showAuthEndpointDialog(view, it.authEndpoint)
-                }
+                    .onFailure {
+                        AlertDialog
+                            .Builder(view.context)
+                            .setMessage(view.context.getString(R.string.add_webasyst_error, it.localizedMessage))
+                            .setPositiveButton(R.string.btn_ok) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                    }
             }
         } finally {
             view.isEnabled = true
@@ -70,7 +74,7 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     companion object {
-        private const val PREFS_NAME = "add_wa_prefs"
-        private const val AUTH_ENDPOINT_KEY = "auth_endpoint"
+        const val PREFS_NAME = "add_wa_prefs"
+        const val AUTH_ENDPOINT_KEY = "auth_endpoint"
     }
 }
