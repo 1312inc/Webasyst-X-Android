@@ -23,6 +23,11 @@ android {
     compileSdkVersion target_sdk_version
     buildToolsVersion build_tools_version
 
+    lintOptions {
+        abortOnError = false
+        checkReleaseBuilds = false
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -49,6 +54,21 @@ android {
 
         buildConfigField('String', 'CLIENT_ID', webasystProperties['webasyst.x.client_id'])
         buildConfigField('String', 'WEBASYST_HOST', webasystProperties['webasyst.x.host'])
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('keystore.jks')
+            storePassword System.getenv('KEYSTORE_PASSWORD')
+            keyAlias 'webasyst_x_release'
+            keyPassword System.getenv('WEBASYST_X_RELEASE_KEY_PASSWORD')
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
     }
 }
 
