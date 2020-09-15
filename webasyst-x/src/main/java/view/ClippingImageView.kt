@@ -17,8 +17,8 @@ class ClippingImageView : AppCompatImageView {
 
     private val clipPath = Path()
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
         clipPath.reset()
         clipPath.addCircle(width / 2f, height / 2f, (width + height) / 4f, Path.Direction.CW)
     }
