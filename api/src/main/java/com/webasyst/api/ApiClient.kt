@@ -24,10 +24,13 @@ class ApiClient private constructor(context: Context) : ApiClientBase(context) {
     suspend fun getUserInfo(): Response<UserInfo> =
         wrapApiCall { doGet(USER_LIST_ENDPOINT) }
 
-    suspend fun getInstallationApiAuthCodes(appClientIDs: Set<String>): Response<Map<String, String>> {
-        val r = doPost<Map<String, String>>(CLIENT_LIST, ClientTokenRequest(appClientIDs))
-        return Response.success(r)
-    }
+    suspend fun getInstallationApiAuthCodes(appClientIDs: Set<String>): Response<Map<String, String>> =
+        try {
+            val r = doPost<Map<String, String>>(CLIENT_LIST, ClientTokenRequest(appClientIDs))
+            Response.success(r)
+        } catch (e: Throwable) {
+            Response.failure(WaidException(e))
+        }
 
     suspend fun postCloudSignUp(): Response<CloudSignup> = wrapApiCall {
         authService.withFreshAccessToken { accessToken ->

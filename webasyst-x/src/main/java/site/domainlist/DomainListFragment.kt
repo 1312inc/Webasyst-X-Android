@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragSiteDomainListBinding
 import com.webasyst.x.main.MainFragment
 import kotlinx.android.synthetic.main.frag_site_domain_list.domainList
+import kotlinx.coroutines.launch
 
 class DomainListFragment : Fragment(R.layout.frag_site_domain_list) {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
@@ -49,7 +50,14 @@ class DomainListFragment : Fragment(R.layout.frag_site_domain_list) {
         domainList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         domainList.adapter = adapter
 
-        viewModel.domainList.observe(viewLifecycleOwner,
-            Observer<List<Domain>> { t -> adapter.submitList(t) })
+        viewModel.domainList.observe(viewLifecycleOwner, { t -> adapter.submitList(t) })
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        lifecycleScope.launch {
+            viewModel.updateData(requireContext())
+        }
     }
 }

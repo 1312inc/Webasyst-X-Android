@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.databinding.FragBlogPostListBinding
 import com.webasyst.x.main.MainFragment
 import kotlinx.android.synthetic.main.frag_blog_post_list.postListView
+import kotlinx.coroutines.launch
 
 class PostListFragment : Fragment() {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
@@ -49,6 +51,13 @@ class PostListFragment : Fragment() {
 
         viewModel.postList.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts.map { Post(it) })
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launch {
+            viewModel.updateData(requireContext())
         }
     }
 }

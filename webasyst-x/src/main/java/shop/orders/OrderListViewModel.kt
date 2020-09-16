@@ -1,15 +1,16 @@
 package com.webasyst.x.shop.orders
 
 import android.app.Application
+import android.content.Context
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import com.webasyst.api.ApiException
 import com.webasyst.api.shop.ShopApiClient
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.webasyst.x.R
 
 class OrderListViewModel(
     application: Application,
@@ -29,13 +30,7 @@ class OrderListViewModel(
     private val mutableErrorText = MutableLiveData<String>()
     val errorText: LiveData<String> = mutableErrorText
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            updateData()
-        }
-    }
-
-    private suspend fun updateData() {
+    suspend fun updateData(context: Context) {
         if (installationId == null || installationUrl == null) {
             mutableState.postValue(STATE_ERROR)
             return
@@ -51,6 +46,13 @@ class OrderListViewModel(
                 })
             }
             .onFailure {
+                if (it is ApiException) {
+                    AlertDialog
+                        .Builder(context)
+                        .setMessage(context.getString(R.string.waid_error, it.localizedMessage))
+                        .setPositiveButton(R.string.btn_ok) { dialog, _ -> dialog.dismiss() }
+                        .show()
+                }
                 mutableState.postValue(STATE_ERROR)
                 mutableErrorText.postValue(it.localizedMessage)
             }

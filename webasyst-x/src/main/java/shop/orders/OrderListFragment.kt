@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.databinding.FragShopOrderListBinding
 import com.webasyst.x.main.MainFragment
 import kotlinx.android.synthetic.main.frag_shop_order_list.orderListView
+import kotlinx.coroutines.launch
 
 class OrderListFragment : Fragment() {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
@@ -50,5 +52,12 @@ class OrderListFragment : Fragment() {
         orderListView.adapter = adapter
 
         viewModel.orderList.observe(viewLifecycleOwner) { adapter.submitList(it) }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launch {
+            viewModel.updateData(requireContext())
+        }
     }
 }
