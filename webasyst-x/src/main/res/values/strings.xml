@@ -12,6 +12,7 @@
     <string name="btn_add_webasyst">Add Webasyst</string>
     <string name="add_webasyst_installation_description">If you already have a Webasyst installation in the cloud or on your server, simply sign into the backend with your Webasyst ID. The installation will appear here automatically. Or create a new Webasyst cloud account using the button below:</string>
     <string name="add_webasyst_error">Cloud signup failed:\n%1$s</string>
+    <string name="add_webasyst_error_limit_exceeded">Sorry, we cannot create another account for you at the moment. Most likely, a limit on the number of free Webasyst cloud accounts has been exceeded.</string>
     <string name="btn_create_new_account">Create new account</string>
     <string name="webasyst_added">Webasyst cloud installation was created for you. You can access it by opening this one-time auth url: %1$s</string>
     <string name="btn_open_wa_auth">Open in browser</string>

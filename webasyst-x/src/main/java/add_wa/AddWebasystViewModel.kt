@@ -10,6 +10,8 @@ import com.webasyst.api.CloudSignup
 import com.webasyst.x.R
 import com.webasyst.x.installations.InstallationListFragment
 import com.webasyst.x.util.getActivity
+import io.ktor.client.features.ClientRequestException
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -31,9 +33,14 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
                         postCreateHandler(view, it)
                     }
                     .onFailure {
+                        val message = when {
+                            it is ClientRequestException && it.response?.status == HttpStatusCode.Conflict ->
+                                view.context.getString(R.string.add_webasyst_error_limit_exceeded)
+                            else -> view.context.getString(R.string.add_webasyst_error, it.localizedMessage)
+                        }
                         AlertDialog
                             .Builder(view.context)
-                            .setMessage(view.context.getString(R.string.add_webasyst_error, it.localizedMessage))
+                            .setMessage(message)
                             .setPositiveButton(R.string.btn_ok) { dialog, _ ->
                                 dialog.dismiss()
                             }
