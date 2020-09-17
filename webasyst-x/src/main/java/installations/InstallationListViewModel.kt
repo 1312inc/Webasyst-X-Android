@@ -7,10 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.webasyst.api.ApiClient
 import com.webasyst.api.webasyst.WebasystApiClient
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.R
+import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
@@ -25,6 +27,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
     private val webasystApiClient by lazy { WebasystApiClient.getInstance(getApplication()) }
     private val authStateStore = WebasystAuthStateStore.getInstance(getApplication())
     private val cache by lazy { DataCache.getInstance(getApplication()) }
+    var navController: NavController? = null
 
     private val mutableInstallations = MutableLiveData<List<Installation>>().apply {
         cache.readInstallationList()?.let { value = it }
@@ -71,6 +74,29 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         }
         cache.storeInstallationList(namedInstallations)
         mutableInstallations.postValue(namedInstallations)
+
+        if (namedInstallations.isEmpty()) {
+            navController?.let { navController ->
+                when (navController.currentDestination?.id ?: Int.MIN_VALUE) {
+                    R.id.mainFragment ->
+                        navController.navigate(
+                            MainFragmentDirections.actionMainFragmentSelf(
+                                showAddWA = true,
+                                installationId = null,
+                                installationUrl = null
+                            )
+                        )
+                    R.id.authFragment ->
+                        navController.navigate(
+                            AuthFragmentDirections.actionAuthFragmentToMainFragment(
+                                showAddWA = true,
+                                installationId = null,
+                                installationUrl = null
+                            )
+                        )
+                }
+            }
+        }
     }
 
     init {

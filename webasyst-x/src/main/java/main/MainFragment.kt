@@ -22,7 +22,7 @@ class MainFragment : Fragment() {
     private val args: MainFragmentArgs by navArgs()
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(this).get(MainViewModel::class.java).also {
-            it.installationSelected.postValue(args.installationId != null)
+            it.showAddWA.value = args.showAddWA
         }
     }
 
@@ -44,7 +44,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (args.installationId == null) {
+        if (args.showAddWA) {
             (requireActivity() as MainActivity).toolbar.setTitle(R.string.add_webasyst)
         }
 

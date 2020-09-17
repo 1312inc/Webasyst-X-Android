@@ -33,7 +33,7 @@ class PostListViewModel(
 
     suspend fun updateData(context: Context) {
         if (installationId == null || installationUrl == null) {
-            mutableState.postValue(STATE_ERROR)
+            mutableState.postValue(STATE_LOADING)
             return
         }
         blogApiClient.getPosts(installationUrl, installationId)

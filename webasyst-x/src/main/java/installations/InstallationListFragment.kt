@@ -40,6 +40,8 @@ class InstallationListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.navController = view.findRootNavController()
+
         val adapter = InstallationListAdapter()
         adapter.addSelectionListener(this)
         installationList.adapter = adapter

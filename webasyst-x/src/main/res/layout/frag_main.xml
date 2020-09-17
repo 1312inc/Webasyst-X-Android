@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:gone="@{!viewModel.installationSelected}">
+            app:gone="@{viewModel.showAddWA}">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/tabContent"
@@ -41,6 +41,6 @@
             android:name="com.webasyst.x.add_wa.AddWebasystFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:gone="@{viewModel.installationSelected}" />
+            app:gone="@{!viewModel.showAddWA}" />
     </FrameLayout>
 </layout>
