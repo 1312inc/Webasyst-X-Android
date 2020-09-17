@@ -8,6 +8,7 @@ import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.webasyst.auth.WebasystAuthActivity
 import com.webasyst.auth.WebasystAuthStateStore
+import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navRoot
@@ -44,7 +45,10 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
                 if (navController.currentDestination?.id == R.id.authFragment) {
-                    navController.navigate(R.id.action_authFragment_to_mainFragment)
+                    navController.navigate(AuthFragmentDirections.actionAuthFragmentToMainFragment(
+                        installationId = null,
+                        installationUrl = null
+                    ))
                 }
             } else {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.webasyst.x.R
 import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.databinding.FragInstallationListBinding
@@ -51,9 +50,11 @@ class InstallationListFragment :
         )
 
         viewModel.installations.observe(viewLifecycleOwner) { installations ->
-            adapter.submitList(installations)
-            if (adapter.selectedPosition == RecyclerView.NO_POSITION && installations.isNotEmpty()) {
-                adapter.setSelectedItem(0)
+            val previousSize = adapter.itemCount
+            adapter.submitList(installations) {
+                if (previousSize == 0 && installations.isNotEmpty()) {
+                    adapter.setSelectedItem(0)
+                }
             }
         }
     }
