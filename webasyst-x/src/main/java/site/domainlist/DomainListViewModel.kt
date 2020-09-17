@@ -21,7 +21,7 @@ class DomainListViewModel(
     private val installationId: String?,
     private val installationUrl: String?
 ) : AndroidViewModel(app) {
-    private val mutableState = MutableLiveData<Int>().apply { value = STATE_LOADING_DATA }
+    private val mutableState = MutableLiveData<Int>().apply { value = STATE_UNKNOWN }
 
     val spinnerVisibility: LiveData<Int> = MediatorLiveData<Int>().apply {
         addSource(mutableState) { value = if (it == STATE_LOADING_DATA) View.VISIBLE else View.GONE }
@@ -39,8 +39,11 @@ class DomainListViewModel(
     val domainList: LiveData<List<Domain>> = mutableDomainList
 
     suspend fun updateData(context: Context) {
+        if (mutableState.value == STATE_LOADING_DATA) {
+            return
+        }
+        mutableState.postValue(STATE_LOADING_DATA)
         if (installationId == null || installationUrl == null) {
-            mutableState.postValue(STATE_LOADING_DATA)
             return
         }
         val siteApiClient = SiteApiClient.getInstance(getApplication())
@@ -76,6 +79,7 @@ class DomainListViewModel(
 
     companion object {
         private const val TAG = "domain_list"
+        const val STATE_UNKNOWN = 0
         const val STATE_LOADING_DATA = 1
         const val STATE_DATA_READY = 2
         const val STATE_ERROR = 3

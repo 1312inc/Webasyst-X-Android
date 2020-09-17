@@ -2,12 +2,16 @@ package com.webasyst.x.shop.orders
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.webasyst.x.R
 import com.webasyst.x.databinding.FragShopOrderListBinding
 import com.webasyst.x.main.MainFragment
 import kotlinx.android.synthetic.main.frag_shop_order_list.orderListView
@@ -24,6 +28,11 @@ class OrderListFragment : Fragment() {
             )
         )
             .get(OrderListViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -53,6 +62,22 @@ class OrderListFragment : Fragment() {
 
         viewModel.orderList.observe(viewLifecycleOwner) { adapter.submitList(it) }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.std_tab_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.refresh -> {
+                lifecycleScope.launch {
+                    viewModel.updateData(requireContext())
+                }
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
 
     override fun onStart() {
         super.onStart()

@@ -26,15 +26,18 @@ class PostListViewModel(
     private val mutablePostList = MutableLiveData<List<Post>>()
     val postList: LiveData<List<Post>> = mutablePostList
 
-    private val mutableState = MutableLiveData<Int>().apply { value = STATE_LOADING }
+    private val mutableState = MutableLiveData<Int>().apply { value = STATE_UNKNOWN }
     val state: LiveData<Int> = mutableState
 
     private val mutableErrorText = MutableLiveData<String>()
     val errorText: LiveData<String> = mutableErrorText
 
     suspend fun updateData(context: Context) {
+        if (mutableState.value == STATE_LOADING) {
+            return
+        }
+        mutableState.postValue(STATE_LOADING)
         if (installationId == null || installationUrl == null) {
-            mutableState.postValue(STATE_LOADING)
             return
         }
         blogApiClient.getPosts(installationUrl, installationId)
@@ -70,10 +73,11 @@ class PostListViewModel(
     }
 
     companion object {
-        const val STATE_LOADING = 0
-        const val STATE_LOADED = 1
-        const val STATE_LOADED_EMPTY = 2
-        const val STATE_ERROR = 3
+        const val STATE_UNKNOWN = 0
+        const val STATE_LOADING = 1
+        const val STATE_LOADED = 2
+        const val STATE_LOADED_EMPTY = 3
+        const val STATE_ERROR = 4
     }
 
 }

@@ -2,6 +2,9 @@ package com.webasyst.x.site.domainlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -28,6 +31,11 @@ class DomainListFragment : Fragment(R.layout.frag_site_domain_list) {
             .get(DomainListViewModel::class.java)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,6 +60,22 @@ class DomainListFragment : Fragment(R.layout.frag_site_domain_list) {
 
         viewModel.domainList.observe(viewLifecycleOwner, { t -> adapter.submitList(t) })
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.std_tab_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.refresh -> {
+                lifecycleScope.launch {
+                    viewModel.updateData(requireContext())
+                }
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
 
     override fun onStart() {
         super.onStart()

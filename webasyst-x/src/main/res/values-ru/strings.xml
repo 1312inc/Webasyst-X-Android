@@ -19,6 +19,7 @@
 
     <string name="btn_cancel">Отмена</string>
     <string name="btn_ok">OK</string>
+    <string name="btn_refresh">Обновить</string>
 
     <string name="app_site">Сайт</string>
     <string name="data_fetch_error">Не удалось загрузить данные.\n%1$s</string>
