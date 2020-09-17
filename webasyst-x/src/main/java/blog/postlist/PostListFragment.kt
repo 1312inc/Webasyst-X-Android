@@ -7,9 +7,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragBlogPostListBinding
@@ -57,6 +59,11 @@ class PostListFragment : Fragment() {
             false
         )
         postListView.adapter = adapter
+        postListView.addItemDecoration(
+            DividerItemDecoration(postListView.context, DividerItemDecoration.VERTICAL).apply {
+                setDrawable(ContextCompat.getDrawable(postListView.context, R.drawable.list_divider)!!)
+            }
+        )
 
         viewModel.postList.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts.map { Post(it) })

@@ -7,9 +7,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragShopOrderListBinding
@@ -59,6 +61,11 @@ class OrderListFragment : Fragment() {
             false
         )
         orderListView.adapter = adapter
+        orderListView.addItemDecoration(
+            DividerItemDecoration(orderListView.context, DividerItemDecoration.VERTICAL).apply {
+                setDrawable(ContextCompat.getDrawable(orderListView.context, R.drawable.list_divider)!!)
+            }
+        )
 
         viewModel.orderList.observe(viewLifecycleOwner) { adapter.submitList(it) }
     }

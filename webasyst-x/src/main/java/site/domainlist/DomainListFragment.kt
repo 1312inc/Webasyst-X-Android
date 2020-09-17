@@ -7,10 +7,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragSiteDomainListBinding
@@ -57,6 +59,11 @@ class DomainListFragment : Fragment(R.layout.frag_site_domain_list) {
         val adapter = DomainListAdapter(viewLifecycleOwner)
         domainList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         domainList.adapter = adapter
+        domainList.addItemDecoration(
+            DividerItemDecoration(domainList.context, DividerItemDecoration.VERTICAL).apply {
+                setDrawable(ContextCompat.getDrawable(domainList.context, R.drawable.list_divider)!!)
+            }
+        )
 
         viewModel.domainList.observe(viewLifecycleOwner, { t -> adapter.submitList(t) })
     }

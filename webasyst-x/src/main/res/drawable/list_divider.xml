@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:left="?attr/screenPaddingHorizontal"
+        android:right="?attr/screenPaddingHorizontal">
+
+        <shape
+            android:shape="rectangle">
+
+            <size android:height="1dp" />
+            <solid android:color="?colorOnPrimaryLighter" />
+        </shape>
+    </item>
+</layer-list>
