@@ -48,7 +48,7 @@
                     android:layout_height="?navigationDrawerHeaderHeight" />
 
                 <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/test"
+                    android:id="@+id/installationList"
                     android:name="com.webasyst.x.installations.InstallationListFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />

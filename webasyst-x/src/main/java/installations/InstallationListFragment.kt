@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.R
@@ -16,6 +17,7 @@ import com.webasyst.x.databinding.FragInstallationListBinding
 import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
 import kotlinx.android.synthetic.main.frag_installation_list.installationList
+import kotlinx.coroutines.launch
 
 class InstallationListFragment :
     Fragment(R.layout.frag_installation_list),
@@ -23,6 +25,10 @@ class InstallationListFragment :
 {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(this).get(InstallationListViewModel::class.java)
+    }
+
+    private val adapter by lazy(LazyThreadSafetyMode.NONE) {
+        InstallationListAdapter()
     }
 
     override fun onCreateView(
@@ -42,7 +48,6 @@ class InstallationListFragment :
 
         viewModel.navController = view.findRootNavController()
 
-        val adapter = InstallationListAdapter()
         adapter.addSelectionListener(this)
         installationList.adapter = adapter
         installationList.layoutManager = LinearLayoutManager(
@@ -78,5 +83,19 @@ class InstallationListFragment :
                         installationUrl = installation.url
                     ))
         }
+    }
+
+    fun updateInstallations(idToSelect: String?) {
+        lifecycleScope.launch {
+            viewModel.updateInstallationList {
+                if (idToSelect != null) {
+                    adapter.setSelectedItemById(idToSelect)
+                }
+            }
+        }
+    }
+
+    interface InstallationListView {
+        fun updateInstallations(idToSelect: String?)
     }
 }

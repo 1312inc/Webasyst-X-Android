@@ -39,6 +39,11 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
         }
     }
 
+    fun setSelectedItemById(id: String) {
+        val position = currentList.indexOfFirst { it.id == id }
+        if (position >= 0) setSelectedItem(position)
+    }
+
     fun addSelectionListener(listener: SelectionChangeListener) =
         selectionListeners.addObserver(listener)
 

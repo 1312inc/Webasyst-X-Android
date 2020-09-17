@@ -43,7 +43,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         updateInstallationList()
     }
 
-    private fun updateInstallationList() {
+    fun updateInstallationList(callback: Runnable? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             apiClient.getInstallationList()
                 .onSuccess { installations ->

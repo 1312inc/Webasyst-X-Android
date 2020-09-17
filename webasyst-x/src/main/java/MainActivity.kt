@@ -10,12 +10,13 @@ import com.webasyst.auth.WebasystAuthActivity
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.databinding.ActivityMainBinding
+import com.webasyst.x.installations.InstallationListFragment
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navRoot
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import net.openid.appauth.AuthState
 
-class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
+class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, InstallationListFragment.InstallationListView {
     private val viewModel by lazy {
         ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
@@ -95,5 +96,10 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer {
 
     override fun onAuthStateChange(state: AuthState) {
         viewModel.setAuthState(state)
+    }
+
+    override fun updateInstallations(idToSelect: String?) {
+        (supportFragmentManager.findFragmentById(R.id.installationList) as InstallationListFragment)
+            .updateInstallations(idToSelect)
     }
 }

@@ -1,16 +1,15 @@
 package com.webasyst.x.add_wa
 
 import android.app.Application
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.edit
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.webasyst.api.ApiClient
+import com.webasyst.api.CloudSignup
 import com.webasyst.x.R
+import com.webasyst.x.installations.InstallationListFragment
+import com.webasyst.x.util.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,18 +18,9 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
     private val apiClient by lazy {
         ApiClient.getInstance(getApplication())
     }
-    private val preferences by lazy {
-        app.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    }
 
     fun onAddWebasyst(view: View) {
         try {
-            val authUrl = preferences.getString(AUTH_ENDPOINT_KEY, null)
-            if (authUrl != null) {
-                showAuthEndpointDialog(view, authUrl)
-                return
-            }
-
             view.isEnabled = false
             viewModelScope.launch {
                 val cloudSignup = withContext(Dispatchers.IO) {
@@ -38,10 +28,7 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
                 }
                 cloudSignup
                     .onSuccess {
-                        preferences.edit {
-                            putString(AUTH_ENDPOINT_KEY, it.authEndpoint)
-                        }
-                        showAuthEndpointDialog(view, it.authEndpoint)
+                        postCreateHandler(view, it)
                     }
                     .onFailure {
                         AlertDialog
@@ -58,23 +45,8 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    private fun showAuthEndpointDialog(view: View, url: String) {
-        val context = view.context
-        AlertDialog
-            .Builder(context)
-            .setMessage(context.getString(R.string.webasyst_added, url))
-            .setPositiveButton(R.string.btn_open_wa_auth) { dialog, _ ->
-                context.startActivity(Intent(Intent.ACTION_VIEW).also { it.data = Uri.parse(url) })
-                dialog.dismiss()
-            }
-            .setNegativeButton(R.string.btn_ok) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
-    }
-
-    companion object {
-        const val PREFS_NAME = "add_wa_prefs"
-        const val AUTH_ENDPOINT_KEY = "auth_endpoint"
+    private fun postCreateHandler(view: View, result: CloudSignup) {
+        (view.getActivity() as InstallationListFragment.InstallationListView)
+            .updateInstallations(result.id)
     }
 }
