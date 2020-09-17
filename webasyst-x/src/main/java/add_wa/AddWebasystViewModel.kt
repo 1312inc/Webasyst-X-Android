@@ -4,6 +4,8 @@ import android.app.Application
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.webasyst.api.ApiClient
 import com.webasyst.api.CloudSignup
@@ -17,14 +19,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
+    private val mutableBusy = MutableLiveData<Boolean>().apply { value = false }
+    val busy: LiveData<Boolean> = mutableBusy
+
     private val apiClient by lazy {
         ApiClient.getInstance(getApplication())
     }
 
     fun onAddWebasyst(view: View) {
-        try {
-            view.isEnabled = false
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
+                mutableBusy.value = true
                 val cloudSignup = withContext(Dispatchers.IO) {
                     apiClient.postCloudSignUp()
                 }
@@ -46,9 +51,9 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
                             }
                             .show()
                     }
+            } finally {
+                mutableBusy.value = false
             }
-        } finally {
-            view.isEnabled = true
         }
     }
 
