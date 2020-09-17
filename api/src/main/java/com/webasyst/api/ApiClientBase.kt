@@ -30,7 +30,11 @@ abstract class ApiClientBase(context: Context) {
             })
         }
 
-        gson.fromJson(response, AccessToken::class.java)
+        val token = gson.fromJson(response, AccessToken::class.java)
+        if (token.error != null) {
+            throw TokenError(token)
+        }
+        token
     } catch (e: Throwable) {
         throw TokenException(e)
     }

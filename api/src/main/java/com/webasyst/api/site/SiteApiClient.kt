@@ -26,11 +26,15 @@ class SiteApiClient private constructor(private val apiClient: ApiClient, contex
 
         val accessToken = getToken(url, authCode, SCOPE)
 
-        client.get("$url/api.php/site.domain.getList") {
-            parameter(ACCESS_TOKEN_PARAM, accessToken.token)
-            headers {
-                accept(ContentType.Application.Json)
+        try {
+            client.get("$url/api.php/site.domain.getList") {
+                parameter(ACCESS_TOKEN_PARAM, accessToken.token)
+                headers {
+                    accept(ContentType.Application.Json)
+                }
             }
+        } catch (e: Throwable) {
+            throw e
         }
     }
 
