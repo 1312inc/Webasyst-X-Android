@@ -28,7 +28,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_shopping_cart" />
+            app:srcCompat="@drawable/ic_blog" />
 
         <TextView
             android:id="@+id/textView3"
