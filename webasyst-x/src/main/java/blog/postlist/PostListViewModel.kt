@@ -12,6 +12,7 @@ import com.webasyst.api.ApiException
 import com.webasyst.api.blog.BlogApiClient
 import com.webasyst.api.blog.Post
 import com.webasyst.x.R
+import kotlinx.coroutines.CancellationException
 
 class PostListViewModel(
     application: Application,
@@ -47,7 +48,7 @@ class PostListViewModel(
                 })
             }
             .onFailure {
-                if (it is ApiException) {
+                if (it is ApiException && it.cause !is CancellationException) {
                     AlertDialog
                         .Builder(context)
                         .setMessage(context.getString(R.string.waid_error, it.localizedMessage))

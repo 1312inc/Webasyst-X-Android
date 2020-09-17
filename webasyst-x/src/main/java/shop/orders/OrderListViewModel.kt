@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.webasyst.api.ApiException
 import com.webasyst.api.shop.ShopApiClient
 import com.webasyst.x.R
+import kotlinx.coroutines.CancellationException
 
 class OrderListViewModel(
     application: Application,
@@ -46,7 +47,7 @@ class OrderListViewModel(
                 })
             }
             .onFailure {
-                if (it is ApiException) {
+                if (it is ApiException && it.cause !is CancellationException) {
                     AlertDialog
                         .Builder(context)
                         .setMessage(context.getString(R.string.waid_error, it.localizedMessage))

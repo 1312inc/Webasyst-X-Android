@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.webasyst.api.ApiException
 import com.webasyst.api.site.SiteApiClient
 import com.webasyst.x.R
+import kotlinx.coroutines.CancellationException
 
 class DomainListViewModel(
     app: Application,
@@ -52,7 +53,7 @@ class DomainListViewModel(
             }
             .onFailure {
                 Log.e(TAG, "failed to fetch domain list: $it", it)
-                if (it is ApiException) {
+                if (it is ApiException && it.cause !is CancellationException) {
                     AlertDialog
                         .Builder(context)
                         .setMessage(context.getString(R.string.waid_error, it.localizedMessage))
