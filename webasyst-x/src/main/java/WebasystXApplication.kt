@@ -1,13 +1,16 @@
 package com.webasyst.x
 
 import android.app.Application
+import com.webasyst.api.TokenCache
 import com.webasyst.api.blog.BlogApiClient
 import com.webasyst.api.shop.ShopApiClient
 import com.webasyst.api.site.SiteApiClient
 import com.webasyst.api.webasyst.WebasystApiClient
+import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.auth.configureWebasystAuth
+import net.openid.appauth.AuthState
 
-class WebasystXApplication : Application() {
+class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
     override fun onCreate() {
         super.onCreate()
 
@@ -27,6 +30,14 @@ class WebasystXApplication : Application() {
                     separator = "."
                 )
             )
+        }
+
+        WebasystAuthStateStore.getInstance(this).addObserver(this)
+    }
+
+    override fun onAuthStateChange(state: AuthState?) {
+        if (state?.isAuthorized == false) {
+            TokenCache.getInstance(Unit).clear()
         }
     }
 }

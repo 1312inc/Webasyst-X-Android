@@ -17,26 +17,33 @@ abstract class ApiClientBase(context: Context) {
     protected val authService: WebasystAuthService = WebasystAuthService.getInstance(context)
     private val gson = GSON.getInstance(Unit)
     protected val client = HttpClient.getInstance(Unit)
+    private val tokenCache = TokenCache.getInstance(Unit)
 
-    protected suspend fun getToken(url: String, authCode: String, scope: String): AccessToken = try {
-        val response = client.post<String>("$url/api.php/token-headless") {
-            headers {
-                accept(ContentType.Application.Json)
+    protected suspend fun getToken(url: String, authCode: String, scope: String): AccessToken {
+        try {
+            val cached = tokenCache.get(url, scope)
+            if (null != cached) return cached
+
+            val response = client.post<String>("$url/api.php/token-headless") {
+                headers {
+                    accept(ContentType.Application.Json)
+                }
+                body = MultiPartFormDataContent(formData {
+                    append("code", authCode)
+                    append("scope", scope)
+                    append("client_id", "com.webasyst.x")
+                })
             }
-            body = MultiPartFormDataContent(formData {
-                append("code", authCode)
-                append("scope", scope)
-                append("client_id", "com.webasyst.x")
-            })
-        }
 
-        val token = gson.fromJson(response, AccessToken::class.java)
-        if (token.error != null) {
-            throw TokenError(token)
+            val token = gson.fromJson(response, AccessToken::class.java)
+            if (token.error != null) {
+                throw TokenError(token)
+            }
+            tokenCache.set(url, scope, token)
+            return token
+        } catch (e: Throwable) {
+            throw TokenException(e)
         }
-        token
-    } catch (e: Throwable) {
-        throw TokenException(e)
     }
 
     protected inline fun <reified T> wrapApiCall(block: () -> T): Response<T> = try {
