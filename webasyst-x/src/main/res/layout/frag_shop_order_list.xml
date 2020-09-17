@@ -36,7 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/empty_api_response"
+            android:gravity="center_horizontal"
+            android:text="@{@string/empty_api_response(viewModel.appName, viewModel.apiName)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:gone="@{viewModel.state != OrderListViewModel.STATE_LOADED_EMPTY}" />
 

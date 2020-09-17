@@ -21,7 +21,11 @@ class DomainListViewModel(
     private val installationId: String?,
     private val installationUrl: String?
 ) : AndroidViewModel(app) {
+    val appName = getApplication<Application>().getString(R.string.app_site)
+    val apiName = "site.domain.getList"
+
     private val mutableState = MutableLiveData<Int>().apply { value = STATE_UNKNOWN }
+    val state: LiveData<Int> = mutableState
 
     val spinnerVisibility: LiveData<Int> = MediatorLiveData<Int>().apply {
         addSource(mutableState) { value = if (it == STATE_LOADING_DATA) View.VISIBLE else View.GONE }
@@ -51,7 +55,7 @@ class DomainListViewModel(
             .domainGetList(installationUrl, installationId)
             .onSuccess {
                 mutableErrorText.postValue("")
-                mutableState.postValue(STATE_DATA_READY)
+                mutableState.postValue(if (it.domains.isEmpty()) STATE_DATA_EMPTY else STATE_DATA_READY)
                 mutableDomainList.postValue(it.domains.map { domain -> Domain(domain) })
             }
             .onFailure {
@@ -82,6 +86,7 @@ class DomainListViewModel(
         const val STATE_UNKNOWN = 0
         const val STATE_LOADING_DATA = 1
         const val STATE_DATA_READY = 2
-        const val STATE_ERROR = 3
+        const val STATE_DATA_EMPTY = 3
+        const val STATE_ERROR = 4
     }
 }

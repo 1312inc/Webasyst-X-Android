@@ -23,6 +23,9 @@ class PostListViewModel(
         BlogApiClient.getInstance(getApplication())
     }
 
+    val appName = application.getString(R.string.app_blog)
+    val apiName = "blog.post.search"
+
     private val mutablePostList = MutableLiveData<List<Post>>()
     val postList: LiveData<List<Post>> = mutablePostList
 

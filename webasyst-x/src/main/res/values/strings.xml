@@ -28,7 +28,7 @@
 
     <string name="app_blog">Blog</string>
 
-    <string name="empty_api_response">REST API returned empty list</string>
+    <string name="empty_api_response">The %1$s app returned no records (API: %2$s).</string>
 
     <string name="app_redirect_scheme" translatable="false">com.webasyst.x</string>
 </resources>

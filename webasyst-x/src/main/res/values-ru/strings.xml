@@ -28,5 +28,5 @@
 
     <string name="app_blog">Блог</string>
 
-    <string name="empty_api_response">API вернуло пустой список</string>
+    <string name="empty_api_response">Приложение %1$s вернуло пустой ответ (API: %2$s).</string>
 </resources>

@@ -22,6 +22,9 @@ class OrderListViewModel(
         ShopApiClient.getInstance(getApplication())
     }
 
+    val appName = application.getString(R.string.app_shop)
+    val apiName = "shop.order.search"
+
     private val mutableOrderList = MutableLiveData<List<Order>>()
     val orderList: LiveData<List<Order>> = mutableOrderList
 
