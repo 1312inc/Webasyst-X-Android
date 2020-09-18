@@ -24,7 +24,7 @@ class SiteApiClient private constructor(private val apiClient: ApiClient, contex
         val authCodes = authCodesResponse.getSuccess()
         val authCode = authCodes[installationClientId] ?: throw RuntimeException("Failed to obtain authorization code")
 
-        val accessToken = getToken(url, authCode, SCOPE)
+        val accessToken = getToken(url, authCode)
 
         try {
             client.get("$url/api.php/site.domain.getList") {

@@ -27,7 +27,7 @@ class ShopApiClient private constructor(private val apiClient: ApiClient, contex
         val authCodes = authCodesResponse.getSuccess()
         val authCode = authCodes[installationClientId] ?: throw RuntimeException("Failed to obtain authorization code")
 
-        val accessToken = getToken(url, authCode, SCOPE)
+        val accessToken = getToken(url, authCode)
 
         val res = client.get<OrderList>("$url/api.php/shop.order.search") {
             parameter("access_token", accessToken.token)

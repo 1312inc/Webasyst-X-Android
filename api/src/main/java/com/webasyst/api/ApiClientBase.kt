@@ -1,7 +1,11 @@
 package com.webasyst.api
 
 import android.content.Context
+import com.webasyst.api.blog.BlogApiClient
+import com.webasyst.api.shop.ShopApiClient
 import com.webasyst.api.site.AccessToken
+import com.webasyst.api.site.SiteApiClient
+import com.webasyst.api.webasyst.WebasystApiClient
 import com.webasyst.auth.WebasystAuthService
 import com.webasyst.auth.withFreshAccessToken
 import io.ktor.client.request.accept
@@ -18,6 +22,14 @@ abstract class ApiClientBase(context: Context) {
     private val gson = GSON.getInstance(Unit)
     protected val client = HttpClient.getInstance(Unit)
     private val tokenCache = TokenCache.getInstance(Unit)
+
+    protected suspend fun getToken(url: String, authCode: String): AccessToken =
+        getToken(
+            url,
+            authCode,
+            listOf(BlogApiClient.SCOPE, ShopApiClient.SCOPE, SiteApiClient.SCOPE, WebasystApiClient.SCOPE)
+                .joinToString(separator = ",")
+        )
 
     protected suspend fun getToken(url: String, authCode: String, scope: String): AccessToken {
         try {

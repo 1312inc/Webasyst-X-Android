@@ -27,7 +27,7 @@ class BlogApiClient private constructor (private val apiClient: ApiClient, conte
         val authCodes = authCodesResponse.getSuccess()
         val authCode = authCodes[installationClientId] ?: throw RuntimeException("Failed to obtain authorization code")
 
-        val accessToken = getToken(url, authCode, SCOPE)
+        val accessToken = getToken(url, authCode)
 
         val res = client.get<Posts>("$url/api.php/blog.post.search") {
             parameter("access_token", accessToken.token)

@@ -26,7 +26,7 @@ class WebasystApiClient private constructor(private val apiClient: ApiClient, co
         val authCodes = authCodesResponse.getSuccess()
         val authCode = authCodes[installationClientId] ?: throw RuntimeException("Failed to obtain authorization code")
 
-        val accessToken = getToken(url, authCode, SCOPE)
+        val accessToken = getToken(url, authCode)
 
         client.get("$url/api.php/webasyst.getInfo") {
             parameter("access_token", accessToken.token)
