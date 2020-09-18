@@ -87,19 +87,21 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
 
         findNavController(R.id.navRoot)
             .addOnDestinationChangedListener { _, destination, _ ->
-                when (destination.id) {
-                    R.id.authFragment -> {
-                        toolbar.navigationIcon = null
-                        toolbar.setTitle(R.string.app_name)
-                    }
-                    R.id.mainFragment -> {
-                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                        toolbar.setNavigationIcon(R.drawable.ic_hamburger)
-                    }
-                    R.id.addWebasystFragment -> {
-                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                        toolbar.setTitle(R.string.add_webasyst)
-                        toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
+                runOnUiThread {
+                    when (destination.id) {
+                        R.id.authFragment -> {
+                            toolbar.navigationIcon = null
+                            toolbar.setTitle(R.string.app_name)
+                        }
+                        R.id.mainFragment -> {
+                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                            toolbar.setNavigationIcon(R.drawable.ic_hamburger)
+                        }
+                        R.id.addWebasystFragment -> {
+                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                            toolbar.setTitle(R.string.add_webasyst)
+                            toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
+                        }
                     }
                 }
             }
