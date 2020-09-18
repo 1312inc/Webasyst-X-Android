@@ -1,5 +1,6 @@
 package com.webasyst.x
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -7,8 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import com.webasyst.auth.WebasystAuthActivity
+import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.auth.AuthFragmentDirections
+import com.webasyst.x.auth.AuthViewModel
 import com.webasyst.x.databinding.ActivityMainBinding
 import com.webasyst.x.installations.InstallationListFragment
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
@@ -24,10 +27,24 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
         WebasystAuthStateStore.getInstance(this)
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        val navController = navRoot.findNavController()
+        if (intent.action == WebasystAuthHelper.ACTION_UPDATE_AFTER_AUTHORIZATION) {
+            navController.setGraph(R.navigation.nav_graph, Bundle().apply {
+                putInt("state", AuthViewModel.STATE_AUTHENTICATING)
+            })
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(
+            this,
+            R.layout.activity_main
+        )
         binding.lifecycleOwner = this
 
         setSupportActionBar(binding.toolbar)
@@ -46,16 +63,20 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
                 if (navController.currentDestination?.id == R.id.authFragment) {
-                    navController.navigate(AuthFragmentDirections.actionAuthFragmentToMainFragment(
-                        installationId = null,
-                        installationUrl = null
-                    ))
+                    navController.navigate(
+                        AuthFragmentDirections.actionAuthFragmentToMainFragment(
+                            installationId = null,
+                            installationUrl = null
+                        )
+                    )
                 }
             } else {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
                 if (navController.currentDestination?.id != R.id.authFragment) {
-                    navController.setGraph(R.navigation.nav_graph)
+                    navController.setGraph(R.navigation.nav_graph, Bundle().apply {
+                        putInt("state", AuthViewModel.STATE_IDLE)
+                    })
                 }
             }
         }

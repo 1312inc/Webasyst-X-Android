@@ -10,6 +10,12 @@ public abstract class WebasystAuthActivity extends AppCompatActivity {
     private WebasystAuthHelper authHelper;
 
     @Override
+    public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        authHelper.handleIntent(intent);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

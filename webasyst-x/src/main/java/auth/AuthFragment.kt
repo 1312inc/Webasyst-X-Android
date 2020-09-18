@@ -7,15 +7,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragAuthBinding
 import com.webasyst.x.util.getActivity
-import net.openid.appauth.AuthorizationException
 
 class AuthFragment : Fragment() {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProvider(this).get(AuthViewModel::class.java)
+        ViewModelProvider(this).get(AuthViewModel::class.java).also {
+            val state = arguments?.getInt("state")
+            if (state != null) {
+                it.state.value = state
+            }
+        }
     }
 
     override fun onCreateView(
@@ -40,18 +43,6 @@ class AuthFragment : Fragment() {
         if (null == intent) {
             viewModel.state.value = AuthViewModel.STATE_IDLE
             return
-        }
-        viewModel.state.value = when (intent.action) {
-            WebasystAuthHelper.ACTION_UPDATE_AFTER_AUTHORIZATION -> {
-                val exception = AuthorizationException.fromIntent(intent)
-                if (null != exception) {
-                    AuthViewModel.STATE_IDLE
-                } else {
-                    AuthViewModel.STATE_AUTHENTICATING
-                }
-            }
-            else ->
-                AuthViewModel.STATE_IDLE
         }
     }
 }

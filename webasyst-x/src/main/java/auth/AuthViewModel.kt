@@ -9,7 +9,7 @@ import com.webasyst.x.MainActivity
 import com.webasyst.x.util.getActivity
 
 class AuthViewModel : ViewModel() {
-    val state = MutableLiveData<Int>().apply { value = STATE_IDLE }
+    val state = MutableLiveData<Int>()
 
     val signInVisible: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         addSource(state) {

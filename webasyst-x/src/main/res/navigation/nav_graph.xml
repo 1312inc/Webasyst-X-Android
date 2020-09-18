@@ -17,6 +17,10 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/nav"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="state"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
