@@ -3,4 +3,11 @@
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="color_on_primary_lighter">#CCCCCC</color>
     <color name="selected_list_item">#33000000</color>
+
+    <color name="webasyst_logo_web">#000</color>
+    <color name="webasyst_logo_a">#08e</color>
+    <color name="webasyst_logo_s1">#2c2</color>
+    <color name="webasyst_logo_y">#e62</color>
+    <color name="webasyst_logo_s2">#fc0</color>
+    <color name="webasyst_logo_t">#5dd</color>
 </resources>
