@@ -2,6 +2,7 @@
 <resources>
     <color name="color_on_primary_lighter">#333333</color>
     <color name="selected_list_item">#33ffffff</color>
+    <color name="highContrastOnSurface">#fff</color>
 
     <color name="webasyst_logo_web">#fff</color>
 </resources>

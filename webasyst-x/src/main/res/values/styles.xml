@@ -7,4 +7,11 @@
 
         <item name="colorOnPrimaryLighter">@color/color_on_primary_lighter</item>
     </style>
+
+    <style name="Theme.WebasystX.TextAppearance" parent="TextAppearance.MaterialComponents.Body1" />
+    <style name="Theme.WebasystX.TextAppearance.AuthAppTitle">
+        <item name="android:textColor">@color/highContrastOnSurface</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

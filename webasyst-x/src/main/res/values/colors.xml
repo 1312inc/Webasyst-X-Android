@@ -3,6 +3,7 @@
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="color_on_primary_lighter">#CCCCCC</color>
     <color name="selected_list_item">#33000000</color>
+    <color name="highContrastOnSurface">#000</color>
 
     <color name="webasyst_logo_web">#000</color>
     <color name="webasyst_logo_a">#08e</color>

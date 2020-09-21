@@ -51,7 +51,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/app_name_placeholder"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+                android:textAppearance="@style/Theme.WebasystX.TextAppearance.AuthAppTitle"
                 app:layout_constraintBottom_toTopOf="@+id/textView7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
