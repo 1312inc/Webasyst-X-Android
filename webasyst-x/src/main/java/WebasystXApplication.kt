@@ -16,8 +16,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
 
         configureWebasystAuth {
             setClientId(BuildConfig.CLIENT_ID)
-            setAuthEndpoint("${BuildConfig.WEBASYST_HOST}/id/oauth2/auth/code")
-            setTokenEndpoint("${BuildConfig.WEBASYST_HOST}/id/oauth2/auth/token")
+            setHost(BuildConfig.WEBASYST_HOST)
             setCallbackUri(getString(R.string.app_redirect_scheme) + "://oidc_callback")
             setScope(
                 listOf(

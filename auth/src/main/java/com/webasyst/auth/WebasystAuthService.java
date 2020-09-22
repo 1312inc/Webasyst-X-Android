@@ -46,6 +46,14 @@ public class WebasystAuthService {
         return authorizationService;
     }
 
+    /**
+     * Configures WAID service. This method should be called once, before any interactions with WAID.
+     *
+     * The recommended point to do it is your Application's onCreate() method
+     * (if you use custom Application class) or authentication activity's onCreate().
+     *
+     * @param configuration Configuration object
+     */
     public static void configure(WebasystAuthConfiguration configuration) {
         currentConfiguration = configuration;
     }
@@ -54,6 +62,9 @@ public class WebasystAuthService {
         authorizationService.performTokenRequest(request, stateStore::updateAfterTokenResponse);
     }
 
+    /**
+     * Performs given task with fresh access token. Token is automatically refreshed if needed.
+     */
     public <T> void withFreshAccessToken(final AccessTokenTask<T> task) {
         stateStore.getCurrent().performActionWithFreshTokens(authorizationService,
             (AuthState.AuthStateAction) (accessToken, idToken, exception) -> {
@@ -66,21 +77,38 @@ public class WebasystAuthService {
             });
     }
 
+    /**
+     * Performs given task with fresh access token. Token is automatically refreshed if needed.
+     * This variant if {@link #withFreshAccessToken} calls the callback upon task completion.
+     */
     public <T> void withFreshAccessToken(final AccessTokenTask<T> task, final Consumer<T> callback) {
         stateStore.getCurrent().performActionWithFreshTokens(authorizationService,
             (accessToken, idToken, exception) -> callback.accept(task.apply(accessToken, exception)));
     }
 
+    /**
+     * Performs sign in
+     *
+     * @param request Sign in request
+     * @param success {@link PendingIntent} to be called upon successful sign in
+     * @param cancelled {@link PendingIntent} to be called upon sign in cancellation
+     */
     public void signIn(AuthorizationRequest request, PendingIntent success, PendingIntent cancelled) {
         getAuthorizationService().performAuthorizationRequest(request, success, cancelled);
     }
 
-    public void signOff() {
+    /**
+     * Performs sign out
+     */
+    public void signOut() {
         stateStore.replace(new AuthState());
     }
 
+    /**
+     * Releases resources
+     */
     public void dispose() {
-
+        authorizationService.dispose();
     }
 
     AuthorizationRequest createAuthorizationRequest() {
@@ -97,6 +125,11 @@ public class WebasystAuthService {
             .build();
     }
 
+    /**
+     * This interface represents task to be used with {@link #withFreshAccessToken}.
+     *
+     * @param <T>
+     */
     public interface AccessTokenTask<T> {
         T apply(@Nullable String accessToken, @Nullable Exception exception);
     }

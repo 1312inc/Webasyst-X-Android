@@ -16,6 +16,9 @@ import net.openid.appauth.AuthorizationServiceDiscovery;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * This helper class is responsible for WAID sign in/sign out
+ */
 public class WebasystAuthHelper {
     public static final String ACTION_UPDATE_AFTER_AUTHORIZATION = "update_post_auth";
     public static final String ACTION_AFTER_AUTHORIZATION_CANCELLED = "handle_auth_cancel";
@@ -31,6 +34,10 @@ public class WebasystAuthHelper {
         authService = WebasystAuthService.getInstance(context);
     }
 
+    /**
+     * Handles authentication callback.
+     * Should be called from Activity's onCreate() and/or onNewIntent().
+     */
     public void handleIntent(final @NonNull Intent intent) {
         final String action = intent.getAction();
 
@@ -45,6 +52,11 @@ public class WebasystAuthHelper {
         }
     }
 
+    /**
+     * Performs user authentication and sign in.
+     *
+     * @param activityClass Class representing authentication activity callback
+     */
     public void signIn(@NonNull final Class<? extends Activity> activityClass) {
         final AuthorizationRequest request = authService.createAuthorizationRequest();
         final PendingIntent successIntent = createPostAuthorizationIntent(request, null, activityClass);
@@ -52,12 +64,11 @@ public class WebasystAuthHelper {
         authService.signIn(request, successIntent, cancelIntent);
     }
 
+    /**
+     * Performs sign out.
+     */
     public void signOut() {
         stateStore.replace(new AuthState());
-    }
-
-    public void dispose() {
-        authService.dispose();
     }
 
     private PendingIntent createPostAuthorizationIntent(
