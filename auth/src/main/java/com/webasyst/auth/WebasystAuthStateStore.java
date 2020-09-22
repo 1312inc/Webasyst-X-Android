@@ -58,6 +58,11 @@ public final class WebasystAuthStateStore {
         }
     }
 
+    /**
+     * Returns current {@link AuthState} reading it from persistent storage if necessary.
+     *
+     * @return Current {@link AuthState}
+     */
     @NonNull
     public final AuthState getCurrent() {
         final AuthState currentState = currentStateRef.get();
@@ -74,6 +79,10 @@ public final class WebasystAuthStateStore {
         }
     }
 
+    /**
+     * Replaces current {@link AuthState} with new one and saves it to persistent storage
+     * @return the new {@link AuthState}
+     */
     @NonNull
     AuthState replace(@NonNull final AuthState state) {
         writeState(state);
