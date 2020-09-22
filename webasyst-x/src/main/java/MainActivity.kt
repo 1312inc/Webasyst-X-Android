@@ -15,10 +15,12 @@ import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.auth.AuthViewModel
 import com.webasyst.x.databinding.ActivityMainBinding
 import com.webasyst.x.installations.InstallationListFragment
+import com.webasyst.x.util.BackPressHandler
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navRoot
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import net.openid.appauth.AuthState
+import java.lang.ref.WeakReference
 
 class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, InstallationListFragment.InstallationListView {
     private val viewModel by lazy {
@@ -123,6 +125,37 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
 
     override fun onAuthStateChange(state: AuthState) {
         viewModel.setAuthState(state)
+    }
+
+    override fun onBackPressed() {
+        val handlersIterator = backPressHandlers.listIterator()
+        var handled = false
+        while (handlersIterator.hasNext()) {
+            val handler = handlersIterator.next().get()
+            if (handler == null) {
+                handlersIterator.remove()
+            } else if (!handled) {
+                handled = handler.onBackPressed()
+            }
+        }
+
+        if (!handled) {
+            super.onBackPressed()
+        }
+    }
+
+    private val backPressHandlers = mutableListOf<WeakReference<BackPressHandler>>()
+    fun addBackPressHandler(handler: BackPressHandler) {
+        backPressHandlers.add(WeakReference(handler))
+    }
+    fun removeBackPresshandler(handler: BackPressHandler) {
+        val i = backPressHandlers.listIterator()
+        while (i.hasNext()) {
+            val handlerRef = i.next()
+            if (handlerRef.get() == null || handlerRef.get() == handler) {
+                i.remove()
+            }
+        }
     }
 
     override fun updateInstallations(idToSelect: String?) {
