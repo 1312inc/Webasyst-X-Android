@@ -65,10 +65,12 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
         setSupportActionBar(binding.toolbar)
 
         binding.toolbar.setNavigationOnClickListener {
-            val navController = navRoot.findNavController()
-            when (navRoot.findNavController().currentDestination?.id ?: Int.MIN_VALUE) {
-                R.id.mainFragment -> drawerLayout.openDrawer(binding.navigation)
-                R.id.addWebasystFragment -> navController.popBackStack()
+            if (!handleBackButton()) {
+                val navController = navRoot.findNavController()
+                when (navRoot.findNavController().currentDestination?.id ?: Int.MIN_VALUE) {
+                    R.id.mainFragment -> drawerLayout.openDrawer(binding.navigation)
+                    R.id.addWebasystFragment -> navController.popBackStack()
+                }
             }
         }
 
@@ -140,6 +142,16 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
     }
 
     override fun onBackPressed() {
+        if (!handleBackButton()) {
+            super.onBackPressed()
+        }
+    }
+
+    /**
+     * Tries to handle back button click with [backPressHandlers].
+     * Returns true if click was handled, false otherwise.
+     */
+    private fun handleBackButton(): Boolean {
         val handlersIterator = backPressHandlers.listIterator()
         var handled = false
         while (handlersIterator.hasNext()) {
@@ -150,10 +162,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
                 handled = handler.onBackPressed()
             }
         }
-
-        if (!handled) {
-            super.onBackPressed()
-        }
+        return handled
     }
 
     private val backPressHandlers = mutableListOf<WeakReference<BackPressHandler>>()

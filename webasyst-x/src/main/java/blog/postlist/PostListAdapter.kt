@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.webasyst.x.R
 import com.webasyst.x.databinding.RowBlogPostListItemBinding
 
 class PostListAdapter : ListAdapter<Post, PostListAdapter.PostViewHolder>(Companion) {
@@ -23,9 +24,14 @@ class PostListAdapter : ListAdapter<Post, PostListAdapter.PostViewHolder>(Compan
         init {
             itemView.setOnClickListener { view ->
                 val post = binding.post ?: return@setOnClickListener
-                view
-                    .findNavController()
-                    .navigate(PostListFragmentDirections.actionPostListFragmentToPostViewFragment(post))
+                val navController = view.findNavController()
+                if (navController.currentDestination?.id == R.id.postListFragment) {
+                    navController.navigate(
+                        PostListFragmentDirections.actionPostListFragmentToPostViewFragment(
+                            post
+                        )
+                    )
+                }
             }
         }
 

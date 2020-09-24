@@ -34,9 +34,6 @@ class BlogRootFragment : Fragment(), BackPressHandler {
         navController.setGraph(R.navigation.nav_blog, arguments)
 
         val toolbar = (requireActivity() as MainActivity).toolbar
-        toolbar.setNavigationOnClickListener {
-            navController.popBackStack()
-        }
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if (controller.previousBackStackEntry != null) {
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
