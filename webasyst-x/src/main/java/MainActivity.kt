@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navRoot
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import net.openid.appauth.AuthState
+import net.openid.appauth.AuthorizationException
 import java.lang.ref.WeakReference
 
 class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, InstallationListFragment.InstallationListView {
@@ -35,8 +36,19 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
 
         val navController = navRoot.findNavController()
         if (intent.action == WebasystAuthHelper.ACTION_UPDATE_AFTER_AUTHORIZATION) {
+            val exception = AuthorizationException.fromIntent(intent)
+            if (exception == null) {
+                navController.setGraph(R.navigation.nav_graph, Bundle().apply {
+                    putInt("state", AuthViewModel.STATE_AUTHENTICATING)
+                })
+            } else {
+                navController.setGraph(R.navigation.nav_graph, Bundle().apply {
+                    putInt("state", AuthViewModel.STATE_IDLE)
+                })
+            }
+        } else if (intent.action == WebasystAuthHelper.ACTION_AFTER_AUTHORIZATION_CANCELLED) {
             navController.setGraph(R.navigation.nav_graph, Bundle().apply {
-                putInt("state", AuthViewModel.STATE_AUTHENTICATING)
+                putInt("state", AuthViewModel.STATE_IDLE)
             })
         }
     }
