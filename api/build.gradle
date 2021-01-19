@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    implementation project(':api:common')
+    implementation project(':api:waid')
     implementation project(':auth:kt')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     def ktor_version='1.4.0'

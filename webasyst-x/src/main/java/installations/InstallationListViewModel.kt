@@ -8,12 +8,12 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import com.webasyst.api.ApiClient
 import com.webasyst.api.webasyst.WebasystApiClient
+import com.webasyst.api.webasyst.WebasystApiClientFactory
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.R
+import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.auth.AuthFragmentDirections
-import com.webasyst.x.cache.DataCache
 import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
 import kotlinx.coroutines.Dispatchers
@@ -23,10 +23,11 @@ import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
 
 class InstallationListViewModel(app: Application) : AndroidViewModel(app), WebasystAuthStateStore.Observer {
-    private val apiClient by lazy { ApiClient.getInstance(getApplication()) }
-    private val webasystApiClient by lazy { WebasystApiClient.getInstance(getApplication()) }
+    private val waidClient = getApplication<WebasystXApplication>().waidClient
+    private val apiClient = getApplication<WebasystXApplication>().apiClient
+    private val webasystApiClientFactory = (apiClient.getFactory(WebasystApiClient::class.java) as WebasystApiClientFactory)
     private val authStateStore = WebasystAuthStateStore.getInstance(getApplication())
-    private val cache by lazy { DataCache.getInstance(getApplication()) }
+    private val cache = getApplication<WebasystXApplication>().dataCache
     var navController: NavController? = null
 
     private val mutableInstallations = MutableLiveData<List<Installation>>().apply {
@@ -45,7 +46,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
 
     fun updateInstallationList(callback: Runnable? = null) {
         viewModelScope.launch(Dispatchers.IO) {
-            apiClient.getInstallationList()
+            waidClient.getInstallationList()
                 .onSuccess { installations ->
                     viewModelScope.launch(Dispatchers.IO) {
                         updateInstallationInfos(installations)
@@ -58,10 +59,13 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         }
     }
 
-    private suspend fun updateInstallationInfos(installations: List<Installation>) {
+    private suspend fun updateInstallationInfos(apiInstallations: List<com.webasyst.waid.Installation>) {
+        val installations = apiInstallations.map { Installation(it) }
         val data = installations.map { installation ->
             installation to viewModelScope.async(Dispatchers.IO) {
-                webasystApiClient.getInstalationInfo(installation.url, installation.id)
+                webasystApiClientFactory
+                    .instanceForInstallation(installation)
+                    .getInstallationInfo()
             }
         }.toMap()
         data.values.awaitAll()

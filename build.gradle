@@ -2,6 +2,8 @@ buildscript {
     ext.target_sdk_version = 30
     ext.build_tools_version = '30.0.2'
     ext.kotlin_version = '1.4.0'
+    ext.androidx_annotation_version = '1.1.0'
+    ext.ktor_version = '1.4.0'
     repositories {
         jcenter()
         google()

@@ -74,13 +74,13 @@ class InstallationListFragment :
                 navController.navigate(
                     MainFragmentDirections.actionMainFragmentSelf(
                         installationId = installation.id,
-                        installationUrl = installation.url
+                        installationUrl = installation.rawUrl
                     ))
             R.id.authFragment ->
                 navController.navigate(
                     AuthFragmentDirections.actionAuthFragmentToMainFragment(
                         installationId = installation.id,
-                        installationUrl = installation.url
+                        installationUrl = installation.rawUrl
                     ))
         }
     }

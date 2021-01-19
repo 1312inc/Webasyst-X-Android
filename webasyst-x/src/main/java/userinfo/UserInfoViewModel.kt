@@ -8,12 +8,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.webasyst.api.ApiClient
-import com.webasyst.api.UserInfo
 import com.webasyst.auth.WebasystAuthStateStore
+import com.webasyst.waid.UserInfo
 import com.webasyst.x.MainActivity
 import com.webasyst.x.R
-import com.webasyst.x.cache.DataCache
+import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.util.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,11 +25,11 @@ class UserInfoViewModel(val app: Application) :
     WebasystAuthStateStore.Observer
 {
     private var lastUpdate = AtomicLong(0)
-    private val apiClient by lazy { ApiClient.getInstance(getApplication()) }
+    private val apiClient by lazy { getApplication<WebasystXApplication>().waidClient }
     private val stateStore by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthStateStore.getInstance(getApplication())
     }
-    private val cache by lazy { DataCache.getInstance(getApplication()) }
+    private val cache by lazy { getApplication<WebasystXApplication>().dataCache }
 
     private val mutableUserName = MutableLiveData<String>()
     val userName: LiveData<String> = mutableUserName

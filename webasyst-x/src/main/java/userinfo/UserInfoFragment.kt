@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import com.webasyst.api.ApiClient
 import com.webasyst.x.R
+import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.databinding.NavHeaderAuthorizedBinding
 import com.webasyst.x.util.USERPIC_FILE
 import com.webasyst.x.util.decodeBitmap
@@ -22,8 +22,9 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class UserInfoFragment : Fragment() {
-    private val apiClient by lazy(LazyThreadSafetyMode.NONE) {
-        ApiClient.getInstance(requireContext())
+    private val waidClient by lazy(LazyThreadSafetyMode.NONE) {
+        (requireActivity().application as WebasystXApplication)
+            .waidClient
     }
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(this).get(UserInfoViewModel::class.java)
@@ -58,7 +59,7 @@ class UserInfoFragment : Fragment() {
                         if (!userpicFile.exists() ||
                             userpicFile.lastModified() + MAX_USERPIC_AGE < System.currentTimeMillis()
                         ) {
-                            apiClient.downloadUserpic(url, userpicFile)
+                            waidClient.downloadUserpic(url, userpicFile)
                         }
                         updateUserpicFromFile(userpicFile)
                     } catch (e: Throwable) {

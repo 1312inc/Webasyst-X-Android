@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">Webasyst X</string>
     <string name="webasyst">Webasyst</string>
+    <string name="installation_insecure_connection">Insecure connection</string>
+    <string name="installation_connection_not_secure">Connection is not secure</string>
     <string name="app_name_placeholder">My App</string>
     <string name="btn_sign_in">Sign in with Webasyst ID</string>
     <string name="sign_in_ads">Our amazing app makes your Webasyst\nshine at its best and enables you to do\nthings you’ve never done ever before.</string>

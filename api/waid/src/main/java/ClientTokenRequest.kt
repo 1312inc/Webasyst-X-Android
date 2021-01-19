@@ -1,4 +1,4 @@
-package com.webasyst.api
+package com.webasyst.waid
 
 import com.google.gson.annotations.SerializedName
 

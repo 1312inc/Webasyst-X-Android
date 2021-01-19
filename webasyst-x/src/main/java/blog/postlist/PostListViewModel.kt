@@ -9,9 +9,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.webasyst.api.ApiException
+import com.webasyst.api.Installation
 import com.webasyst.api.blog.BlogApiClient
+import com.webasyst.api.blog.BlogApiClientFactory
 import com.webasyst.api.blog.Post
 import com.webasyst.x.R
+import com.webasyst.x.WebasystXApplication
 import kotlinx.coroutines.CancellationException
 
 class PostListViewModel(
@@ -20,7 +23,10 @@ class PostListViewModel(
     private val installationUrl: String?
 ) : AndroidViewModel(application) {
     private val blogApiClient by lazy {
-        BlogApiClient.getInstance(getApplication())
+        (getApplication<WebasystXApplication>().apiClient.getFactory(BlogApiClient::class.java) as BlogApiClientFactory)
+            .instanceForInstallation(Installation.invoke(
+                id = installationId ?: "",
+                urlBase = installationUrl ?: ""))
     }
 
     val appName = application.getString(R.string.app_blog)
@@ -43,7 +49,7 @@ class PostListViewModel(
         if (installationId == null || installationUrl == null) {
             return
         }
-        blogApiClient.getPosts(installationUrl, installationId)
+        blogApiClient.getPosts()
             .onSuccess { posts ->
                 mutableErrorText.postValue("")
                 mutablePostList.postValue(posts.posts)
@@ -82,5 +88,4 @@ class PostListViewModel(
         const val STATE_LOADED_EMPTY = 3
         const val STATE_ERROR = 4
     }
-
 }

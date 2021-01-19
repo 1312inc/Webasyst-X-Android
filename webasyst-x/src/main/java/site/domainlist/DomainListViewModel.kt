@@ -12,8 +12,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.webasyst.api.ApiException
+import com.webasyst.api.Installation
 import com.webasyst.api.site.SiteApiClient
+import com.webasyst.api.site.SiteApiClientFactory
 import com.webasyst.x.R
+import com.webasyst.x.WebasystXApplication
 import kotlinx.coroutines.CancellationException
 
 class DomainListViewModel(
@@ -50,9 +53,12 @@ class DomainListViewModel(
         if (installationId == null || installationUrl == null) {
             return
         }
-        val siteApiClient = SiteApiClient.getInstance(getApplication())
+        val siteApiClient = (getApplication<WebasystXApplication>()
+            .apiClient
+            .getFactory(SiteApiClient::class.java) as SiteApiClientFactory)
+            .instanceForInstallation(Installation(installationId, installationUrl))
         siteApiClient
-            .domainGetList(installationUrl, installationId)
+            .getDomainList()
             .onSuccess {
                 mutableErrorText.postValue("")
                 mutableState.postValue(if (it.domains.isEmpty()) STATE_DATA_EMPTY else STATE_DATA_READY)

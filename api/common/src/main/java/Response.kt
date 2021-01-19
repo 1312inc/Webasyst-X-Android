@@ -1,5 +1,11 @@
 package com.webasyst.api
 
+inline fun <reified T> apiRequest(block: () -> T): Response<T> = try {
+    Response.success(block())
+} catch (e: Throwable) {
+    Response.failure(e)
+}
+
 sealed class Response<out T> {
     open fun getSuccess(): T =
         throw IllegalStateException("getSuccess() can be called only on successful response")
@@ -23,7 +29,7 @@ sealed class Response<out T> {
 
     private class Failure<out T>(val cause: Throwable) : Response<T>() {
         override fun getFailureCause(): Throwable = cause
-        override fun isFailure(): Boolean = false
+        override fun isFailure(): Boolean = true
         override fun onFailure(block: (cause: Throwable) -> Unit): Response<T> {
             block(cause)
             return this

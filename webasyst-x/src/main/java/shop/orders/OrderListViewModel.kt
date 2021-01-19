@@ -9,8 +9,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.webasyst.api.ApiException
+import com.webasyst.api.Installation
 import com.webasyst.api.shop.ShopApiClient
+import com.webasyst.api.shop.ShopApiClientFactory
 import com.webasyst.x.R
+import com.webasyst.x.WebasystXApplication
 import kotlinx.coroutines.CancellationException
 
 class OrderListViewModel(
@@ -19,7 +22,11 @@ class OrderListViewModel(
     private val installationUrl: String?
 ) : AndroidViewModel(application) {
     private val shopApiClient by lazy {
-        ShopApiClient.getInstance(getApplication())
+        (getApplication<WebasystXApplication>()
+            .apiClient
+            .getFactory(ShopApiClient::class.java)
+            as ShopApiClientFactory)
+            .instanceForInstallation(Installation(installationId ?: "", installationUrl ?: ""))
     }
 
     val appName = application.getString(R.string.app_shop)
@@ -42,7 +49,7 @@ class OrderListViewModel(
         if (installationId == null || installationUrl == null) {
             return
         }
-        shopApiClient.getOrders(installationUrl, installationId)
+        shopApiClient.getOrders()
             .onSuccess { orders ->
                 mutableErrorText.postValue("")
                 mutableOrderList.postValue(orders.orders.map { Order(it) })

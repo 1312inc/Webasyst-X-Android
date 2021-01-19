@@ -7,9 +7,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.webasyst.api.ApiClient
-import com.webasyst.api.CloudSignup
+import com.webasyst.waid.CloudSignup
+import com.webasyst.waid.WAIDClient
 import com.webasyst.x.R
+import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.installations.InstallationListFragment
 import com.webasyst.x.util.getActivity
 import io.ktor.client.features.ClientRequestException
@@ -22,16 +23,14 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
     private val mutableBusy = MutableLiveData<Boolean>().apply { value = false }
     val busy: LiveData<Boolean> = mutableBusy
 
-    private val apiClient by lazy {
-        ApiClient.getInstance(getApplication())
-    }
+    private val waidClient : WAIDClient = getApplication<WebasystXApplication>().waidClient
 
     fun onAddWebasyst(view: View) {
         viewModelScope.launch {
             try {
                 mutableBusy.value = true
                 val cloudSignup = withContext(Dispatchers.IO) {
-                    apiClient.postCloudSignUp()
+                    waidClient.postCloudSignUp()
                 }
                 cloudSignup
                     .onSuccess {

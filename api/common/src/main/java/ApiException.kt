@@ -1,7 +1,5 @@
 package com.webasyst.api
 
-import com.webasyst.api.site.AccessToken
-
 sealed class ApiException(cause: Throwable?) : RuntimeException(cause)
 
 class WaidException(cause: Throwable) : ApiException(cause) {

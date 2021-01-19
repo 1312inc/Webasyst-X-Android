@@ -4,11 +4,10 @@ import android.content.Context
 import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.webasyst.api.UserInfo
-import com.webasyst.util.SingletonHolder
+import com.webasyst.waid.UserInfo
 import com.webasyst.x.installations.Installation
 
-class DataCache private constructor(context: Context) {
+class DataCache(context: Context) {
     private val prefs = context
         .applicationContext
         .getSharedPreferences(PREFERENCES_STORE, Context.MODE_PRIVATE)
@@ -48,7 +47,7 @@ class DataCache private constructor(context: Context) {
         }
     }
 
-    companion object : SingletonHolder<DataCache, Context>(::DataCache) {
+    companion object {
         private const val PREFERENCES_STORE = "data_cache"
         private const val KEY_INSTALLATION_LIST = "installation_list"
         private const val KEY_USER_INFO = "user_data"
