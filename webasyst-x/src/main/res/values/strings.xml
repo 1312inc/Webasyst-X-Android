@@ -9,6 +9,7 @@
     <string name="sign_in_ads">Our amazing app makes your Webasyst\nshine at its best and enables you to do\nthings you’ve never done ever before.</string>
     <string name="btn_sign_out">Sign out</string>
     <string name="btn_sign_up">Sign up</string>
+    <string name="btn_dismiss">Dismiss</string>
     <string name="sign_up_free">New to Webasyst? Try it free.</string>
     <string name="userpic">Userpic</string>
     <string name="signing_in">Signing in…</string>

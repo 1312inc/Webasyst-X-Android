@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.blog.BlogRootFragment
@@ -25,6 +26,8 @@ class MainFragment : Fragment() {
             it.showAddWA.value = args.showAddWA
         }
     }
+
+    private var insecureAlert: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +62,22 @@ class MainFragment : Fragment() {
         }
 
         onTabChange(bottomNav.selectedItemId)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        if ((args.installationUrl ?: "").startsWith("http://")) {
+            insecureAlert = Snackbar
+                .make(requireView(), R.string.installation_connection_not_secure, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.btn_dismiss) {}
+                .apply { show() }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        insecureAlert?.dismiss()
     }
 
     private fun initDomainsFragment(): Fragment =
