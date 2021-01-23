@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class WebasystAuthStateStore {
     private static final String STORE_NAME = "webasyst_auth_store";
     private static final String STATE_KEY = "state";
-    private static final String TAG = "WebasystAuthState";
+    private static final String TAG = "WA_AUTH_STORE";
 
     private final SharedPreferences preferences;
     private final AtomicReference<AuthState> currentStateRef;
@@ -66,7 +66,10 @@ public final class WebasystAuthStateStore {
     @NonNull
     public final AuthState getCurrent() {
         final AuthState currentState = currentStateRef.get();
-        if (null != currentState) return currentState;
+        if (null != currentState) {
+            Log.d(TAG, "Returning current state from memory: " + displayState(currentState));
+            return currentState;
+        }
 
         final AuthState state = readState();
         if (currentStateRef.compareAndSet(null, state)) {
@@ -85,6 +88,7 @@ public final class WebasystAuthStateStore {
      */
     @NonNull
     AuthState replace(@NonNull final AuthState state) {
+        Log.d(TAG, "Replacing current state with " + displayState(state));
         writeState(state);
         currentStateRef.set(state);
         notifyObservers(state);
@@ -96,6 +100,7 @@ public final class WebasystAuthStateStore {
                                        @Nullable final AuthorizationException exception) {
         final AuthState current = getCurrent();
         current.update(response, exception);
+        Log.d(TAG, "State updated after authorization: " + displayState(current));
         return replace(current);
     }
 
@@ -104,18 +109,24 @@ public final class WebasystAuthStateStore {
                                        @Nullable final AuthorizationException exception) {
         final AuthState current = getCurrent();
         current.update(response, exception);
+        Log.d(TAG, "State updated after token response: " + displayState(current));
         return replace(current);
     }
 
     @NonNull
     private AuthState readState() {
         final String currentState = preferences.getString(STATE_KEY, null);
-        if (currentState == null) return new AuthState();
+        if (currentState == null) {
+            Log.d(TAG, "Persisted state not found. Returning empty state from readState()");
+            return new AuthState();
+        }
 
         try {
-            Log.w(TAG, "Failed to deserialize stored auth state - discarding");
-            return AuthState.jsonDeserialize(currentState);
+            final AuthState newState = AuthState.jsonDeserialize(currentState);
+            Log.d(TAG, "Restored state from persistent storage: " + displayState(newState));
+            return newState;
         } catch (JSONException e) {
+            Log.w(TAG, "Failed to deserialize stored auth state - discarding", e);
             return new AuthState();
         }
     }
@@ -124,13 +135,25 @@ public final class WebasystAuthStateStore {
         final SharedPreferences.Editor editor = preferences.edit();
         try {
             if (null == state) {
+                Log.d(TAG, "Removing state from persistent storage");
                 editor.remove(STATE_KEY);
             } else {
+                Log.d(TAG, "Saving state to persistent storage: " + displayState(state));
                 editor.putString(STATE_KEY, state.jsonSerializeString());
             }
         } finally {
             editor.apply();
         }
+    }
+
+    void writeCurrent() {
+        final AuthState currentState = currentStateRef.get();
+        if (null == currentState) {
+            Log.d(TAG, "Writing current [empty] state to storage");
+        } else {
+            Log.d(TAG, "Writing current state to storage: " + displayState(currentState));
+        }
+        writeState(currentState);
     }
 
     /**
@@ -183,6 +206,18 @@ public final class WebasystAuthStateStore {
     }
 
     /**
+     * Returns {@link AuthState}'s string representation for debugging purposes
+     */
+    private String displayState(AuthState state) {
+        final long now = System.currentTimeMillis();
+        final Long expiration_ = state.getAccessTokenExpirationTime();
+        final long expiration = expiration_ == null ? Long.MIN_VALUE : expiration_;
+        return state.jsonSerializeString() +
+            " (current time: " + System.currentTimeMillis() + ";" +
+            " token expires in " + ((expiration - now) / 60000) + " min)";
+    }
+
+    /**
      * Interface to be implemented by classes interested in authentication state changes
      */
     public interface Observer {
@@ -191,6 +226,6 @@ public final class WebasystAuthStateStore {
          * Guaranteed to be called on Main (UI) thread.
          */
         @UiThread
-        void onAuthStateChange(AuthState state);
+        void onAuthStateChange(@NonNull AuthState state);
     }
 }

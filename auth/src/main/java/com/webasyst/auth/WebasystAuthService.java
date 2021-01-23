@@ -2,6 +2,7 @@ package com.webasyst.auth;
 
 import android.app.PendingIntent;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,8 @@ import net.openid.appauth.ResponseTypeValues;
 import net.openid.appauth.TokenRequest;
 
 public class WebasystAuthService {
+    private static final String TAG = "WA_AUTH_SERVICE";
+
     private final WebasystAuthStateStore stateStore;
     private final WebasystAuthConfiguration configuration;
     private final AuthorizationServiceConfiguration authServiceConfiguration;
@@ -66,24 +69,27 @@ public class WebasystAuthService {
      * Performs given task with fresh access token. Token is automatically refreshed if needed.
      */
     public <T> void withFreshAccessToken(final AccessTokenTask<T> task) {
-        stateStore.getCurrent().performActionWithFreshTokens(authorizationService,
-            (AuthState.AuthStateAction) (accessToken, idToken, exception) -> {
-                if (exception != null) {
-                    if (exception.code >= 2000) {
-                        stateStore.replace(new AuthState());
-                    }
-                }
-                task.apply(accessToken, exception);
-            });
+        withFreshAccessToken(task, null);
     }
 
     /**
      * Performs given task with fresh access token. Token is automatically refreshed if needed.
      * This variant if {@link #withFreshAccessToken} calls the callback upon task completion.
      */
-    public <T> void withFreshAccessToken(final AccessTokenTask<T> task, final Consumer<T> callback) {
+    public <T> void withFreshAccessToken(final AccessTokenTask<T> task, @Nullable final Consumer<T> callback) {
+        Log.d(TAG, "Running task with fresh token...");
         stateStore.getCurrent().performActionWithFreshTokens(authorizationService,
-            (accessToken, idToken, exception) -> callback.accept(task.apply(accessToken, exception)));
+            (accessToken, idToken, exception) -> {
+                stateStore.writeCurrent();
+                if (exception != null) {
+                    Log.w(TAG, "Caught exception in withFreshToken()", exception);
+                    if (exception.code >= 2000) {
+                        stateStore.replace(new AuthState());
+                    }
+                }
+                final T result = task.apply(accessToken, exception);
+                if (null != callback) callback.accept(result);
+            });
     }
 
     /**

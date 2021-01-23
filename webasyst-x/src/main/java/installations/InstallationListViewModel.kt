@@ -112,10 +112,10 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         authStateStore.removeObserver(this)
     }
 
-    override fun onAuthStateChange(state: AuthState?) {
-        if (state?.isAuthorized == true) updateInstallationList()
-
-        if (state?.isAuthorized == false) {
+    override fun onAuthStateChange(state: AuthState) {
+        if (state.isAuthorized) {
+            updateInstallationList()
+        } else {
             cache.clearInstallationList()
             mutableInstallations.value = emptyList()
         }

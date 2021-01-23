@@ -40,8 +40,8 @@ class UserInfoViewModel(val app: Application) :
     private val mutableUserpicUrl = MutableLiveData<String>()
     val userpicUrl: LiveData<String> = mutableUserpicUrl
 
-    override fun onAuthStateChange(state: AuthState?) {
-        if (state?.isAuthorized == true) {
+    override fun onAuthStateChange(state: AuthState) {
+        if (state.isAuthorized) {
             updateUserInfo()
         } else {
             cache.clearUserInfo()

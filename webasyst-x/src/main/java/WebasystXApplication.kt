@@ -94,8 +94,8 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
         DataCache(this)
     }
 
-    override fun onAuthStateChange(state: AuthState?) {
-        if (state?.isAuthorized == false) {
+    override fun onAuthStateChange(state: AuthState) {
+        if (!state.isAuthorized) {
             GlobalScope.launch(Dispatchers.Default) {
                 tokenCache.clear()
             }
