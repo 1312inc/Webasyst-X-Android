@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/blog"
+        android:icon="@drawable/ic_blog"
+        android:title="@string/app_blog" />
+    <item
         android:id="@+id/site"
         android:icon="@drawable/ic_site"
         android:title="@string/app_site" />
@@ -9,8 +13,4 @@
         android:id="@+id/shop"
         android:icon="@drawable/ic_shop"
         android:title="@string/app_shop" />
-    <item
-        android:id="@+id/blog"
-        android:icon="@drawable/ic_blog"
-        android:title="@string/app_blog" />
 </menu>
