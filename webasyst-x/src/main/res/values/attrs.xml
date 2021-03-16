@@ -3,4 +3,7 @@
     <attr name="screenPaddingHorizontal" format="dimension" />
     <attr name="navigationDrawerHeaderHeight" format="dimension" />
     <attr name="colorOnPrimaryLighter" format="color" />
+
+    <attr name="colorOnSurfaceHighEmphasis" format="color|reference" />
+    <attr name="colorOnSurfaceMediumEmphasis" format="color|reference" />
 </resources>

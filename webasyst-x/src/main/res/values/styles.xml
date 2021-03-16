@@ -6,6 +6,9 @@
         <item name="navigationDrawerHeaderHeight">160dp</item>
 
         <item name="colorOnPrimaryLighter">@color/color_on_primary_lighter</item>
+
+        <item name="colorOnSurfaceHighEmphasis">@color/on_surface_high_emphasis</item>
+        <item name="colorOnSurfaceMediumEmphasis">@color/on_surface_medium_emphasis</item>
     </style>
 
     <style name="Theme.WebasystX.TextAppearance" parent="TextAppearance.MaterialComponents.Body1" />
@@ -13,5 +16,18 @@
         <item name="android:textColor">@color/highContrastOnSurface</item>
         <item name="android:textSize">32sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.WebasystX.TextAppearance.Overline">
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="Theme.WebasystX.TextAppearance.Subtitle1">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Theme.WebasystX.TextAppearance.Secondary">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="Theme.WebasystX.TextAppearance.Caption">
+        <item name="android:textSize">12sp</item>
     </style>
 </resources>
