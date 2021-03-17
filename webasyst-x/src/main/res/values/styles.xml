@@ -9,6 +9,10 @@
 
         <item name="colorOnSurfaceHighEmphasis">@color/on_surface_high_emphasis</item>
         <item name="colorOnSurfaceMediumEmphasis">@color/on_surface_medium_emphasis</item>
+
+        <item name="colorUserpicFace">@color/userpicFace</item>
+        <item name="colorUserpicGradientStart">@color/userpicGradientStart</item>
+        <item name="colorUserpicGradientEnd">@color/userpicGradientEnd</item>
     </style>
 
     <style name="Theme.WebasystX.TextAppearance" parent="TextAppearance.MaterialComponents.Body1" />

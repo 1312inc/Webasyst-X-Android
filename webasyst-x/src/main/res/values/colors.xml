@@ -3,6 +3,10 @@
     <color name="on_surface_high_emphasis">#DE000000</color>
     <color name="on_surface_medium_emphasis">#99000000</color>
 
+    <color name="userpicGradientStart">#26000000</color>
+    <color name="userpicGradientEnd">#4D000000</color>
+    <color name="userpicFace">#FFFFFF</color>
+
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="color_on_primary_lighter">#CCCCCC</color>
     <color name="selected_list_item">#33000000</color>

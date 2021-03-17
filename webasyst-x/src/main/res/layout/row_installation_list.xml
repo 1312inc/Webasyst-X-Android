@@ -18,6 +18,15 @@
         android:paddingLeft="?screenPaddingHorizontal"
         android:paddingRight="?screenPaddingHorizontal">
 
+        <com.webasyst.x.installations.InstallationIcon
+            android:id="@+id/installationIconDrawable"
+            android:layout_width="50dp"
+            android:layout_height="32dp"
+            app:abbr="@{installation.abbr}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="32dp"
@@ -37,13 +46,15 @@
             android:id="@+id/hostView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:singleLine="true"
             android:text="@{installation.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintBottom_toTopOf="@+id/urlView"
             app:layout_constraintEnd_toStartOf="@+id/imageView2"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="example.com" />
@@ -52,6 +63,8 @@
             android:id="@+id/urlView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="4dp"
             android:singleLine="true"
             android:text="@{installation.url}"
@@ -59,7 +72,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageView2"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
             app:layout_constraintTop_toBottomOf="@+id/hostView"
             tools:text="https://example.com/webasyst/" />
 

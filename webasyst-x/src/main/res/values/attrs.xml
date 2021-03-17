@@ -6,4 +6,8 @@
 
     <attr name="colorOnSurfaceHighEmphasis" format="color|reference" />
     <attr name="colorOnSurfaceMediumEmphasis" format="color|reference" />
+
+    <attr name="colorUserpicFace" format="color|reference" />
+    <attr name="colorUserpicGradientStart" format="color|reference" />
+    <attr name="colorUserpicGradientEnd" format="color|reference" />
 </resources>
