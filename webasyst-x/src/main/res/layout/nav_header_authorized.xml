@@ -14,14 +14,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?navigationDrawerHeaderHeight"
-        android:background="?colorPrimary"
         android:paddingLeft="?screenPaddingHorizontal"
-        android:paddingRight="?screenPaddingHorizontal">
+        android:paddingTop="16dp"
+        android:paddingRight="?screenPaddingHorizontal"
+        android:paddingBottom="15dp">
 
         <com.webasyst.x.view.ClippingImageView
             android:id="@+id/userpicView"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:contentDescription="@string/userpic"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,15 +34,16 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:singleLine="true"
             android:text="@{viewModel.userName}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="?colorOnPrimary"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Headline6"
+            android:textColor="?colorOnSurfaceHighEmphasis"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userpicView"
+            app:lineHeight="24dp"
             tools:text="Firstname Lastname" />
 
         <TextView
@@ -51,11 +53,12 @@
             android:singleLine="true"
             android:text="@{viewModel.userEmail}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="?colorOnPrimaryLighter"
+            android:textColor="?colorOnSurfaceHighEmphasis"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:lineHeight="20dp"
             tools:text="email@example.com" />
 
         <Button

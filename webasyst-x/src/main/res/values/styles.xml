@@ -3,7 +3,7 @@
     <style name="Theme.WebasystX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <item name="screenPaddingHorizontal">16dp</item>
-        <item name="navigationDrawerHeaderHeight">160dp</item>
+        <item name="navigationDrawerHeaderHeight">188dp</item>
 
         <item name="colorOnPrimaryLighter">@color/color_on_primary_lighter</item>
 
@@ -22,6 +22,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Theme.WebasystX.TextAppearance.Headline6">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="Theme.WebasystX.TextAppearance.Overline">
         <item name="android:textSize">10sp</item>
     </style>
