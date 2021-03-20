@@ -18,12 +18,19 @@
 
     <string name="add_webasyst">Добавление Webasyst</string>
     <string name="btn_add_webasyst">Добавить Webasyst</string>
-    <string name="add_webasyst_installation_description">Если у вас уже есть установка Webasyst в облаке или на вашем сервере, зайдите в её бекенд с вашим Webasyst ID. Установка появится в списке автоматически. Либо создайте новый облачный аккаунт Webasyst нажав кнопку ниже:</string>
+    <string name="add_webasyst_title">Добавить аккаунт</string>
+    <string name="add_webasyst_title_existing_user">Я уже использую Webasyst</string>
+    <string name="add_webasyst_existing_user">Если вы не видите свой аккаунт (сайт) Webasyst в этом приложении, то скорее всего этот аккаунт просто не подключен к вашему Webasyst ID. Откройте бекенд Webasyst > приложение «Настройки» > Webasyst ID > и включите авторизацию по Webasyst ID для себя и коллег. Затем просто перезапустите это приложение.</string>
+    <string name="add_webasyst_btn_existing_user_help">Все равно ничего не понятно</string>
+    <string name="add_webasyst_title_new_user">Я новый пользователь</string>
+    <string name="add_webasyst_new_user">Скачайте фреймворк с сайта webasyst.ru и установите на свой хостинг (сервер) или создайте аккаунт в облаке Webasyst одной кнопкой — прямо сейчас.</string>
     <string name="add_webasyst_error">Не удалось создать установку:\n%1$s</string>
     <string name="add_webasyst_error_limit_exceeded">Не удалось создать установку. Скорее всего привышен лимит на количество облачных установок.</string>
-    <string name="btn_create_new_account">Создать аккаунт</string>
+    <string name="btn_create_new_account">Создать аккаунт Webasyst</string>
+    <string name="create_new_account_30_days_free">30 дней бесплатно</string>
     <string name="webasyst_added">Ваш облачный аккаунт Webasyst готов. Вы можете зайти в него по одноразоаой ссылке: %1$s</string>
-    <string name="btn_open_wa_auth">Открыть в браузере</string>
+    <string name="btn_open_wa_auth">Открыть в браузере</string>	https://www.webasyst.com/webasyst-id-how-to/
+    <string name="add_webasyst_new_user_help_url">https://www.webasyst.ru/webasyst-id-how-to/</string>
 
     <string name="btn_cancel">Отмена</string>
     <string name="btn_ok">OK</string>

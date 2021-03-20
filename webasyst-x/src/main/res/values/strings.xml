@@ -18,12 +18,19 @@
 
     <string name="add_webasyst">Add Webasyst</string>
     <string name="btn_add_webasyst">Add Webasyst</string>
-    <string name="add_webasyst_installation_description">If you already have a Webasyst installation in the cloud or on your server, simply sign into the backend with your Webasyst ID. The installation will appear here automatically. Or create a new Webasyst cloud account using the button below:</string>
+    <string name="add_webasyst_title">Add Account</string>
+    <string name="add_webasyst_title_existing_user">"I'm Using Webasyst Already"</string>
+    <string name="add_webasyst_existing_user">"If you don't see your existing Webasyst account (website) in this app, it is likely that the account simply isn't connected to your Webasyst ID. Head on to Webasyst backend on your domain using a web browser > go to Settings app > Webasyst ID > Enable Webasyst ID and link your personal account with just few clicks. Then simply restart this app."</string>
+    <string name="add_webasyst_btn_existing_user_help">I still need help</string>
+    <string name="add_webasyst_title_new_user">"I'm a New User"</string>
+    <string name="add_webasyst_new_user">Either download Webasyst source code and install it on your own hosting (server) or create a new account instantly in the Webasyst Cloud with just a tap — right now.</string>
     <string name="add_webasyst_error">Cloud signup failed:\n%1$s</string>
     <string name="add_webasyst_error_limit_exceeded">Sorry, we cannot create another account for you at the moment. Most likely, a limit on the number of free Webasyst cloud accounts has been exceeded.</string>
-    <string name="btn_create_new_account">Create new account</string>
+    <string name="btn_create_new_account">Create Webasyst account</string>
+    <string name="create_new_account_30_days_free">30 days free</string>
     <string name="webasyst_added">Webasyst cloud installation was created for you. You can access it by opening this one-time auth url: %1$s</string>
     <string name="btn_open_wa_auth">Open in browser</string>
+    <string name="add_webasyst_new_user_help_url">https://www.webasyst.com/webasyst-id-how-to/</string>
 
     <string name="btn_cancel">Cancel</string>
     <string name="btn_ok">OK</string>

@@ -1,8 +1,11 @@
 package com.webasyst.x.add_wa
 
 import android.app.Application
+import android.content.Intent
+import android.net.Uri
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +21,7 @@ import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
     private val mutableBusy = MutableLiveData<Boolean>().apply { value = false }
@@ -40,7 +44,10 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
                         val message = when {
                             it is ClientRequestException && it.response?.status == HttpStatusCode.Conflict ->
                                 view.context.getString(R.string.add_webasyst_error_limit_exceeded)
-                            else -> view.context.getString(R.string.add_webasyst_error, it.localizedMessage)
+                            else -> view.context.getString(
+                                R.string.add_webasyst_error,
+                                it.localizedMessage
+                            )
                         }
                         AlertDialog
                             .Builder(view.context)
@@ -54,6 +61,11 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
                 mutableBusy.value = false
             }
         }
+    }
+
+    fun onHelpClicked(view: View) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(view.context.getString(R.string.add_webasyst_new_user_help_url)))
+        ContextCompat.startActivity(view.context, browserIntent, null)
     }
 
     private fun postCreateHandler(view: View, result: CloudSignup) {

@@ -2,6 +2,8 @@
 <resources>
     <style name="Theme.WebasystX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/secondary</item>
         <item name="colorError">#C40000</item>
         <item name="colorSelected">#01C853</item>
         <item name="screenPaddingHorizontal">16dp</item>
@@ -28,6 +30,9 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="Theme.WebasystX.TextAppearance.Headline4">
+        <item name="android:textSize">34sp</item>
+    </style>
     <style name="Theme.WebasystX.TextAppearance.Overline">
         <item name="android:textSize">10sp</item>
     </style>
@@ -39,5 +44,11 @@
     </style>
     <style name="Theme.WebasystX.TextAppearance.Caption">
         <item name="android:textSize">12sp</item>
+    </style>
+    <style name="Theme.WebasystX.TextAppearance.Body1">
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="Theme.WebasystX.TextAppearance.Body2">
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

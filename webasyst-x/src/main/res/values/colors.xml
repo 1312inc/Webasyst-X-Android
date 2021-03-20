@@ -3,6 +3,8 @@
     <color name="on_surface_high_emphasis">#DE000000</color>
     <color name="on_surface_medium_emphasis">#99000000</color>
 
+    <color name="primary">#2962FF</color>
+    <color name="secondary">#FF9100</color>
     <color name="divider">#14212121</color>
     <color name="userpicGradientStart">#26000000</color>
     <color name="userpicGradientEnd">#4D000000</color>

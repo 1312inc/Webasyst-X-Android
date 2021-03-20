@@ -14,6 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingLeft="?screenPaddingHorizontal"
         android:paddingRight="?screenPaddingHorizontal">
@@ -21,8 +22,53 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_webasyst_installation_description"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            android:layout_marginTop="16dp"
+            android:text="@string/add_webasyst_title"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Headline4"
+            android:textColor="?colorOnSurfaceHighEmphasis" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/add_webasyst_title_existing_user"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Headline6"
+            android:textColor="?colorOnSurfaceHighEmphasis" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:text="@string/add_webasyst_existing_user"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body2"
+            android:textColor="?colorOnSurfaceMediumEmphasis" />
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:enabled="@{!viewModel.busy}"
+            android:onClick="@{viewModel::onHelpClicked}"
+            android:text="@string/add_webasyst_btn_existing_user_help" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="58dp"
+            android:text="@string/add_webasyst_title_new_user"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Headline6"
+            android:textColor="?colorOnSurfaceHighEmphasis" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center_horizontal"
+            android:text="@string/add_webasyst_new_user"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?colorOnSurfaceMediumEmphasis" />
 
         <Button
             android:layout_width="match_parent"
@@ -30,7 +76,15 @@
             android:layout_marginTop="16dp"
             android:enabled="@{!viewModel.busy}"
             android:onClick="@{viewModel::onAddWebasyst}"
-            android:text="@string/btn_add_webasyst" />
+            android:text="@string/btn_add_webasyst"
+            app:backgroundTint="?colorSecondary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_new_account_30_days_free"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body2"
+            android:textColor="?colorOnSurfaceMediumEmphasis" />
 
         <ProgressBar
             android:layout_width="wrap_content"
