@@ -55,6 +55,7 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
 
             itemView.isSelected = selected
             binding.installation = installation
+            binding.selected = selected
             binding.executePendingBindings()
         }
     }

@@ -17,6 +17,15 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/installationList"
             android:layout_width="0dp"
@@ -26,7 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
             app:layout_constraintVertical_bias="0.0"
             tools:itemCount="5"
             tools:listitem="@layout/row_installation_list" />
@@ -43,6 +52,7 @@
 
         <Button
             android:id="@+id/buttonAddWebasyst"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/add_webasyst_button_height"
             android:layout_marginStart="?screenPaddingHorizontal"
@@ -51,6 +61,8 @@
             android:layout_marginRight="?screenPaddingHorizontal"
             android:onClick="@{viewModel::onAddWebasystClicked}"
             android:text="@string/btn_add_webasyst"
+            app:icon="@drawable/ic_add"
+            app:iconGravity="textStart"
             app:layout_constraintBottom_toBottomOf="@+id/installationList"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

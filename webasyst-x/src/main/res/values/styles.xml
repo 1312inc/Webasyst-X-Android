@@ -2,6 +2,8 @@
 <resources>
     <style name="Theme.WebasystX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
+        <item name="colorError">#C40000</item>
+        <item name="colorSelected">#01C853</item>
         <item name="screenPaddingHorizontal">16dp</item>
         <item name="navigationDrawerHeaderHeight">188dp</item>
 

@@ -4,9 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="installation"
             type="com.webasyst.x.installations.Installation" />
+        <variable
+            name="selected"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,19 +32,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="32dp"
+            android:id="@+id/imageView5"
+            android:layout_width="24dp"
             android:layout_height="24dp"
-            android:contentDescription="@string/installation_insecure_connection"
-            android:paddingStart="8dp"
-            app:gone="@{!installation.insecure}"
+            app:gone="@{!selected}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_warning"
-            app:tint="?colorError"
-            tools:ignore="RtlSymmetry"
-            android:paddingLeft="8dp" />
+            app:srcCompat="@drawable/ic_selected"
+            app:tint="?colorSelected" />
 
         <TextView
             android:id="@+id/hostView"
@@ -48,11 +48,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:singleLine="true"
             android:text="@{installation.name}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="?colorOnSurfaceHighEmphasis"
             app:layout_constraintBottom_toTopOf="@+id/urlView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
             app:layout_constraintTop_toTopOf="parent"
@@ -65,16 +68,51 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:singleLine="true"
             android:text="@{installation.url}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            android:textColor="?colorOnSurfaceMediumEmphasis"
+            app:layout_constraintBottom_toTopOf="@+id/urlView2"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
             app:layout_constraintTop_toBottomOf="@+id/hostView"
             tools:text="https://example.com/webasyst/" />
+
+        <TextView
+            android:id="@+id/urlView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:singleLine="true"
+            android:text="@string/installation_connection_not_secure"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?colorError"
+            app:gone="@{!installation.insecure}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/urlView" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:contentDescription="@string/installation_insecure_connection"
+            app:gone="@{!installation.insecure}"
+            app:layout_constraintBottom_toBottomOf="@+id/urlView2"
+            app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
+            app:layout_constraintTop_toTopOf="@+id/urlView2"
+            app:srcCompat="@drawable/ic_warning"
+            app:tint="?colorError"
+            tools:ignore="RtlSymmetry" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
