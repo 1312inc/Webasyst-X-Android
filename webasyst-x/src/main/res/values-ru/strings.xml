@@ -16,6 +16,18 @@
     <string name="sign_out_failed">Не удалось выполнить выход:\n%1$s</string>
     <string name="waid_error">Ошибка ВАИД:\n%1$s</string>
 
+    <string name="intro_slide_1_title">Hello, World!</string>
+    <string name="intro_slide_1_description">Webasyst X — это простое приложение-прототип, которое поможет разработать собственное мобильное приложение, подключающегося к серверу Webasyst. Быстро и просто.</string>
+    <string name="intro_slide_2_title">Подойдет для любого проекта</string>
+    <string name="intro_slide_2_description">Webasyst X подключится к API приложений Блог, Сайт и Shop-Script с целью показать, как все это работает. Поменяйте иконку, API scope — и сразу приступайте к реализации бизнес-логики своего проекта. Вся скучная работа, связанная с окруженией и авторизацией, уже решена в Webasyst X.</string>
+    <string name="intro_slide_3_title">Open Source</string>
+    <string name="intro_slide_3_description">Webasyst X — это проект с открытым кодом. Используйте его в качестве основы для собственных мобильных приложений и проектов.</string>
+    <string name="intro_welcome_title">Webasyst X</string>
+    <string name="intro_welcome_text">Приложение подключится ко всем вашим аккаунтам Webasyst с помощью единой авторизации Webasyst ID.</string>
+    <string name="intro_welcome_github_btn">Webasyst X на GitHub</string>
+    <string name="intro_btn_sign_in">Sign in with Webasyst ID</string>
+    <string name="intro_btn_next">Далее</string>
+
     <string name="add_webasyst">Добавление Webasyst</string>
     <string name="btn_add_webasyst">Добавить Webasyst</string>
     <string name="add_webasyst_title">Добавить аккаунт</string>

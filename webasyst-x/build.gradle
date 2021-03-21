@@ -75,6 +75,11 @@ android {
     }
 }
 
+repositories {
+    google()
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     implementation 'com.webasyst:app-blog:0.0.1'
     implementation 'com.webasyst:app-shop:0.0.1'
@@ -94,6 +99,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.github.AppIntro:AppIntro:6.1.0'
     def ktor_version='1.4.0'
     implementation "io.ktor:ktor-client-android:$ktor_version"
     implementation "io.ktor:ktor-client-gson:$ktor_version"

@@ -16,6 +16,19 @@
     <string name="sign_out_failed">Sign out failed:\n%1$s</string>
     <string name="waid_error">WAID error:\n%1$s</string>
 
+    <string name="intro_slide_1_title">Hello, World!</string>
+    <string name="intro_slide_1_description">Webasyst X is a simple app prototype that helps developing native mobile client apps for Webasyst server-side apps. Quickly, easily, with all boring stuff handled out-of-the-box.</string>
+    <string name="intro_slide_2_title">Custom-App-Ready</string>
+    <string name="intro_slide_2_description">"For demo purposes, this app connects to Blog, Site, and Shop-Script apps. When switching this prototype to work with your custom app API, simply replace the logo and the API scope — and start working your app's custom flow right away!"</string>
+    <string name="intro_slide_3_title">Open Source</string>
+    <string name="intro_slide_3_description">Webasyst X is an open source project. Feel free to use it as a foundation for your custom Webasyst-powered mobile client app or project.</string>
+    <string name="intro_welcome_title">Webasyst X</string>
+    <string name="intro_welcome_text">The app will now bootstrap all your Webasyst accounts via unified Webasyst ID authorization.</string>
+    <string name="intro_welcome_github_btn">Webasyst X on GitHub</string>
+    <string name="intro_btn_sign_in">Sign in with Webasyst ID</string>
+    <string name="intro_btn_next">Next</string>
+    <string name="intro_welcome_github_repo_url" translatable="false">https://github.com/1312inc/Webasyst-X-Android/</string>
+
     <string name="add_webasyst">Add Webasyst</string>
     <string name="btn_add_webasyst">Add Webasyst</string>
     <string name="add_webasyst_title">Add Account</string>

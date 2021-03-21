@@ -25,6 +25,11 @@
         android:usesCleartextTraffic="true">
 
         <activity
+            android:name=".intro.IntroActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
             android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:name=".MainActivity">

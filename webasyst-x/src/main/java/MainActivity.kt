@@ -15,6 +15,7 @@ import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.auth.AuthViewModel
 import com.webasyst.x.databinding.ActivityMainBinding
 import com.webasyst.x.installations.InstallationListFragment
+import com.webasyst.x.intro.IntroActivity
 import com.webasyst.x.util.BackPressHandler
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navRoot
@@ -88,13 +89,9 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
                     )
                 }
             } else {
-                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-
-                if (navController.currentDestination?.id != R.id.authFragment) {
-                    navController.setGraph(R.navigation.nav_graph, Bundle().apply {
-                        putInt("state", AuthViewModel.STATE_IDLE)
-                    })
-                }
+                val intent = Intent(this, IntroActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
     }
