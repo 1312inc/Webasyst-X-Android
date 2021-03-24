@@ -43,8 +43,12 @@ class BlogRootFragment : Fragment(), BackPressHandler {
         }
     }
 
-    override fun onBackPressed(): Boolean {
-        val navController = requireView().blogRoot.findNavController()
-        return navController.popBackStack()
-    }
+    override fun onBackPressed(): Boolean =
+        try {
+            val navController = requireView().blogRoot.findNavController()
+            navController.popBackStack()
+        } catch (e: IllegalStateException) {
+            // This was called before onCreateView
+            false
+        }
 }
