@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="on_surface_high_emphasis">#DEFFFFFF</color>
+    <color name="on_surface_medium_emphasis">#99FFFFFF</color>
     <color name="color_on_primary_lighter">#333333</color>
     <color name="selected_list_item">#33ffffff</color>
     <color name="highContrastOnSurface">#fff</color>
