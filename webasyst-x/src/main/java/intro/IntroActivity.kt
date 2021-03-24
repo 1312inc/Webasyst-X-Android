@@ -40,6 +40,10 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (null != intent) {
+            authHelper.handleIntent(intent)
+        }
+
         isSkipButtonEnabled = false
 
         @ColorInt val backgroundColor = resolveColor(R.attr.backgroundColor)

@@ -16,9 +16,11 @@ class WelcomeViewModel : ViewModel() {
     }
 
     fun onSignIn(view: View) {
-        view.getActivity()?.javaClass?.let {
-            val authHelper = WebasystAuthHelper(view.context)
-            authHelper.signIn(it)
+        view.getActivity()?.let { activity ->
+            activity.javaClass.let { activityClass ->
+                val authHelper = WebasystAuthHelper(activity)
+                authHelper.signIn(activityClass)
+            }
         }
     }
 }
