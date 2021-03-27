@@ -2,8 +2,9 @@ package com.webasyst.x.cache
 
 import android.content.Context
 import androidx.core.content.edit
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.google.gson.typeadapters.RuntimeTypeAdapterFactory
 import com.webasyst.waid.UserInfo
 import com.webasyst.x.installations.Installation
 
@@ -11,7 +12,14 @@ class DataCache(context: Context) {
     private val prefs = context
         .applicationContext
         .getSharedPreferences(PREFERENCES_STORE, Context.MODE_PRIVATE)
-    private val gson = Gson()
+    private val gson = GsonBuilder()
+        .registerTypeAdapterFactory(
+            RuntimeTypeAdapterFactory
+                .of(Installation.Icon::class.java)
+                .registerSubtype(Installation.Icon.AutoIcon::class.java, "auto")
+                .registerSubtype(Installation.Icon.GradientIcon::class.java, "gradient")
+        )
+        .create()
 
     fun storeInstallationList(installations: List<Installation>) {
         prefs.edit {
@@ -20,8 +28,12 @@ class DataCache(context: Context) {
     }
 
     fun readInstallationList(): List<Installation>? {
-        val installationList = prefs.getString(KEY_INSTALLATION_LIST, null) ?: return null
-        return gson.fromJson(installationList, object : TypeToken<List<Installation>>() {}.type)
+        try{
+            val installationList = prefs.getString(KEY_INSTALLATION_LIST, null) ?: return null
+            return gson.fromJson(installationList, object : TypeToken<List<Installation>>() {}.type)
+        } catch (e: Throwable) {
+            return null
+        }
     }
 
     fun clearInstallationList() {

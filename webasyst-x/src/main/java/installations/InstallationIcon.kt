@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.LinearGradient
+import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Shader
 import android.graphics.Typeface
@@ -23,11 +24,12 @@ class InstallationIcon : View {
     private var cy = 0f
     private var r = 0f
 
-    var abbr: String = if (isInEditMode) "ЩШУК" else ""
+    var icon: Installation.Icon = Installation.Icon.AutoIcon(if (isInEditMode) "ЩШУК" else "")
         set(value) {
             field = value
             updateSizes()
         }
+    private val iconMatrix = Matrix()
 
     private val gradientPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -43,16 +45,36 @@ class InstallationIcon : View {
         cy = height / 2f
         r = min(cx, cy)
         size = min(width, height).toFloat()
-        gradientPaint.shader = LinearGradient(
-            0f,
-            0f,
-            size,
-            0f,
-            intArrayOf(0xFFFF0078.toInt(), 0xFFFF5900.toInt()),
-            null,
-            Shader.TileMode.MIRROR
-        )
-        textPaint.textSize = when(abbr.length) {
+        when (icon) {
+            is Installation.Icon.AutoIcon -> {
+                gradientPaint.shader = LinearGradient(
+                    0f,
+                    0f,
+                    size,
+                    0f,
+                    intArrayOf(0xFFFF0078.toInt(), 0xFFFF5900.toInt()),
+                    null,
+                    Shader.TileMode.MIRROR
+                )
+                textPaint.color = Color.WHITE
+                iconMatrix.reset()
+            }
+            is Installation.Icon.GradientIcon -> {
+                val i = icon as Installation.Icon.GradientIcon
+                gradientPaint.shader = LinearGradient(
+                    0f,
+                    0f,
+                    0f,
+                    size,
+                    intArrayOf(Color.parseColor(i.from), Color.parseColor(i.to)),
+                    null,
+                    Shader.TileMode.MIRROR
+                )
+                textPaint.color = Color.parseColor(i.textColor)
+                iconMatrix.setRotate(i.angle.toFloat(), size / 2, size / 2)
+            }
+        }
+        textPaint.textSize = when(icon.text.length) {
             3 -> 9 * size / 32
             4 -> 10 * size / 32
             else -> 12 * size / 32
@@ -69,12 +91,15 @@ class InstallationIcon : View {
 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
+        canvas.save()
+        canvas.setMatrix(iconMatrix)
         canvas.drawCircle(cx, cy, r, gradientPaint)
-        if (abbr.length < 4) {
-            drawText(canvas, abbr, 0)
+        canvas.restore()
+        if (icon.twoLine) {
+            drawText(canvas, icon.text.slice(0 until (icon.text.length / 2)), 1)
+            drawText(canvas, icon.text.slice((icon.text.length / 2) until icon.text.length), 2)
         } else {
-            drawText(canvas, abbr.slice(0 until (abbr.length / 2)), 1)
-            drawText(canvas, abbr.slice((abbr.length / 2) until abbr.length), 2)
+            drawText(canvas, icon.text, 0)
         }
     }
 
@@ -109,9 +134,9 @@ class InstallationIcon : View {
 
     companion object {
         @JvmStatic
-        @BindingAdapter("app:abbr")
-        fun bindAbbr(view: InstallationIcon, abbr: String) {
-            view.abbr = abbr
+        @BindingAdapter("app:icon")
+        fun bindAbbr(view: InstallationIcon, icon: Installation.Icon?) {
+            view.icon = icon ?: Installation.Icon.AutoIcon("")
         }
     }
 }

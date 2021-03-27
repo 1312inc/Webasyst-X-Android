@@ -71,7 +71,10 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         data.values.awaitAll()
         val namedInstallations = data.map { (installation, info) ->
             if (info.await().isSuccess()) {
-                installation.copy(domain = info.await().getSuccess().name)
+                installation.copy(
+                    domain = info.await().getSuccess().name,
+                    icon = Installation.Icon(info.await().getSuccess())
+                )
             } else {
                 installation
             }

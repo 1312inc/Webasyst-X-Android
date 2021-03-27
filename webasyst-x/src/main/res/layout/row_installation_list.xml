@@ -26,7 +26,7 @@
             android:id="@+id/installationIconDrawable"
             android:layout_width="50dp"
             android:layout_height="32dp"
-            app:abbr="@{installation.abbr}"
+            app:icon="@{installation.icon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
