@@ -2,20 +2,17 @@ package com.webasyst.x.blog.postlist
 
 import android.app.Application
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.webasyst.api.ApiException
 import com.webasyst.api.Installation
 import com.webasyst.api.blog.BlogApiClient
 import com.webasyst.api.blog.BlogApiClientFactory
 import com.webasyst.api.blog.Post
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
-import kotlinx.coroutines.CancellationException
 
 class PostListViewModel(
     application: Application,
@@ -60,13 +57,6 @@ class PostListViewModel(
                 })
             }
             .onFailure {
-                if (it is ApiException && it.cause !is CancellationException) {
-                    AlertDialog
-                        .Builder(context)
-                        .setMessage(context.getString(R.string.waid_error, it.localizedMessage))
-                        .setPositiveButton(R.string.btn_ok) { dialog, _ -> dialog.dismiss() }
-                        .show()
-                }
                 mutableState.postValue(STATE_ERROR)
                 mutableErrorText.postValue(it.localizedMessage)
             }

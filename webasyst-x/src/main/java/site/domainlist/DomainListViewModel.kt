@@ -4,20 +4,17 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.webasyst.api.ApiException
 import com.webasyst.api.Installation
 import com.webasyst.api.site.SiteApiClient
 import com.webasyst.api.site.SiteApiClientFactory
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
-import kotlinx.coroutines.CancellationException
 
 class DomainListViewModel(
     app: Application,
@@ -66,13 +63,6 @@ class DomainListViewModel(
             }
             .onFailure {
                 Log.e(TAG, "failed to fetch domain list: $it", it)
-                if (it is ApiException && it.cause !is CancellationException) {
-                    AlertDialog
-                        .Builder(context)
-                        .setMessage(context.getString(R.string.waid_error, it.localizedMessage))
-                        .setPositiveButton(R.string.btn_ok) { dialog, _ -> dialog.dismiss() }
-                        .show()
-                }
                 mutableErrorText.postValue(it.localizedMessage)
                 mutableState.postValue(STATE_ERROR)
             }
