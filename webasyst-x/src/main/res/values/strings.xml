@@ -15,6 +15,7 @@
     <string name="signing_in">Signing in…</string>
     <string name="sign_out_failed">Sign out failed:\n%1$s</string>
     <string name="waid_error">WAID error:\n%1$s</string>
+    <string name="err_app_not_installed">%1$s is not installed on %2$s (API response: app_not_installed).</string>
 
     <string name="intro_slide_1_title">Hello, World!</string>
     <string name="intro_slide_1_description">Webasyst X is a simple app prototype that helps developing native mobile client apps for Webasyst server-side apps. Quickly, easily, with all boring stuff handled out-of-the-box.</string>

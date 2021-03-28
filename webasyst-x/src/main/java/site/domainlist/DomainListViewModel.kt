@@ -2,7 +2,6 @@ package com.webasyst.x.site.domainlist
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -10,6 +9,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.webasyst.api.ApiError
 import com.webasyst.api.Installation
 import com.webasyst.api.site.SiteApiClient
 import com.webasyst.api.site.SiteApiClientFactory
@@ -62,8 +62,12 @@ class DomainListViewModel(
                 mutableDomainList.postValue(it.domains.map { domain -> Domain(domain) })
             }
             .onFailure {
-                Log.e(TAG, "failed to fetch domain list: $it", it)
-                mutableErrorText.postValue(it.localizedMessage)
+                val errorMessage = when {
+                    it is ApiError && it.error == ApiError.APP_NOT_INSTALLED ->
+                        context.getString(R.string.err_app_not_installed, it.app, installationUrl)
+                    else -> it.localizedMessage
+                }
+                mutableErrorText.postValue(errorMessage)
                 mutableState.postValue(STATE_ERROR)
             }
     }

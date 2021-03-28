@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.webasyst.api.ApiError
 import com.webasyst.api.Installation
 import com.webasyst.api.blog.BlogApiClient
 import com.webasyst.api.blog.BlogApiClientFactory
@@ -57,8 +58,13 @@ class PostListViewModel(
                 })
             }
             .onFailure {
+                val errorMessage = when {
+                    it is ApiError && it.error == ApiError.APP_NOT_INSTALLED ->
+                        context.getString(R.string.err_app_not_installed, it.app, installationUrl)
+                    else -> it.localizedMessage
+                }
                 mutableState.postValue(STATE_ERROR)
-                mutableErrorText.postValue(it.localizedMessage)
+                mutableErrorText.postValue(errorMessage)
             }
     }
 
