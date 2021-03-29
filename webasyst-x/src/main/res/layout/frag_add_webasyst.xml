@@ -22,14 +22,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/add_webasyst_title"
-            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Headline4"
-            android:textColor="?colorOnSurfaceHighEmphasis" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="@string/add_webasyst_title_existing_user"
             android:textAppearance="@style/Theme.WebasystX.TextAppearance.Headline6"
@@ -76,7 +68,7 @@
             android:layout_marginTop="16dp"
             android:enabled="@{!viewModel.busy}"
             android:onClick="@{viewModel::onAddWebasyst}"
-            android:text="@string/btn_add_webasyst"
+            android:text="@string/btn_create_new_account"
             app:backgroundTint="?colorSecondary" />
 
         <TextView
