@@ -6,6 +6,8 @@
     tools:context=".installations.InstallationListFragment">
 
     <data>
+        <import type="com.webasyst.x.installations.InstallationListViewModel" />
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.webasyst.x.installations.InstallationListViewModel" />
@@ -16,6 +18,23 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/no_accounts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingLeft="42dp"
+            android:paddingTop="32dp"
+            android:paddingRight="42dp"
+            android:paddingBottom="32dp"
+            android:text="@string/no_webasyst_accounts"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body1"
+            android:textColor="?colorOnSurfaceHighEmphasis"
+            app:gone="@{viewModel.state != InstallationListViewModel.STATE_EMPTY}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/divider"
@@ -30,7 +49,7 @@
             android:id="@+id/installationList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/add_webasyst_button_height"
+            app:gone="@{viewModel.state != InstallationListViewModel.STATE_READY}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -40,11 +59,19 @@
             tools:itemCount="5"
             tools:listitem="@layout/row_installation_list" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="32dp"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="no_accounts,installationList" />
+
         <ProgressBar
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:visibility="@{viewModel.spinnerVisibility}"
+            android:visibility="@{viewModel.state == InstallationListViewModel.STATE_LOADING ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,8 +90,8 @@
             android:text="@string/btn_add_webasyst"
             app:icon="@drawable/ic_add"
             app:iconGravity="textStart"
-            app:layout_constraintBottom_toBottomOf="@+id/installationList"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

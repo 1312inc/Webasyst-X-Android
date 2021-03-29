@@ -4,7 +4,6 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -35,10 +34,9 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
     }
     val installations: LiveData<List<Installation>> = mutableInstallations
 
-    private val mutableLoadingData = MutableLiveData<Boolean>().apply { value = true }
-    val spinnerVisibility = MediatorLiveData<Int>().apply {
-        addSource(mutableLoadingData) { value = if (it) View.VISIBLE else View.GONE }
-    }
+    private val _state = MutableLiveData<Int>().apply { value = STATE_LOADING }
+    val state: LiveData<Int>
+        get() = _state
 
     init {
         updateInstallationList()
@@ -55,11 +53,16 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
                 .onFailure {
                     // TODO
                 }
-            mutableLoadingData.postValue(false)
         }
     }
 
     private suspend fun updateInstallationInfos(apiInstallations: List<com.webasyst.waid.Installation>) {
+        if (apiInstallations.isEmpty()) {
+            _state.postValue(STATE_EMPTY)
+            return
+        } else {
+            _state.postValue(STATE_READY)
+        }
         val installations = apiInstallations.map { Installation(it) }
         val data = installations.map { installation ->
             installation to viewModelScope.async(Dispatchers.IO) {
@@ -131,5 +134,11 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
                 MainFragmentDirections.actionMainFragmentToAddWebasystFragment()
             )
         }
+    }
+
+    companion object {
+        const val STATE_LOADING = 0
+        const val STATE_EMPTY = 1
+        const val STATE_READY = 2
     }
 }

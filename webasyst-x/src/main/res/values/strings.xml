@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Webasyst X</string>
     <string name="webasyst">Webasyst</string>
+    <string name="no_webasyst_accounts">You don’t have any Webasyst accounts linked to your Webasyst ID.</string>
     <string name="installation_insecure_connection">Insecure connection</string>
     <string name="installation_connection_not_secure">Connection is not secure</string>
     <string name="app_name_placeholder">My App</string>
