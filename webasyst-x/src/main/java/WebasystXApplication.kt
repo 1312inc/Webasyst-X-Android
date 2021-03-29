@@ -99,6 +99,9 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
             GlobalScope.launch(Dispatchers.Default) {
                 tokenCache.clear()
             }
+            GlobalScope.launch(Dispatchers.IO) {
+                dataCache.clearUserInfo()
+            }
         }
     }
 }
