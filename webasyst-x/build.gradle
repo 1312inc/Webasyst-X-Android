@@ -84,13 +84,13 @@ repositories {
 
 dependencies {
     def webasyst_version = '0.0.2'
-    implementation 'com.webasyst:app-blog:0.0.1'
-    implementation 'com.webasyst:app-shop:0.0.1'
-    implementation 'com.webasyst:app-site:0.0.1'
-    implementation 'com.webasyst:auth-kt:0.0.1'
-    implementation 'com.webasyst:common:0.0.1'
-    implementation 'com.webasyst:waid:0.0.1'
-    implementation 'com.webasyst:webasyst:0.0.1'
+    implementation "com.webasyst:app-blog:$webasyst_version"
+    implementation "com.webasyst:app-shop:$webasyst_version"
+    implementation "com.webasyst:app-site:$webasyst_version"
+    implementation "com.webasyst:auth-kt:$webasyst_version"
+    implementation "com.webasyst:common:$webasyst_version"
+    implementation "com.webasyst:waid:$webasyst_version"
+    implementation "com.webasyst:webasyst:$webasyst_version"
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
