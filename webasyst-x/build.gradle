@@ -46,6 +46,7 @@ android {
         applicationId 'com.webasyst.x'
         minSdkVersion 16
         targetSdkVersion target_sdk_version
+        multiDexEnabled true
         def versionMajor = 0
         def versionMinor = 0
         def versionPatch = 12
@@ -82,6 +83,7 @@ repositories {
 }
 
 dependencies {
+    def webasyst_version = '0.0.2'
     implementation 'com.webasyst:app-blog:0.0.1'
     implementation 'com.webasyst:app-shop:0.0.1'
     implementation 'com.webasyst:app-site:0.0.1'
@@ -89,6 +91,7 @@ dependencies {
     implementation 'com.webasyst:common:0.0.1'
     implementation 'com.webasyst:waid:0.0.1'
     implementation 'com.webasyst:webasyst:0.0.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "androidx.core:core-ktx:1.3.1"
@@ -100,6 +103,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
     implementation 'com.google.android.material:material:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.github.bumptech.glide:recyclerview-integration:4.11.0'
     implementation 'com.github.AppIntro:AppIntro:6.1.0'
     def ktor_version='1.4.0'
     implementation "io.ktor:ktor-client-android:$ktor_version"

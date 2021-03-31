@@ -52,7 +52,7 @@ class PostListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = PostListAdapter()
+        val adapter = PostListAdapter(arguments?.getString(MainFragment.INSTALLATION_URL) ?: "")
         postListView.layoutManager = LinearLayoutManager(
             postListView.context,
             LinearLayoutManager.VERTICAL,

@@ -13,7 +13,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="92dp"
         android:background="@drawable/bg_selectable_list_item"
         android:clickable="true"
         android:clipToPadding="false"
@@ -25,55 +25,44 @@
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_blog" />
+            app:srcCompat="@drawable/ic_userpic_placeholder" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:singleLine="true"
+            android:maxLines="2"
+            android:singleLine="false"
             android:text="@{post.title}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Subtitle1"
+            android:textColor="?colorOnSurfaceHighEmphasis"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Line 1" />
+            tools:text="I Want to Retire in the Next 5 Years. I Am 34-Years-Old. People Tell Me This Is Nuts" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="@{post.user.name}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:text="@{@string/app_blog_article_list_signature(post.user.name, post.dateTime)}"
+            android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body2"
+            android:textColor="?colorOnSurfaceMediumEmphasis"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
-            tools:text="Line 3" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:text="@{post.dateTime}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintBottom_toTopOf="@+id/textView5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:text="Line 2" />
+            app:layout_constraintStart_toStartOf="@+id/textView1"
+            app:layout_constraintTop_toBottomOf="@+id/textView1"
+            tools:text="Devon Lane, 23 мая 2020 19:58" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
