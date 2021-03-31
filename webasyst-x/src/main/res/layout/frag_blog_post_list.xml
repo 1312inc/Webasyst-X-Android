@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:text="@{@string/empty_api_response(viewModel.appName, viewModel.apiName)}"
+            android:text="@string/app_blog_no_posts"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:gone="@{viewModel.state != PostListViewModel.STATE_LOADED_EMPTY}" />
 

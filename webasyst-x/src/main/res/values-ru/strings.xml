@@ -56,6 +56,7 @@
     <string name="app_shop">Магазин</string>
 
     <string name="app_blog">Блог</string>
+    <string name="app_blog_no_posts">Нет записей</string>
 
     <string name="empty_api_response">Приложение %1$s вернуло пустой ответ (API: %2$s).</string>
 </resources>

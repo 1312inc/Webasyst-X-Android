@@ -57,6 +57,7 @@
     <string name="app_shop">Shop</string>
 
     <string name="app_blog">Blog</string>
+    <string name="app_blog_no_posts">No Posts</string>
 
     <string name="empty_api_response">The %1$s app returned no records (API: %2$s).</string>
 
