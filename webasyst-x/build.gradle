@@ -49,7 +49,7 @@ android {
         multiDexEnabled true
         def versionMajor = 0
         def versionMinor = 0
-        def versionPatch = 13
+        def versionPatch = 14
         versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
         versionName "$versionMajor.$versionMinor.$versionPatch"
         manifestPlaceholders = ['appAuthRedirectScheme': 'YOURSCHEME']

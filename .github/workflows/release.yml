@@ -8,15 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - environment: 'dev'
-            clientIdSecret: 'WEBASYST_X_CLIENT_ID_DEV'
-            backendHost: 'https://dev.webasyst.com'
-          - environment: 'prod'
-            clientIdSecret: 'WEBASYST_X_CLIENT_ID_PROD'
-            backendHost: 'https://www.webasyst.com'
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
@@ -34,8 +25,8 @@ jobs:
         run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > webasyst-x/keystore.jks
       - name: Create webasyst.properties
         run: |
-          echo "webasyst.x.client_id=\"${{ secrets[matrix.clientIdSecret] }}\"" > webasyst.properties
-          echo "webasyst.x.host=\"${{ matrix.backendHost }}\"" >> webasyst.properties
+          echo "webasyst.x.client_id=\"${{ secrets.WEBASYST_X_CLIENT_ID_PROD }}\"" > webasyst.properties
+          echo "webasyst.x.host=\"https://www.webasyst.com\"" >> webasyst.properties
       - name: Build APK
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -45,12 +36,12 @@ jobs:
         id: get_tag_name
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
       - name: Rename APK
-        run: mv webasyst-x/build/outputs/apk/release/webasyst-x-release.apk webasyst-x/build/outputs/apk/release/webasyst-x-${{ steps.get_tag_name.outputs.VERSION }}-${{ matrix.environment }}.apk
+        run: mv webasyst-x/build/outputs/apk/release/webasyst-x-release.apk webasyst-x/build/outputs/apk/release/webasyst-x-${{ steps.get_tag_name.outputs.VERSION }}.apk
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: webasyst-x-${{ steps.get_tag_name.outputs.VERSION }}-${{ matrix.environment }}.apk
-          path: webasyst-x/build/outputs/apk/release/webasyst-x-${{ steps.get_tag_name.outputs.VERSION }}-${{ matrix.environment }}.apk
+          name: webasyst-x-${{ steps.get_tag_name.outputs.VERSION }}.apk
+          path: webasyst-x/build/outputs/apk/release/webasyst-x-${{ steps.get_tag_name.outputs.VERSION }}.apk
 
   release:
     runs-on: ubuntu-latest
