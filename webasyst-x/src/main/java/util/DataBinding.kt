@@ -17,8 +17,9 @@ object DataBinding {
     @JvmStatic
     @BindingAdapter("app:html")
     fun bindHtml(view: TextView, html: String?) {
+        val imageGetter = GlideImageGetter(view.context, view)
         view.text = if (null != html) {
-            HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_COMPACT, imageGetter, null)
         } else {
             null
         }
