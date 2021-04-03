@@ -26,6 +26,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Theme.WebasystX.TextAppearance.IntroTitle" parent="AppIntroDefaultHeading">
+        <item name="android:textColor">?colorOnSurfaceHighEmphasis</item>
+    </style>
+    <style name="Theme.WebasystX.TextAppearance.IntroDescription" parent="AppIntroDefaultText">
+        <item name="android:textColor">?colorOnSurfaceHighEmphasis</item>
+    </style>
     <style name="Theme.WebasystX.TextAppearance.Headline6">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>

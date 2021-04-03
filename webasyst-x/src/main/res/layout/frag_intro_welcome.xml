@@ -26,10 +26,10 @@
             app:srcCompat="@drawable/img_logo_webasyst" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/image"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView10"
+            app:layout_constraintBottom_toTopOf="@+id/title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,21 +38,21 @@
             app:srcCompat="@drawable/x_logo" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="54dp"
             android:text="@string/intro_welcome_title"
             android:textAppearance="@style/Theme.WebasystX.TextAppearance.Headline6"
             android:textColor="?colorOnSurfaceHighEmphasis"
-            app:layout_constraintBottom_toTopOf="@+id/textView11"
+            app:layout_constraintBottom_toTopOf="@+id/description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+            app:layout_constraintTop_toBottomOf="@+id/image" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -60,25 +60,11 @@
             android:text="@string/intro_welcome_text"
             android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body1"
             android:textColor="?colorOnSurfaceHighEmphasis"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-        <Button
-            android:id="@+id/button2"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:onClick="@{viewModel::onOpenGithub}"
-            android:text="@string/intro_welcome_github_btn"
             app:layout_constraintBottom_toTopOf="@+id/button3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <Button
             android:id="@+id/button3"

@@ -10,11 +10,6 @@ import com.webasyst.x.R
 import com.webasyst.x.util.getActivity
 
 class WelcomeViewModel : ViewModel() {
-    fun onOpenGithub(view: View) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(view.context.getString(R.string.intro_welcome_github_repo_url)))
-        ContextCompat.startActivity(view.context, browserIntent, null)
-    }
-
     fun onSignIn(view: View) {
         view.getActivity()?.let { activity ->
             activity.javaClass.let { activityClass ->

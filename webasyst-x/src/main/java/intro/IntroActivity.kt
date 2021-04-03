@@ -76,14 +76,7 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
             descriptionColor = descriptionColor,
         ))
 
-        addSlide(AppIntroFragment.newInstance(
-            title = getString(R.string.intro_slide_3_title),
-            description = getString(R.string.intro_slide_3_description),
-            imageDrawable = R.drawable.x_logo,
-            backgroundColor = backgroundColor,
-            titleColor = titleColor,
-            descriptionColor = descriptionColor,
-        ))
+        addSlide(GithubFragment())
 
         addSlide(WelcomeFragment())
     }
