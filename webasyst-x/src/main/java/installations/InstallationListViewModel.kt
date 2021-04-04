@@ -49,6 +49,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
                     viewModelScope.launch(Dispatchers.IO) {
                         updateInstallationInfos(installations)
                     }
+                    callback?.run()
                 }
                 .onFailure {
                     // TODO
