@@ -3,6 +3,7 @@
     <style name="Theme.WebasystX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorError">#C40000</item>
         <item name="colorSelected">#01C853</item>
