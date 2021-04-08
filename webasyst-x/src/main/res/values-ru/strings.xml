@@ -13,6 +13,7 @@
     <string name="btn_dismiss">Dismiss</string>
     <string name="sign_up_free">New to Webasyst? Try it free.</string>
     <string name="userpic">Аватарка</string>
+    <string name="signing_in_title">Добро пожаловать</string>
     <string name="signing_in">Выполняется вход…</string>
     <string name="sign_out_failed">Не удалось выполнить выход:\n%1$s</string>
     <string name="waid_error">Ошибка ВАИД:\n%1$s</string>

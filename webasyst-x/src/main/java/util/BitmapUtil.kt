@@ -6,6 +6,8 @@ import android.view.View
 import java.io.File
 
 fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+    if (reqWidth == 0 || reqHeight == 0) return 0
+
     val height = options.outHeight
     val width = options.outWidth
     var inSampleSize = 1
