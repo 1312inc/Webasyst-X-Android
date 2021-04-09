@@ -12,27 +12,42 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="?screenPaddingHorizontal"
-        android:paddingRight="?screenPaddingHorizontal">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="?screenPaddingHorizontal"
+            android:layout_marginLeft="?screenPaddingHorizontal"
+            android:layout_marginEnd="?screenPaddingHorizontal"
+            android:layout_marginRight="?screenPaddingHorizontal"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
                 android:text="@{post.title}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                android:textColor="?colorOnSurfaceHighEmphasis"
                 tools:text="Hello World" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@{@string/app_blog_article_list_signature(post.user.name, post.dateTime)}"
+                android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body2"
+                android:textColor="?colorOnSurfaceMediumEmphasis"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
                 app:html="@{post.text}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingBottom="16dp"
+                android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body1"
+                android:textColor="?colorOnSurfaceHighEmphasis"
                 tools:text="@tools:sample/lorem/random" />
         </LinearLayout>
     </ScrollView>

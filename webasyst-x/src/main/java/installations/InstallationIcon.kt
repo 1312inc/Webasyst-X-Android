@@ -70,7 +70,11 @@ class InstallationIcon : View {
                     null,
                     Shader.TileMode.MIRROR
                 )
-                textPaint.color = Color.parseColor(i.textColor)
+                textPaint.color = try {
+                    Color.parseColor(i.textColor)
+                } catch (e: Throwable) {
+                    Color.WHITE
+                }
                 iconMatrix.setRotate(i.angle.toFloat(), size / 2, size / 2)
             }
         }
