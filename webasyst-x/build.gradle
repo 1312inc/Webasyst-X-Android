@@ -83,7 +83,7 @@ repositories {
 }
 
 dependencies {
-    def webasyst_version = '0.0.2'
+    def webasyst_version = '0.0.3'
     implementation "com.webasyst:app-blog:$webasyst_version"
     implementation "com.webasyst:app-shop:$webasyst_version"
     implementation "com.webasyst:app-site:$webasyst_version"
