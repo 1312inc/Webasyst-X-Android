@@ -6,6 +6,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import androidx.annotation.ColorInt
+import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
 import com.github.appintro.AppIntroFragment
 import com.webasyst.auth.WebasystAuthHelper
@@ -67,14 +68,7 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
             descriptionColor = descriptionColor,
         ))
 
-        addSlide(AppIntroFragment.newInstance(
-            title = getString(R.string.intro_slide_2_title),
-            description = getString(R.string.intro_slide_2_description),
-            imageDrawable = R.drawable.x_logo,
-            backgroundColor = backgroundColor,
-            titleColor = titleColor,
-            descriptionColor = descriptionColor,
-        ))
+        addSlide(Fragment(R.layout.frag_intro_projects))
 
         addSlide(GithubFragment())
 
