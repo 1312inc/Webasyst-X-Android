@@ -19,6 +19,12 @@ class InstallationIcon : View {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         super(context, attrs, defStyleAttr)
 
+    private val locale =
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            context.resources.configuration.locales[0]
+        } else {
+            context.resources.configuration.locale
+        }
     private var size = 0f
     private var cx = 0f
     private var cy = 0f
@@ -111,25 +117,27 @@ class InstallationIcon : View {
      * [line] - 0 for single line, 1 for first line, 2 for second line
      */
     private fun drawText(canvas: Canvas, text: String, line: Int) {
-        val textWidth = textPaint.measureText(text)
+        val textUpper = text.toUpperCase(locale)
+        val textWidth = textPaint.measureText(textUpper)
         val lineHeight = textPaint.fontMetrics.ascent
+        val offset = lineHeight / 10
         when (line) {
             0 -> {
-                canvas.drawText(text, (size - textWidth) / 2, (size - lineHeight) / 2, textPaint)
+                canvas.drawText(textUpper, (size - textWidth) / 2, (size - lineHeight) / 2 + offset, textPaint)
             }
             1 -> {
                 canvas.drawText(
-                    text,
+                    textUpper,
                     (size - textWidth) / 2,
-                    (size - lineHeight) / 2 + (lineHeight * 0.6f),
+                    (size - lineHeight) / 2 + (lineHeight * 0.6f) + offset,
                     textPaint
                 )
             }
             2 -> {
                 canvas.drawText(
-                    text,
+                    textUpper,
                     (size - textWidth) / 2,
-                    (size - lineHeight) / 2 - (lineHeight * 0.6f),
+                    (size - lineHeight) / 2 - (lineHeight * 0.6f) + offset,
                     textPaint
                 )
             }
