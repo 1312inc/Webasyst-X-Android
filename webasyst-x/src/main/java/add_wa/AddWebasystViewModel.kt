@@ -10,7 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.webasyst.waid.CloudSignup
+import com.webasyst.waid.CloudSignupResponse
 import com.webasyst.waid.WAIDClient
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
@@ -68,7 +68,7 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
         ContextCompat.startActivity(view.context, browserIntent, null)
     }
 
-    private fun postCreateHandler(view: View, result: CloudSignup) {
+    private fun postCreateHandler(view: View, result: CloudSignupResponse) {
         (view.getActivity() as InstallationListFragment.InstallationListView)
             .updateInstallations(result.id)
     }
