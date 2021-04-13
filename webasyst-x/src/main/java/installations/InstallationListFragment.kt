@@ -1,9 +1,12 @@
 package com.webasyst.x.installations
 
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -68,20 +71,29 @@ class InstallationListFragment :
 
     override fun onSelectionChange(position: Int, installation: Installation) {
         val navController = view?.findRootNavController() ?: return
-        requireActivity().findViewById<DrawerLayout>(R.id.drawerLayout)?.closeDrawers()
-        when (navController.currentDestination?.id ?: Int.MIN_VALUE) {
-            R.id.mainFragment ->
-                navController.navigate(
-                    MainFragmentDirections.actionMainFragmentSelf(
-                        installationId = installation.id,
-                        installationUrl = installation.rawUrl
-                    ))
-            R.id.authFragment ->
-                navController.navigate(
-                    AuthFragmentDirections.actionAuthFragmentToMainFragment(
-                        installationId = installation.id,
-                        installationUrl = installation.rawUrl
-                    ))
+        requireActivity().also { activity ->
+            activity.findViewById<DrawerLayout>(R.id.drawerLayout)?.closeDrawers()
+            when (navController.currentDestination?.id ?: Int.MIN_VALUE) {
+                R.id.mainFragment ->
+                    navController.navigate(
+                        MainFragmentDirections.actionMainFragmentSelf(
+                            installationId = installation.id,
+                            installationUrl = installation.rawUrl
+                        ))
+                R.id.authFragment ->
+                    navController.navigate(
+                        AuthFragmentDirections.actionAuthFragmentToMainFragment(
+                            installationId = installation.id,
+                            installationUrl = installation.rawUrl
+                        ))
+            }
+
+            activity.findViewById<Toolbar>(R.id.toolbar)?.let {
+                val density = activity.resources.displayMetrics.density
+                it.navigationIcon = BitmapDrawable(activity.resources, InstallationIconDrawable(activity, installation.icon).let { drawable ->
+                    drawable.toBitmap((24 * density).toInt(), (24 * density).toInt())
+                })
+            }
         }
     }
 

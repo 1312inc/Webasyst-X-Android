@@ -10,7 +10,6 @@ import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragBlogRootBinding
 import com.webasyst.x.util.BackPressHandler
-import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.frag_blog_root.view.blogRoot
 
 class BlogRootFragment : Fragment(), BackPressHandler {
@@ -32,15 +31,6 @@ class BlogRootFragment : Fragment(), BackPressHandler {
 
         val navController = requireView().blogRoot.findNavController()
         navController.setGraph(R.navigation.nav_blog, arguments)
-
-        val toolbar = (requireActivity() as MainActivity).toolbar
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if (controller.previousBackStackEntry != null) {
-                toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
-            } else {
-                toolbar.setNavigationIcon(R.drawable.ic_hamburger)
-            }
-        }
     }
 
     override fun onBackPressed(): Boolean =

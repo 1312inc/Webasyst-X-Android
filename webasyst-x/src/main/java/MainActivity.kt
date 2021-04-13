@@ -105,19 +105,16 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
                     when (destination.id) {
                         R.id.authFragment -> {
                             toolbar.visibility = View.GONE
-                            toolbar.navigationIcon = null
                             toolbar.setTitle(R.string.app_name)
                         }
                         R.id.mainFragment -> {
                             toolbar.visibility = View.VISIBLE
                             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                            toolbar.setNavigationIcon(R.drawable.ic_hamburger)
                         }
                         R.id.addWebasystFragment -> {
                             toolbar.visibility = View.VISIBLE
                             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                             toolbar.setTitle(R.string.add_webasyst)
-                            toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
                         }
                     }
                 }
