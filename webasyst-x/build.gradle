@@ -49,7 +49,7 @@ android {
         multiDexEnabled true
         def versionMajor = 0
         def versionMinor = 0
-        def versionPatch = 16
+        def versionPatch = 17
         versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
         versionName "$versionMajor.$versionMinor.$versionPatch"
         manifestPlaceholders = ['appAuthRedirectScheme': 'YOURSCHEME']
@@ -76,14 +76,8 @@ android {
     }
 }
 
-repositories {
-    mavenCentral()
-    google()
-    maven { url "https://jitpack.io" }
-}
-
 dependencies {
-    def webasyst_version = '0.0.3'
+    def webasyst_version = '0.0.5'
     implementation "com.webasyst:app-blog:$webasyst_version"
     implementation "com.webasyst:app-shop:$webasyst_version"
     implementation "com.webasyst:app-site:$webasyst_version"
