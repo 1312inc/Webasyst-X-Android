@@ -17,8 +17,6 @@ import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.auth.configureWebasystAuth
 import com.webasyst.waid.WAIDClient
 import com.webasyst.x.cache.DataCache
-import com.webasyst.x.util.USERPIC_FILE
-import com.webasyst.x.util.getCacheFile
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.android.Android
 import kotlinx.coroutines.Dispatchers
@@ -100,15 +98,6 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
         if (!state.isAuthorized) {
             GlobalScope.launch(Dispatchers.Default) {
                 tokenCache.clear()
-            }
-            GlobalScope.launch(Dispatchers.IO) {
-                dataCache.clearUserInfo()
-                val userpicFile = getCacheFile(USERPIC_FILE)
-                try {
-                    userpicFile.delete()
-                } catch (e: Throwable) {
-                    // NOOP is ok
-                }
             }
         }
     }
