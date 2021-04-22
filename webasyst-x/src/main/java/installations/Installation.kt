@@ -1,6 +1,7 @@
 package com.webasyst.x.installations
 
 import com.webasyst.api.webasyst.InstallationInfo
+import java.util.Comparator
 
 data class Installation(
     override val id: String,
@@ -39,6 +40,47 @@ data class Installation(
             val angle: Int,
             ) : Icon()
 
+        class ImageIcon(
+            thumbs: Map<ResolutionKey, String>
+        ) : Icon() {
+            private val thumbs = thumbs.toSortedMap()
+            override val text = ""
+            override val twoLine = false
+
+            fun getThumb(resolution: Int): String {
+                return thumbs.getOrDefault(thumbs.keys.lastOrNull {
+                    it.resolution <= resolution
+                } ?: ResolutionKey(0, 0), thumbs.values.firstOrNull()) ?: ""
+            }
+
+            data class ResolutionKey(val resolution: Int, val scale: Int) : Comparable<ResolutionKey> {
+                private val physicalResolution
+                    get() = resolution * scale
+
+                override fun compareTo(other: ResolutionKey): Int =
+                    compare(this, other)
+
+                companion object : Comparator<ResolutionKey> by compareBy( { it.physicalResolution }, { it.scale } )
+            }
+
+            companion object {
+                private const val RE = """(\d+)x\d+(?:@(\d+)x)?"""
+                val regex = Regex(RE)
+
+                operator fun invoke(image: InstallationInfo.Logo.Image): ImageIcon {
+                    return ImageIcon(
+                        image
+                            .thumbs
+                            .map { (k, v) ->
+                                val g = regex.find(k)!!.groupValues
+                                ResolutionKey(g[1].toInt(), g.elementAtOrNull(2)?.toIntOrNull() ?: 1) to v.url
+                            }
+                            .toMap()
+                    )
+                }
+            }
+        }
+
         companion object {
             operator fun invoke(info: InstallationInfo): Icon {
                 val logo = info.logo
@@ -48,6 +90,8 @@ data class Installation(
                         .filterIndexed { index, _ -> index < 4 }
                         .joinToString(separator = "")
                     )
+                } else if (logo.mode == InstallationInfo.Logo.LOGO_MODE_IMAGE && logo.image != null) {
+                    ImageIcon(logo.image!!)
                 } else {
                     GradientIcon(
                         logo.text.value,
