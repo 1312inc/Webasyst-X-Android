@@ -18,6 +18,7 @@ class DataCache(context: Context) {
                 .of(Installation.Icon::class.java)
                 .registerSubtype(Installation.Icon.AutoIcon::class.java, "auto")
                 .registerSubtype(Installation.Icon.GradientIcon::class.java, "gradient")
+                .registerSubtype(Installation.Icon.ImageIcon::class.java, "image")
         )
         .create()
 

@@ -3,6 +3,7 @@ package com.webasyst.x.installations
 import android.content.Context
 import android.util.AttributeSet
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 
 class InstallationIcon : androidx.appcompat.widget.AppCompatImageView {
     constructor(context: Context) : this(context, null)
@@ -14,9 +15,18 @@ class InstallationIcon : androidx.appcompat.widget.AppCompatImageView {
         setWillNotDraw(false)
     }
 
+    val glide by lazy { Glide.with(this) }
+
     var icon: Installation.Icon = Installation.Icon.AutoIcon("")
         set(value) {
-            setImageDrawable(InstallationIconDrawable(context, value))
+            if (value is Installation.Icon.ImageIcon) {
+                glide
+                    .load(value.getThumb((50 * context.resources.displayMetrics.density).toInt()))
+                    .circleCrop()
+                    .into(this)
+            } else {
+                setImageDrawable(InstallationIconDrawable(context, value))
+            }
             field = value
             invalidate()
         }

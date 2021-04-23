@@ -1,6 +1,7 @@
 package com.webasyst.x.installations
 
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.webasyst.x.R
 import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.databinding.FragInstallationListBinding
@@ -88,11 +92,29 @@ class InstallationListFragment :
                         ))
             }
 
-            activity.findViewById<Toolbar>(R.id.toolbar)?.let {
+            activity.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
                 val density = activity.resources.displayMetrics.density
-                it.navigationIcon = BitmapDrawable(activity.resources, InstallationIconDrawable(activity, installation.icon).let { drawable ->
-                    drawable.toBitmap((24 * density).toInt(), (24 * density).toInt())
-                })
+                if (installation.icon is Installation.Icon.ImageIcon) {
+                    Glide.with(this)
+                        .load(installation.icon.getThumb((24 * density).toInt()))
+                        .circleCrop()
+                        .into(object : CustomTarget<Drawable>() {
+                            override fun onResourceReady(
+                                resource: Drawable,
+                                transition: Transition<in Drawable>?
+                            ) {
+                                toolbar.navigationIcon = resource
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) = Unit
+                        })
+                } else {
+                    toolbar.navigationIcon = BitmapDrawable(
+                        activity.resources,
+                        InstallationIconDrawable(activity, installation.icon).let { drawable ->
+                            drawable.toBitmap((24 * density).toInt(), (24 * density).toInt())
+                        })
+                }
             }
         }
     }
