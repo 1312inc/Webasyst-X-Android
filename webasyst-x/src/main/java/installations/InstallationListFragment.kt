@@ -71,6 +71,12 @@ class InstallationListFragment :
                 }
             }
         }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            if (state == InstallationListViewModel.STATE_EMPTY) {
+                view.findRootNavController().navigate(R.id.action_global_noInstallationsFragment)
+            }
+        }
     }
 
     override fun onSelectionChange(position: Int, installation: Installation) {

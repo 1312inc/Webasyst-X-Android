@@ -69,7 +69,8 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
             if (!handleBackButton()) {
                 val navController = navRoot.findNavController()
                 when (navRoot.findNavController().currentDestination?.id ?: Int.MIN_VALUE) {
-                    R.id.mainFragment -> drawerLayout.openDrawer(binding.navigation)
+                    R.id.mainFragment,
+                    R.id.noInstallationsFragment -> drawerLayout.openDrawer(binding.navigation)
                     R.id.addWebasystFragment -> navController.popBackStack()
                 }
             }
@@ -115,6 +116,11 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
                             toolbar.visibility = View.VISIBLE
                             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                             toolbar.setTitle(R.string.add_webasyst)
+                        }
+                        R.id.noInstallationsFragment -> {
+                            toolbar.visibility = View.VISIBLE
+                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                            toolbar.setTitle(R.string.app_name)
                         }
                     }
                 }

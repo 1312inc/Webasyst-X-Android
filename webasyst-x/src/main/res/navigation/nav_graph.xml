@@ -54,4 +54,26 @@
         android:name="com.webasyst.x.add_wa.AddWebasystFragment"
         android:label="frag_add_webasyst"
         tools:layout="@layout/frag_add_webasyst" />
+    <fragment
+        android:id="@+id/noInstallationsFragment"
+        android:name="com.webasyst.x.installations.NoInstallationsFragment"
+        android:label="frag_no_installations"
+        tools:layout="@layout/frag_no_installations" >
+        <action
+            android:id="@+id/action_noInstallationsFragment_to_addWebasystFragment"
+            app:destination="@id/addWebasystFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_noInstallationsFragment"
+        app:destination="@id/noInstallationsFragment"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/nav"
+        app:popUpToInclusive="true">
+        <action
+            android:id="@+id/action_action_global_noInstallationsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </action>
+    <action
+        android:id="@+id/action_global_mainFragment"
+        app:destination="@id/mainFragment" />
 </navigation>
