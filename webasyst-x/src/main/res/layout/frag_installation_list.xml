@@ -48,11 +48,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/installationList"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             app:gone="@{viewModel.state != InstallationListViewModel.STATE_READY}"
+            app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_default="wrap"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider"
