@@ -84,6 +84,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
             addModuleFactory(WebasystApiClient::class.java) { config, waidAuthenticator ->
                 WebasystApiClientFactory(config, waidAuthenticator)
             }
+            clientId = "com.webasyst.x.android"
             waidAuthenticator = waidClient
             httpClientEngine = httpEngine
             tokenCache = this@WebasystXApplication.tokenCache
