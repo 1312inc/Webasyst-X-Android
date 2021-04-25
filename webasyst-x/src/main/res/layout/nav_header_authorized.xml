@@ -19,7 +19,7 @@
         android:paddingRight="?screenPaddingHorizontal"
         android:paddingBottom="15dp">
 
-        <com.webasyst.x.view.ClippingImageView
+        <ImageView
             android:id="@+id/userpicView"
             android:layout_width="96dp"
             android:layout_height="96dp"

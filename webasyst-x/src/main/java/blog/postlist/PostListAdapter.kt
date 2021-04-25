@@ -42,6 +42,7 @@ class PostListAdapter(private val urlBase: String) : ListAdapter<Post, PostListA
                 Glide.with(userPic)
                     .load(urlBase + it.replace(".20x20", ""))
                     .override(userPic.width, userPic.height)
+                    .circleCrop()
                     .thumbnail(Glide.with(userPic).load(R.drawable.ic_userpic_placeholder))
                     .into(userPic)
             } ?: itemView.imageView.setImageResource(R.drawable.ic_userpic_placeholder)
