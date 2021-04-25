@@ -14,6 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?navigationDrawerHeaderHeight"
+        android:clipToPadding="false"
         android:paddingLeft="?screenPaddingHorizontal"
         android:paddingTop="16dp"
         android:paddingRight="?screenPaddingHorizontal"
