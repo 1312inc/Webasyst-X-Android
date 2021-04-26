@@ -1,7 +1,5 @@
 # Webasyst-X-Android
 
-# Webasyst-X-Android
-
 ## Project structure
 
 This project consists of three (main) gradle modules:
@@ -44,7 +42,7 @@ Note the comment on `<data android:scheme=` key
 </activity>
 ```
 
-3. Configure WAID client. This should be done once, preferably early in application's lifecycle. The recommended option is to extend `Application` class and do configuration in it's `onCreate()` method.
+3. Configure Webasyst ID (WAID) client. This should be done once, preferably early in application's lifecycle. The recommended option is to extend `Application` class and do configuration in it's `onCreate()` method.
 See `WebasystAuthService.configure()` for details.
 
 4. Implement Authentication Activity.
