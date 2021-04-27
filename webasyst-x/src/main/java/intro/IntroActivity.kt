@@ -8,7 +8,6 @@ import android.widget.Button
 import androidx.annotation.ColorInt
 import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
-import com.github.appintro.AppIntroFragment
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.MainActivity
@@ -47,9 +46,6 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
 
         isSkipButtonEnabled = false
 
-        @ColorInt val backgroundColor = resolveColor(R.attr.backgroundColor)
-        @ColorInt val titleColor = resolveColor(R.attr.colorOnSurfaceHighEmphasis)
-        @ColorInt val descriptionColor = titleColor
         @ColorInt val highlightColor = resolveColor(R.attr.colorControlHighlight)
         @ColorInt val controlColor = resolveColor(R.attr.colorPrimary)
 
@@ -59,14 +55,7 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
         setBackArrowColor(controlColor)
         setNextArrowColor(controlColor)
 
-        addSlide(AppIntroFragment.newInstance(
-            title = getString(R.string.intro_slide_1_title),
-            description = getString(R.string.intro_slide_1_description),
-            imageDrawable = R.drawable.x_logo,
-            backgroundColor = backgroundColor,
-            titleColor = titleColor,
-            descriptionColor = descriptionColor,
-        ))
+        addSlide(Fragment(R.layout.frag_intro_hello_world))
 
         addSlide(Fragment(R.layout.frag_intro_projects))
 

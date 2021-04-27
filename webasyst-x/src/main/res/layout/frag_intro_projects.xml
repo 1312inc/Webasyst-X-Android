@@ -3,7 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="?screenPaddingHorizontal"
+    android:paddingTop="16dp"
+    android:paddingRight="?screenPaddingHorizontal">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/intro_header_pc" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/intro_description_pc" />
 
     <TextView
         android:id="@+id/title"
@@ -12,11 +29,9 @@
         android:layout_height="0dp"
         android:text="@string/intro_slide_2_title"
         android:textColor="?colorOnSurfaceHighEmphasis"
-        app:layout_constraintBottom_toTopOf="@+id/imgSite"
+        app:layout_constraintBottom_toTopOf="@+id/guideline1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread"
         app:layout_constraintVertical_weight="2" />
 
     <ImageView
@@ -25,19 +40,19 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgSite"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/imgSite"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toTopOf="@+id/guideline1"
         app:srcCompat="@drawable/img_app_blog" />
 
     <ImageView
         android:id="@+id/imgSite"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/description"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toTopOf="@+id/guideline1"
         app:layout_constraintVertical_weight="5"
         app:srcCompat="@drawable/img_app_site" />
 
@@ -47,9 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgSite"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toEndOf="@+id/imgSite"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toTopOf="@+id/guideline1"
         app:srcCompat="@drawable/img_app_shop" />
 
     <TextView
@@ -58,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/appintro2_bottombar_height"
+        android:gravity="center_horizontal"
         android:text="@string/intro_slide_2_description"
         android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body1"
         android:textColor="?colorOnSurfaceHighEmphasis"

@@ -30,14 +30,13 @@
             android:id="@+id/title"
             style="@style/Theme.WebasystX.TextAppearance.IntroTitle"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="@string/intro_slide_3_title"
+            android:layout_height="wrap_content"
+            android:text="@string/intro_slide_1_title"
             android:textColor="?colorOnSurfaceHighEmphasis"
             app:layout_constraintBottom_toTopOf="@+id/guideline1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="2" />
 
         <ImageView
@@ -52,7 +51,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline1"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintVertical_weight="5"
-            app:srcCompat="@drawable/img_open_source" />
+            app:srcCompat="@drawable/x_logo" />
 
         <TextView
             android:id="@+id/description"
@@ -63,29 +62,18 @@
             android:layout_marginLeft="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
+            android:layout_marginBottom="@dimen/appintro2_bottombar_height"
             android:gravity="center_horizontal"
-            android:text="@string/intro_slide_3_description"
+            android:text="@string/intro_slide_1_description"
             android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body1"
             android:textColor="?colorOnSurfaceHighEmphasis"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
             app:layout_constraintVertical_weight="3"
             app:lineHeight="24sp" />
-
-        <Button
-            android:id="@+id/button"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/appintro2_bottombar_height"
-            android:text="@string/intro_welcome_github_btn"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
