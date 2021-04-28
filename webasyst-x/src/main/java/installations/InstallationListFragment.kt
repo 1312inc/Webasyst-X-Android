@@ -19,8 +19,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.webasyst.x.R
-import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.databinding.FragInstallationListBinding
+import com.webasyst.x.intro.LoadingFragmentDirections
 import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
 import kotlinx.android.synthetic.main.frag_installation_list.installationList
@@ -90,9 +90,9 @@ class InstallationListFragment :
                             installationId = installation.id,
                             installationUrl = installation.rawUrl
                         ))
-                R.id.authFragment ->
+                R.id.loadingFragment ->
                     navController.navigate(
-                        AuthFragmentDirections.actionAuthFragmentToMainFragment(
+                        LoadingFragmentDirections.actionLoadingFragmentToMainFragment(
                             installationId = installation.id,
                             installationUrl = installation.rawUrl
                         ))

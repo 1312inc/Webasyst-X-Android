@@ -11,7 +11,6 @@ import androidx.navigation.findNavController
 import com.webasyst.auth.WebasystAuthActivity
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
-import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.auth.AuthViewModel
 import com.webasyst.x.databinding.ActivityMainBinding
 import com.webasyst.x.installations.InstallationListFragment
@@ -77,18 +76,8 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
         }
 
         viewModel.authState.observe(this) { state ->
-            val navController = findNavController(R.id.navRoot)
             if (state.isAuthorized) {
                 binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-
-                if (navController.currentDestination?.id == R.id.authFragment) {
-                    navController.navigate(
-                        AuthFragmentDirections.actionAuthFragmentToMainFragment(
-                            installationId = null,
-                            installationUrl = null
-                        )
-                    )
-                }
             } else {
                 val intent = Intent(this, IntroActivity::class.java)
                 startActivity(intent)
@@ -104,10 +93,6 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
             .addOnDestinationChangedListener { _, destination, _ ->
                 runOnUiThread {
                     when (destination.id) {
-                        R.id.authFragment -> {
-                            toolbar.visibility = View.GONE
-                            toolbar.setTitle(R.string.app_name)
-                        }
                         R.id.mainFragment -> {
                             toolbar.visibility = View.VISIBLE
                             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)

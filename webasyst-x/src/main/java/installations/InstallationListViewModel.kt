@@ -12,7 +12,6 @@ import com.webasyst.api.webasyst.WebasystApiClientFactory
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
-import com.webasyst.x.auth.AuthFragmentDirections
 import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
 import kotlinx.coroutines.Dispatchers
@@ -92,14 +91,6 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
                     R.id.mainFragment ->
                         navController.navigate(
                             MainFragmentDirections.actionMainFragmentSelf(
-                                showAddWA = true,
-                                installationId = null,
-                                installationUrl = null
-                            )
-                        )
-                    R.id.authFragment ->
-                        navController.navigate(
-                            AuthFragmentDirections.actionAuthFragmentToMainFragment(
                                 showAddWA = true,
                                 installationId = null,
                                 installationUrl = null

@@ -4,24 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
     app:defaultNavHost="true"
-    app:startDestination="@id/authFragment">
+    app:startDestination="@id/loadingFragment">
 
-    <fragment
-        android:id="@+id/authFragment"
-        android:name="com.webasyst.x.auth.AuthFragment"
-        android:label="frag_auth"
-        tools:layout="@layout/frag_auth" >
-        <action
-            android:id="@+id/action_authFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/nav"
-            app:popUpToInclusive="true" />
-        <argument
-            android:name="state"
-            app:argType="integer"
-            android:defaultValue="0" />
-    </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.webasyst.x.main.MainFragment"
@@ -76,4 +60,13 @@
     <action
         android:id="@+id/action_global_mainFragment"
         app:destination="@id/mainFragment" />
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.webasyst.x.intro.LoadingFragment"
+        android:label="frag_loading"
+        tools:layout="@layout/frag_loading" >
+        <action
+            android:id="@+id/action_loadingFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>
