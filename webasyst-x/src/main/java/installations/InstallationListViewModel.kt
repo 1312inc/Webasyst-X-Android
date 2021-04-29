@@ -38,6 +38,10 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         get() = _state
 
     init {
+        cache.readInstallationList()?.let {
+            mutableInstallations.value = it
+            if (it.isNotEmpty()) _state.value = STATE_READY
+        }
         updateInstallationList()
     }
 
