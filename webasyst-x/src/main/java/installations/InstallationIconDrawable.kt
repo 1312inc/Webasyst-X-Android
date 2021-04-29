@@ -62,9 +62,9 @@ class InstallationIconDrawable(context: Context, val icon: Installation.Icon) : 
             is Installation.Icon.GradientIcon -> {
                 gradientPaint.shader = LinearGradient(
                     0f,
-                    0f,
-                    0f,
                     size,
+                    0f,
+                    0f,
                     intArrayOf(Color.parseColor(icon.from), Color.parseColor(icon.to)),
                     null,
                     Shader.TileMode.MIRROR
