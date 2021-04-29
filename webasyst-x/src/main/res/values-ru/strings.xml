@@ -14,6 +14,7 @@
     <string name="signing_in">Выполняется вход…</string>
     <string name="sign_out_failed">Не удалось выполнить выход:\n%1$s</string>
     <string name="waid_error">Ошибка Webasyst ID:\n%1$s</string>
+    <string name="err_could_not_connect">Ошибка подключения к %1$s</string>
     <string name="err_app_not_installed">Приложение %1$s не установлено на %2$s (ответ API: app_not_installed).</string>
 
     <string name="intro_slide_1_title">Hello, World!</string>

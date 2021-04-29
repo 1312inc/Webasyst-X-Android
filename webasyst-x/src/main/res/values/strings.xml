@@ -14,6 +14,7 @@
     <string name="signing_in">Signing in…</string>
     <string name="sign_out_failed">Sign out failed:\n%1$s</string>
     <string name="waid_error">Webasyst ID error:\n%1$s</string>
+    <string name="err_could_not_connect">Could not connect to %1$s</string>
     <string name="err_app_not_installed">%1$s is not installed on %2$s (API response: app_not_installed).</string>
 
     <string name="intro_slide_1_title">Hello, World!</string>
