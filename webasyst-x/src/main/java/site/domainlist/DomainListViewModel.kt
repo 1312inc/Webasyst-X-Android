@@ -9,18 +9,35 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.webasyst.api.ApiError
 import com.webasyst.api.Installation
 import com.webasyst.api.site.SiteApiClient
 import com.webasyst.api.site.SiteApiClientFactory
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.util.ConnectivityUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class DomainListViewModel(
     app: Application,
     private val installationId: String?,
     private val installationUrl: String?
 ) : AndroidViewModel(app) {
+    init {
+        val connectivityUtil = ConnectivityUtil(getApplication())
+        viewModelScope.launch(Dispatchers.Default) {
+            connectivityUtil.connectivityFlow()
+                .collect {
+                    if (it == ConnectivityUtil.ONLINE) {
+                        updateData(getApplication())
+                    }
+                }
+        }
+    }
+
     val appName = getApplication<Application>().getString(R.string.app_site)
     val apiName = "site.domain.getList"
 

@@ -7,12 +7,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.webasyst.api.ApiError
 import com.webasyst.api.Installation
 import com.webasyst.api.shop.ShopApiClient
 import com.webasyst.api.shop.ShopApiClientFactory
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.util.ConnectivityUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class OrderListViewModel(
     application: Application,
@@ -25,6 +30,18 @@ class OrderListViewModel(
             .getFactory(ShopApiClient::class.java)
             as ShopApiClientFactory)
             .instanceForInstallation(Installation(installationId ?: "", installationUrl ?: ""))
+    }
+
+    init {
+        val connectivityUtil = ConnectivityUtil(application)
+        viewModelScope.launch(Dispatchers.Default) {
+            connectivityUtil.connectivityFlow()
+                .collect {
+                    if (it == ConnectivityUtil.ONLINE) {
+                        updateData(application)
+                    }
+                }
+        }
     }
 
     val appName = application.getString(R.string.app_shop)

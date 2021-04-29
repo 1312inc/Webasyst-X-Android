@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.webasyst.api.ApiError
 import com.webasyst.api.Installation
 import com.webasyst.api.blog.BlogApiClient
@@ -14,6 +15,10 @@ import com.webasyst.api.blog.BlogApiClientFactory
 import com.webasyst.api.blog.Post
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.util.ConnectivityUtil
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class PostListViewModel(
     application: Application,
@@ -38,6 +43,18 @@ class PostListViewModel(
 
     private val mutableErrorText = MutableLiveData<String>()
     val errorText: LiveData<String> = mutableErrorText
+
+    init {
+        val connectivityUtil = ConnectivityUtil(application)
+        viewModelScope.launch(Dispatchers.Default) {
+            connectivityUtil.connectivityFlow()
+                .collect {
+                    if (it == ConnectivityUtil.ONLINE) {
+                        updateData(application)
+                    }
+                }
+        }
+    }
 
     suspend fun updateData(context: Context) {
         if (mutableState.value == STATE_LOADING) {
