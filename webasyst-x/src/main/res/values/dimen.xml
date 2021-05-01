@@ -2,5 +2,5 @@
 <resources>
     <dimen name="add_webasyst_button_height">48dp</dimen>
     <item name="intro_header_pc" type="dimen">0.1</item>
-    <item name="intro_description_pc" type="dimen">0.6</item>
+    <item name="intro_description_pc" type="dimen">0.45</item>
 </resources>
