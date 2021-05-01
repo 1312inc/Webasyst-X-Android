@@ -3,7 +3,6 @@ package com.webasyst.x
 import android.app.Application
 import com.webasyst.api.ApiClient
 import com.webasyst.api.TokenCache
-import com.webasyst.api.TokenCacheRamImpl
 import com.webasyst.api.blog.BlogApiClient
 import com.webasyst.api.blog.BlogApiClientFactory
 import com.webasyst.api.shop.ShopApiClient
@@ -17,6 +16,7 @@ import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.auth.configureWebasystAuth
 import com.webasyst.waid.WAIDClient
 import com.webasyst.x.cache.DataCache
+import com.webasyst.x.util.TokenCacheImpl
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.android.Android
 import kotlinx.coroutines.Dispatchers
@@ -57,7 +57,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
         }
     }
     val tokenCache: TokenCache by lazy {
-        TokenCacheRamImpl()
+        TokenCacheImpl(this)
     }
     val webasystAuthService: WebasystAuthService by lazy {
         WebasystAuthService.getInstance(this)
