@@ -25,6 +25,7 @@ import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
 import kotlinx.android.synthetic.main.frag_installation_list.installationList
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 
 class InstallationListFragment :
     Fragment(R.layout.frag_installation_list),
@@ -126,10 +127,15 @@ class InstallationListFragment :
     }
 
     fun updateInstallations(idToSelect: String?) {
+        val contextRef = WeakReference(requireActivity())
         lifecycleScope.launch {
             viewModel.updateInstallationList {
-                if (idToSelect != null) {
-                    adapter.setSelectedItemById(idToSelect)
+                contextRef.get()?.let {
+                    it.runOnUiThread {
+                        if (idToSelect != null) {
+                            adapter.setSelectedItemById(idToSelect)
+                        }
+                    }
                 }
             }
         }

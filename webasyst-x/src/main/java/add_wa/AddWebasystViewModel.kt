@@ -12,9 +12,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.webasyst.waid.CloudSignupResponse
 import com.webasyst.waid.WAIDClient
+import com.webasyst.x.NavDirections
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.installations.InstallationListFragment
+import com.webasyst.x.util.findRootNavController
 import com.webasyst.x.util.getActivity
 import io.ktor.client.features.ClientRequestException
 import io.ktor.http.HttpStatusCode
@@ -71,5 +73,12 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
     private fun postCreateHandler(view: View, result: CloudSignupResponse) {
         (view.getActivity() as InstallationListFragment.InstallationListView)
             .updateInstallations(result.id)
+
+        val navController = view.findRootNavController()
+        navController.navigate(NavDirections.actionGlobalMainFragment(
+            installationId = result.id,
+            installationUrl = result.url,
+            showAddWA = false,
+        ))
     }
 }
