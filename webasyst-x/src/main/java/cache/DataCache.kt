@@ -1,17 +1,20 @@
 package com.webasyst.x.cache
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory
 import com.webasyst.waid.UserInfo
 import com.webasyst.x.installations.Installation
+import kotlin.reflect.KProperty
 
 class DataCache(context: Context) {
     private val prefs = context
         .applicationContext
         .getSharedPreferences(PREFERENCES_STORE, Context.MODE_PRIVATE)
+    var selectedInstallationId by prefs.stringPreference("selected_installation_id")
     private val gson = GsonBuilder()
         .registerTypeAdapterFactory(
             RuntimeTypeAdapterFactory
@@ -58,6 +61,24 @@ class DataCache(context: Context) {
         prefs.edit {
             remove(KEY_USER_INFO)
         }
+    }
+
+    fun SharedPreferences.stringPreference(key: String, default: String = ""): StringPreferenceDelegate {
+        return StringPreferenceDelegate(this, key, default)
+    }
+
+    class StringPreferenceDelegate(
+        private val prefs: SharedPreferences,
+        private val key: String,
+        private val default: String
+    ) {
+        operator fun getValue(thisRef: Any?, property: KProperty<*>): String =
+            prefs.getString(key, default)!!
+
+        operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) =
+            prefs.edit {
+                putString(key, value)
+            }
     }
 
     companion object {

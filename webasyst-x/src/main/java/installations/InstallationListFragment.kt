@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.webasyst.x.R
+import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.cache.DataCache
 import com.webasyst.x.databinding.FragInstallationListBinding
 import com.webasyst.x.intro.LoadingFragmentDirections
 import com.webasyst.x.main.MainFragmentDirections
@@ -37,6 +39,10 @@ class InstallationListFragment :
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         InstallationListAdapter()
+    }
+
+    private val dataCache: DataCache by lazy(LazyThreadSafetyMode.NONE) {
+        (requireActivity().application as WebasystXApplication).dataCache
     }
 
     override fun onCreateView(
@@ -68,7 +74,12 @@ class InstallationListFragment :
             val previousSize = adapter.itemCount
             adapter.submitList(installations) {
                 if (previousSize == 0 && installations.isNotEmpty()) {
-                    adapter.setSelectedItem(0)
+                    val selectedInstallation = dataCache.selectedInstallationId
+                    if (selectedInstallation.isNotEmpty()) {
+                        adapter.setSelectedItemById(selectedInstallation)
+                    } else {
+                        adapter.setSelectedItem(0)
+                    }
                 }
             }
         }
@@ -81,6 +92,7 @@ class InstallationListFragment :
     }
 
     override fun onSelectionChange(position: Int, installation: Installation) {
+        dataCache.selectedInstallationId = installation.id
         val navController = view?.findRootNavController() ?: return
         requireActivity().also { activity ->
             activity.findViewById<DrawerLayout>(R.id.drawerLayout)?.closeDrawers()
