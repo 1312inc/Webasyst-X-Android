@@ -68,6 +68,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
             _state.postValue(STATE_READY)
         }
         val installations = apiInstallations.map { Installation(it) }
+        cache.storeInstallationList(installations)
         val data = installations.map { installation ->
             installation to viewModelScope.async(Dispatchers.IO) {
                 webasystApiClientFactory
