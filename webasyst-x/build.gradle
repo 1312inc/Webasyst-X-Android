@@ -11,7 +11,7 @@ webasystProperties.load(new FileInputStream(rootProject.file('webasyst.propertie
 buildscript {
     ext.nav_version = "2.3.0"
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
@@ -49,7 +49,7 @@ android {
         multiDexEnabled true
         def versionMajor = 0
         def versionMinor = 0
-        def versionPatch = 21
+        def versionPatch = 22
         versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch
         versionName "$versionMajor.$versionMinor.$versionPatch"
         manifestPlaceholders = ['appAuthRedirectScheme': 'YOURSCHEME']

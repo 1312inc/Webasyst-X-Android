@@ -5,7 +5,7 @@ buildscript {
     ext.androidx_annotation_version = '1.1.0'
     ext.ktor_version = '1.4.0'
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
@@ -16,7 +16,7 @@ buildscript {
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         google()
         maven { url "https://jitpack.io" }
         maven {
