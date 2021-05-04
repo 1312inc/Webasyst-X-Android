@@ -11,7 +11,7 @@
     <color name="userpicGradientEnd">#4D000000</color>
     <color name="userpicFace">#FFFFFF</color>
 
-    <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="ic_launcher_background">#000000</color>
     <color name="color_on_primary_lighter">#CCCCCC</color>
     <color name="selected_list_item">#142962FF</color>
     <color name="highContrastOnSurface">#000</color>
