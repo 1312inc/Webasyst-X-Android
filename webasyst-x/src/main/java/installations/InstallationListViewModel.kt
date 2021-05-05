@@ -1,6 +1,7 @@
 package com.webasyst.x.installations
 
 import android.app.Application
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -47,6 +48,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
 
     fun updateInstallationList(callback: Runnable? = null) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "Updating installations...")
             waidClient.getInstallationList()
                 .onSuccess { installations ->
                     viewModelScope.launch(Dispatchers.IO) {
@@ -55,12 +57,14 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
                     callback?.run()
                 }
                 .onFailure {
+                    Log.e(TAG, "Failed to update installations", it)
                     // TODO
                 }
         }
     }
 
     private suspend fun updateInstallationInfos(apiInstallations: List<com.webasyst.waid.Installation>) {
+        Log.d(TAG, "Updating installation details...")
         if (apiInstallations.isEmpty()) {
             _state.postValue(STATE_EMPTY)
             return
@@ -69,6 +73,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         }
         val installations = apiInstallations.map { Installation(it) }
         cache.storeInstallationList(installations)
+        Log.d(TAG, "Installation list saved")
         val data = installations.map { installation ->
             installation to viewModelScope.async(Dispatchers.IO) {
                 webasystApiClientFactory
@@ -88,6 +93,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
             }
         }
         cache.storeInstallationList(namedInstallations)
+        Log.d(TAG, "Augmented installation list saved")
         mutableInstallations.postValue(namedInstallations)
 
         if (namedInstallations.isEmpty()) {
@@ -134,6 +140,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
     }
 
     companion object {
+        const val TAG = "frag_loading"
         const val STATE_LOADING = 0
         const val STATE_EMPTY = 1
         const val STATE_READY = 2
