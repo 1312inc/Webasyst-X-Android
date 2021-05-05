@@ -16,6 +16,7 @@ import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
@@ -47,9 +48,14 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         updateInstallationList()
     }
 
+    private var updateTask: Job? = null
     fun updateInstallationList(callback: Runnable? = null) {
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.d(TAG, "Updating installations...")
+        val t = this
+        if (updateTask?.isActive == true) {
+            return
+        }
+        updateTask = viewModelScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "Updating installations... [$t]")
             waidClient.getInstallationList()
                 .onSuccess { installations ->
                     viewModelScope.launch(Dispatchers.IO) {
@@ -126,7 +132,6 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         if (state.isAuthorized) {
             updateInstallationList()
         } else {
-            cache.clearInstallationList()
             mutableInstallations.value = emptyList()
         }
     }
