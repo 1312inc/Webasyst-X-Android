@@ -34,7 +34,7 @@ class InstallationListFragment :
     InstallationListAdapter.SelectionChangeListener
 {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProvider(this).get(InstallationListViewModel::class.java)
+        ViewModelProvider(requireActivity()).get(InstallationListViewModel::class.java)
     }
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
