@@ -40,6 +40,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
 
     init {
         cache.readInstallationList()?.let {
+            Log.d(TAG, "Loaded ${it.size} installations from local storage")
             mutableInstallations.value = it
             if (it.isNotEmpty()) _state.value = STATE_READY
         }
