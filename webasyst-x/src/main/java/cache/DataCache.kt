@@ -2,12 +2,14 @@ package com.webasyst.x.cache
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.core.content.edit
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory
 import com.webasyst.waid.UserInfo
 import com.webasyst.x.installations.Installation
+import com.webasyst.x.installations.InstallationsController
 import kotlin.reflect.KProperty
 
 class DataCache(context: Context) {
@@ -36,6 +38,7 @@ class DataCache(context: Context) {
             val installationList = prefs.getString(KEY_INSTALLATION_LIST, null) ?: return null
             return gson.fromJson(installationList, object : TypeToken<List<Installation>>() {}.type)
         } catch (e: Throwable) {
+            Log.w(InstallationsController.TAG, "Caught an exception while loading cached installations", e)
             return null
         }
     }
@@ -82,6 +85,7 @@ class DataCache(context: Context) {
     }
 
     companion object {
+        private const val TAG = "DataCache"
         private const val PREFERENCES_STORE = "data_cache"
         private const val KEY_INSTALLATION_LIST = "installation_list"
         private const val KEY_USER_INFO = "user_data"
