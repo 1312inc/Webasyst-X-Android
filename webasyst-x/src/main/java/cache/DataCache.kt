@@ -17,15 +17,7 @@ class DataCache(context: Context) {
         .applicationContext
         .getSharedPreferences(PREFERENCES_STORE, Context.MODE_PRIVATE)
     var selectedInstallationId by prefs.stringPreference("selected_installation_id")
-    private val gson = GsonBuilder()
-        .registerTypeAdapterFactory(
-            RuntimeTypeAdapterFactory
-                .of(Installation.Icon::class.java)
-                .registerSubtype(Installation.Icon.AutoIcon::class.java, "auto")
-                .registerSubtype(Installation.Icon.GradientIcon::class.java, "gradient")
-                .registerSubtype(Installation.Icon.ImageIcon::class.java, "image")
-        )
-        .create()
+    private val gson = gson()
 
     fun storeInstallationList(installations: List<Installation>) {
         prefs.edit {
@@ -89,5 +81,16 @@ class DataCache(context: Context) {
         private const val PREFERENCES_STORE = "data_cache"
         private const val KEY_INSTALLATION_LIST = "installation_list"
         private const val KEY_USER_INFO = "user_data"
+
+        fun gson() = GsonBuilder()
+            .registerTypeAdapterFactory(
+                RuntimeTypeAdapterFactory
+                    .of(Installation.Icon::class.java)
+                    .registerSubtype(Installation.Icon.AutoIcon::class.java, "auto")
+                    .registerSubtype(Installation.Icon.GradientIcon::class.java, "gradient")
+                    .registerSubtype(Installation.Icon.ImageIcon::class.java, "image")
+            )
+            .create()
+
     }
 }

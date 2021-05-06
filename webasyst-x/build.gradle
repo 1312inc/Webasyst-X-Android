@@ -103,4 +103,6 @@ dependencies {
     implementation "io.ktor:ktor-client-android:$ktor_version"
     implementation "io.ktor:ktor-client-gson:$ktor_version"
     implementation 'org.danilopianini:gson-extras:0.2.2'
+
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }

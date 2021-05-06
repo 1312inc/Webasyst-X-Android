@@ -1,8 +1,17 @@
 package com.webasyst.x.installations
 
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
+import com.google.gson.annotations.JsonAdapter
 import com.webasyst.api.webasyst.InstallationInfo
 import com.webasyst.waid.CloudSignupResponse
 import java.io.Serializable
+import java.lang.reflect.Type
 import java.util.Comparator
 
 data class Installation(
@@ -53,6 +62,7 @@ data class Installation(
         class ImageIcon(
             thumbs: Map<ResolutionKey, String>
         ) : Icon() {
+            @JsonAdapter(ResolutionKey.MapAdapter::class)
             private val thumbs = thumbs.toSortedMap()
             override val text = ""
             override val twoLine = false
@@ -63,6 +73,14 @@ data class Installation(
                 } ?: ResolutionKey(0, 0), thumbs.values.firstOrNull()) ?: ""
             }
 
+            override fun equals(other: Any?): Boolean =
+                if (other is ImageIcon) {
+                    this.thumbs == other.thumbs
+                } else {
+                    false
+                }
+
+            @JsonAdapter(ResolutionKey.Adapter::class)
             data class ResolutionKey(val resolution: Int, val scale: Int) : Comparable<ResolutionKey> {
                 private val physicalResolution
                     get() = resolution * scale
@@ -70,20 +88,75 @@ data class Installation(
                 override fun compareTo(other: ResolutionKey): Int =
                     compare(this, other)
 
-                companion object : Comparator<ResolutionKey> by compareBy( { it.physicalResolution }, { it.scale } )
+                override fun toString() = "${resolution}x${resolution}@${scale}x"
+
+                class MapAdapter : JsonDeserializer<Map<ResolutionKey, String>>, JsonSerializer<Map<ResolutionKey, String>> {
+                    override fun deserialize(
+                        json: JsonElement,
+                        typeOfT: Type,
+                        context: JsonDeserializationContext
+                    ): Map<ResolutionKey, String> {
+                        return if (json.isJsonObject) {
+                            val obj = json.asJsonObject
+                            json.asJsonObject.keySet()
+                                .associate { k ->
+                                    ResolutionKey(k) to obj.get(k).asString
+                                }
+                                .toSortedMap()
+                        } else {
+                            emptyMap()
+                        }
+                    }
+
+                    override fun serialize(
+                        src: Map<ResolutionKey, String>,
+                        typeOfSrc: Type,
+                        context: JsonSerializationContext
+                    ): JsonElement =
+                        JsonObject().apply {
+                            src.forEach { (k, v) ->
+                                addProperty(k.toString(), v)
+                            }
+                        }
+                }
+
+                class Adapter : JsonDeserializer<ResolutionKey>, JsonSerializer<ResolutionKey> {
+                    override fun deserialize(
+                        json: JsonElement,
+                        typeOfT: Type?,
+                        context: JsonDeserializationContext?
+                    ): ResolutionKey =
+                        ResolutionKey(json.asString)
+
+                    override fun serialize(
+                        src: ResolutionKey,
+                        typeOfSrc: Type?,
+                        context: JsonSerializationContext?
+                    ): JsonElement =
+                        JsonPrimitive(src.toString())
+                }
+
+                companion object : Comparator<ResolutionKey> by compareBy( { it.physicalResolution }, { it.scale } ) {
+                    private const val RE = """(\d+)x\d+(?:@(\d+)x)?"""
+                    private val regex = Regex(RE)
+
+                    operator fun invoke(str: String): ResolutionKey {
+                        val g = regex.find(str)!!.groupValues
+                        return ResolutionKey(g[1].toInt(), g.elementAtOrNull(2)?.toIntOrNull() ?: 1)
+                    }
+                }
             }
 
             companion object {
-                private const val RE = """(\d+)x\d+(?:@(\d+)x)?"""
-                val regex = Regex(RE)
+
+
 
                 operator fun invoke(image: InstallationInfo.Logo.Image): ImageIcon {
                     return ImageIcon(
                         image
                             .thumbs
                             .map { (k, v) ->
-                                val g = regex.find(k)!!.groupValues
-                                ResolutionKey(g[1].toInt(), g.elementAtOrNull(2)?.toIntOrNull() ?: 1) to v.url
+                                ResolutionKey(k) to v.url
                             }
                             .toMap()
                     )
