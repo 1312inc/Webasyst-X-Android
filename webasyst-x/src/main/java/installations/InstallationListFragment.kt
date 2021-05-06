@@ -100,14 +100,12 @@ class InstallationListFragment :
                 R.id.mainFragment ->
                     navController.navigate(
                         MainFragmentDirections.actionMainFragmentSelf(
-                            installationId = installation.id,
-                            installationUrl = installation.rawUrl
+                            installation = installation,
                         ))
                 R.id.loadingFragment ->
                     navController.navigate(
                         LoadingFragmentDirections.actionLoadingFragmentToMainFragment(
-                            installationId = installation.id,
-                            installationUrl = installation.rawUrl
+                            installation = installation,
                         ))
             }
 
@@ -139,18 +137,7 @@ class InstallationListFragment :
     }
 
     fun updateInstallations(idToSelect: String?) {
-        val contextRef = WeakReference(requireActivity())
-        lifecycleScope.launch {
-            viewModel.updateInstallationList {
-                contextRef.get()?.let {
-                    it.runOnUiThread {
-                        if (idToSelect != null) {
-                            adapter.setSelectedItemById(idToSelect)
-                        }
-                    }
-                }
-            }
-        }
+        InstallationsController.updateInstallations()
     }
 
     interface InstallationListView {

@@ -28,6 +28,8 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
     override fun onCreate() {
         super.onCreate()
 
+        instance = this
+
         configureWebasystAuth {
             setClientId(BuildConfig.CLIENT_ID)
             setHost(BuildConfig.WEBASYST_HOST)
@@ -101,5 +103,9 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
                 tokenCache.clear()
             }
         }
+    }
+
+    companion object {
+        lateinit var instance: WebasystXApplication
     }
 }

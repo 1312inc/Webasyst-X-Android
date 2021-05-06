@@ -32,8 +32,7 @@ class LoadingFragment : Fragment(R.layout.frag_loading) {
                 } else {
                     val installation = it.first()
                     navController.navigate(LoadingFragmentDirections.actionGlobalMainFragment(
-                        installationId = installation.id,
-                        installationUrl = installation.url,
+                        installation = installation,
                         showAddWA = false,
                     ))
                 }

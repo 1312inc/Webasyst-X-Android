@@ -67,7 +67,7 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if ((args.installationUrl ?: "").startsWith("http://")) {
+        if ((args.installation?.rawUrl ?: "").startsWith("http://")) {
             insecureAlert = Snackbar
                 .make(requireView(), R.string.installation_connection_not_secure, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.btn_dismiss) {}
@@ -83,25 +83,24 @@ class MainFragment : Fragment() {
     private fun initDomainsFragment(): Fragment =
         DomainListFragment::class.java.newInstance().apply {
             arguments = Bundle().apply {
-                putString(INSTALLATION_ID, args.installationId)
-                putString(INSTALLATION_URL, args.installationUrl)
-
+                putString(INSTALLATION_ID, args.installation?.id)
+                putString(INSTALLATION_URL, args.installation?.rawUrl)
             }
         }
 
     private fun initShopFragment(): Fragment =
         OrderListFragment::class.java.newInstance().apply {
             arguments = Bundle().apply {
-                putString(INSTALLATION_ID, args.installationId)
-                putString(INSTALLATION_URL, args.installationUrl)
+                putString(INSTALLATION_ID, args.installation?.id)
+                putString(INSTALLATION_URL, args.installation?.rawUrl)
             }
         }
 
     private fun initBlogFragment(): Fragment =
         BlogRootFragment::class.java.newInstance().apply {
             arguments = Bundle().apply {
-                putString(INSTALLATION_ID, args.installationId)
-                putString(INSTALLATION_URL, args.installationUrl)
+                putString(INSTALLATION_ID, args.installation?.id)
+                putString(INSTALLATION_URL, args.installation?.rawUrl)
             }
         }
 
@@ -113,7 +112,7 @@ class MainFragment : Fragment() {
             else -> throw IllegalArgumentException("Tab not found")
         }
         loadFragment(fragment)
-        if (args.installationId != null) {
+        if (args.installation?.id != null) {
             requireActivity().toolbar.title = bottomNav.menu.findItem(id).title
         }
     }

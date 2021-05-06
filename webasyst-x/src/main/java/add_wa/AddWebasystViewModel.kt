@@ -15,6 +15,7 @@ import com.webasyst.waid.WAIDClient
 import com.webasyst.x.NavDirections
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.installations.Installation
 import com.webasyst.x.installations.InstallationListFragment
 import com.webasyst.x.util.findRootNavController
 import com.webasyst.x.util.getActivity
@@ -76,8 +77,7 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app) {
 
         val navController = view.findRootNavController()
         navController.navigate(NavDirections.actionGlobalMainFragment(
-            installationId = result.id,
-            installationUrl = result.url,
+            installation = Installation(result),
             showAddWA = false,
         ))
     }

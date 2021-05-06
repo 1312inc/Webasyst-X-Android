@@ -1,6 +1,8 @@
 package com.webasyst.x.installations
 
 import com.webasyst.api.webasyst.InstallationInfo
+import com.webasyst.waid.CloudSignupResponse
+import java.io.Serializable
 import java.util.Comparator
 
 data class Installation(
@@ -9,7 +11,7 @@ data class Installation(
     val domain: String,
     val rawUrl: String,
     val icon: Icon,
-) : com.webasyst.api.Installation {
+) : com.webasyst.api.Installation, Serializable {
     override val urlBase
         get() = rawUrl
     val url = rawUrl.replace(Regex("^https?://"), "")
@@ -21,6 +23,14 @@ data class Installation(
         domain = installation.domain,
         rawUrl = installation.url,
         icon = Icon.AutoIcon(installation.domain.firstOrNull()?.toString() ?: " "),
+    )
+
+    constructor(cloudSignupResponse: CloudSignupResponse) : this(
+        id = cloudSignupResponse.id,
+        name = cloudSignupResponse.domain,
+        domain = cloudSignupResponse.domain,
+        rawUrl = cloudSignupResponse.url,
+        icon = Icon.AutoIcon(cloudSignupResponse.domain.firstOrNull()?.toString() ?: " ")
     )
 
     sealed class Icon {
