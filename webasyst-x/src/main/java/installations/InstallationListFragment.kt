@@ -1,6 +1,5 @@
 package com.webasyst.x.installations
 
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -26,8 +24,6 @@ import com.webasyst.x.intro.LoadingFragmentDirections
 import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
 import kotlinx.android.synthetic.main.frag_installation_list.installationList
-import kotlinx.coroutines.launch
-import java.lang.ref.WeakReference
 
 class InstallationListFragment :
     Fragment(R.layout.frag_installation_list),
@@ -111,27 +107,28 @@ class InstallationListFragment :
 
             activity.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
                 val density = activity.resources.displayMetrics.density
-                if (installation.icon is Installation.Icon.ImageIcon) {
-                    Glide.with(this)
-                        .load(installation.icon.getThumb((24 * density).toInt()))
-                        .circleCrop()
-                        .into(object : CustomTarget<Drawable>() {
-                            override fun onResourceReady(
-                                resource: Drawable,
-                                transition: Transition<in Drawable>?
-                            ) {
-                                toolbar.navigationIcon = resource
-                            }
+                val res = 32
+                Glide.with(this)
+                    .let { glide ->
+                        if (installation.icon is Installation.Icon.ImageIcon) {
+                            glide.load(installation.icon.getThumb((res * density).toInt()))
+                        } else {
+                            glide.load(InstallationIconDrawable(activity, installation.icon).let { drawable ->
+                                drawable.toBitmap((res * density).toInt(), (res * density).toInt())
+                            })
+                        }
+                    }
+                    .circleCrop()
+                    .into(object : CustomTarget<Drawable>((res * density).toInt(), (res * density).toInt()) {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            toolbar.navigationIcon = resource
+                        }
 
-                            override fun onLoadCleared(placeholder: Drawable?) = Unit
-                        })
-                } else {
-                    toolbar.navigationIcon = BitmapDrawable(
-                        activity.resources,
-                        InstallationIconDrawable(activity, installation.icon).let { drawable ->
-                            drawable.toBitmap((24 * density).toInt(), (24 * density).toInt())
-                        })
-                }
+                        override fun onLoadCleared(placeholder: Drawable?) = Unit
+                    })
             }
         }
     }
