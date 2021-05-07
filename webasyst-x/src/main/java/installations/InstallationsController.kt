@@ -52,7 +52,6 @@ object InstallationsController {
             if (installations.isNotEmpty() && selectedInstallation == null) {
                 selectedInstallation = installations.first().id
             }
-            restoreSelection(installations, selectedInstallation)
             dataCache.storeInstallationList(installations)
             Log.d(TAG, "Saved ${installations.size} installations to local storage")
             val namedInstallations = installations
