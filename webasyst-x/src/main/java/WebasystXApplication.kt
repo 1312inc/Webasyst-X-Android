@@ -16,6 +16,7 @@ import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.auth.configureWebasystAuth
 import com.webasyst.waid.WAIDClient
 import com.webasyst.x.cache.DataCache
+import com.webasyst.x.installations.InstallationsController
 import com.webasyst.x.util.TokenCacheImpl
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.android.Android
@@ -100,7 +101,9 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
     override fun onAuthStateChange(state: AuthState) {
         if (!state.isAuthorized) {
             GlobalScope.launch(Dispatchers.Default) {
+                InstallationsController.setSelectedInstallation(null)
                 tokenCache.clear()
+                dataCache.clearUserInfo()
             }
         }
     }

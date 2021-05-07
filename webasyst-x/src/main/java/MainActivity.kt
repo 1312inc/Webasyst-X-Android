@@ -1,24 +1,34 @@
 package com.webasyst.x
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.webasyst.auth.WebasystAuthActivity
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.auth.AuthViewModel
 import com.webasyst.x.databinding.ActivityMainBinding
+import com.webasyst.x.installations.Installation
+import com.webasyst.x.installations.InstallationIconDrawable
 import com.webasyst.x.installations.InstallationListFragment
+import com.webasyst.x.installations.InstallationsController
 import com.webasyst.x.intro.IntroActivity
 import com.webasyst.x.util.BackPressHandler
 import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import kotlinx.android.synthetic.main.activity_main.navRoot
 import kotlinx.android.synthetic.main.activity_main.toolbar
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
 import java.lang.ref.WeakReference
@@ -30,11 +40,11 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
     private val stateStore by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthStateStore.getInstance(this)
     }
+    private val navController by lazy(LazyThreadSafetyMode.NONE) { navRoot.findNavController() }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
-        val navController = navRoot.findNavController()
         if (intent.action == WebasystAuthHelper.ACTION_UPDATE_AFTER_AUTHORIZATION) {
             val exception = AuthorizationException.fromIntent(intent)
             if (exception == null) {
@@ -75,22 +85,50 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
             }
         }
 
+        var wasAuthorized: Boolean? = null
         viewModel.authState.observe(this) { state ->
-            if (state.isAuthorized) {
-                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-            } else {
-                val intent = Intent(this, IntroActivity::class.java)
-                startActivity(intent)
-                finish()
+            if (wasAuthorized != state.isAuthorized) {
+                if (state.isAuthorized) {
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                } else {
+                    InstallationsController.setSelectedInstallation(null)
+                    val intent = Intent(this, IntroActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
+            wasAuthorized = state.isAuthorized
         }
     }
 
     override fun onStart() {
         super.onStart()
 
+        lifecycleScope.launch {
+            InstallationsController.installations.collect {
+                if (it == null) {
+                    navController.navigate(NavDirections.actionGlobalLoadingFragment())
+                } else if (it.isEmpty()) {
+                    navController.navigate(NavDirections.actionGlobalNoInstallationsFragment())
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            var previousInstallation: Installation? = null
+            InstallationsController.currentInstallation.collect {
+                if (it != null && previousInstallation?.id != it.id) {
+                    navController.navigate(NavDirections.actionGlobalMainFragment(installation = it))
+                    drawerLayout.closeDrawers()
+                }
+                it?.icon?.let { icon -> updateToolbarIcon(icon) }
+                previousInstallation = it
+            }
+        }
+
         findNavController(R.id.navRoot)
             .addOnDestinationChangedListener { _, destination, _ ->
+                println(destination)
                 runOnUiThread {
                     when (destination.id) {
                         R.id.mainFragment -> {
@@ -130,6 +168,32 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
         if (!handleBackButton()) {
             super.onBackPressed()
         }
+    }
+
+    private fun updateToolbarIcon(icon: Installation.Icon) {
+        val density = resources.displayMetrics.density
+        val res = 32
+        Glide.with(this)
+            .let { glide ->
+                if (icon is Installation.Icon.ImageIcon) {
+                    glide.load(icon.getThumb((res * density).toInt()))
+                } else {
+                    glide.load(InstallationIconDrawable(this, icon).let { drawable ->
+                        drawable.toBitmap((res * density).toInt(), (res * density).toInt())
+                    })
+                }
+            }
+            .circleCrop()
+            .into(object : CustomTarget<Drawable>((res * density).toInt(), (res * density).toInt()) {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
+                    toolbar.navigationIcon = resource
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) = Unit
+            })
     }
 
     /**

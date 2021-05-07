@@ -1,33 +1,22 @@
 package com.webasyst.x.installations
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
-import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.databinding.FragInstallationListBinding
-import com.webasyst.x.intro.LoadingFragmentDirections
-import com.webasyst.x.main.MainFragmentDirections
 import com.webasyst.x.util.findRootNavController
 import kotlinx.android.synthetic.main.frag_installation_list.installationList
 
 class InstallationListFragment :
-    Fragment(R.layout.frag_installation_list),
-    InstallationListAdapter.SelectionChangeListener
+    Fragment(R.layout.frag_installation_list)
 {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(requireActivity()).get(InstallationListViewModel::class.java)
@@ -58,7 +47,6 @@ class InstallationListFragment :
 
         viewModel.navController = view.findRootNavController()
 
-        adapter.addSelectionListener(this)
         installationList.adapter = adapter
         installationList.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -69,7 +57,7 @@ class InstallationListFragment :
         viewModel.installations.observe(viewLifecycleOwner) { installations ->
             val previousSize = adapter.itemCount
             adapter.submitList(installations) {
-                if (previousSize == 0 && installations.isNotEmpty()) {
+                if (previousSize == 0 && installations?.isNotEmpty() == true) {
                     val selectedInstallation = dataCache.selectedInstallationId
                     if (selectedInstallation.isNotEmpty()) {
                         adapter.setSelectedItemById(selectedInstallation)
@@ -83,52 +71,6 @@ class InstallationListFragment :
         viewModel.state.observe(viewLifecycleOwner) { state ->
             if (state == InstallationListViewModel.STATE_EMPTY) {
                 view.findRootNavController().navigate(R.id.action_global_noInstallationsFragment)
-            }
-        }
-    }
-
-    override fun onSelectionChange(position: Int, installation: Installation) {
-        dataCache.selectedInstallationId = installation.id
-        val navController = view?.findRootNavController() ?: return
-        requireActivity().also { activity ->
-            activity.findViewById<DrawerLayout>(R.id.drawerLayout)?.closeDrawers()
-            when (navController.currentDestination?.id ?: Int.MIN_VALUE) {
-                R.id.mainFragment ->
-                    navController.navigate(
-                        MainFragmentDirections.actionMainFragmentSelf(
-                            installation = installation,
-                        ))
-                R.id.loadingFragment ->
-                    navController.navigate(
-                        LoadingFragmentDirections.actionLoadingFragmentToMainFragment(
-                            installation = installation,
-                        ))
-            }
-
-            activity.findViewById<Toolbar>(R.id.toolbar)?.let { toolbar ->
-                val density = activity.resources.displayMetrics.density
-                val res = 32
-                Glide.with(this)
-                    .let { glide ->
-                        if (installation.icon is Installation.Icon.ImageIcon) {
-                            glide.load(installation.icon.getThumb((res * density).toInt()))
-                        } else {
-                            glide.load(InstallationIconDrawable(activity, installation.icon).let { drawable ->
-                                drawable.toBitmap((res * density).toInt(), (res * density).toInt())
-                            })
-                        }
-                    }
-                    .circleCrop()
-                    .into(object : CustomTarget<Drawable>((res * density).toInt(), (res * density).toInt()) {
-                        override fun onResourceReady(
-                            resource: Drawable,
-                            transition: Transition<in Drawable>?
-                        ) {
-                            toolbar.navigationIcon = resource
-                        }
-
-                        override fun onLoadCleared(placeholder: Drawable?) = Unit
-                    })
             }
         }
     }

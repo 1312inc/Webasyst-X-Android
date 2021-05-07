@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.webasyst.x.R
 import com.webasyst.x.databinding.RowInstallationListBinding
-import com.webasyst.x.util.Observable
 
 class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapter.InstallationViewHolder>(Companion) {
     var selectedPosition = RecyclerView.NO_POSITION
         private set
-    private val selectionListeners = Observable<SelectionChangeListener>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InstallationViewHolder =
         DataBindingUtil.inflate<RowInstallationListBinding>(
@@ -33,9 +31,8 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
             notifyItemChanged(selectedPosition)
             selectedPosition = position
             notifyItemChanged(selectedPosition)
-            selectionListeners.notifyObservers {
-                onSelectionChange(selectedPosition, getItem(selectedPosition))
-            }
+            val installation = getItem(position)
+            InstallationsController.setSelectedInstallation(installation)
         }
     }
 
@@ -43,9 +40,6 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
         val position = currentList.indexOfFirst { it.id == id }
         if (position >= 0) setSelectedItem(position)
     }
-
-    fun addSelectionListener(listener: SelectionChangeListener) =
-        selectionListeners.addObserver(listener)
 
     inner class InstallationViewHolder(private val binding: RowInstallationListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(installation: Installation, selected: Boolean) {
@@ -58,10 +52,6 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
             binding.selected = selected
             binding.executePendingBindings()
         }
-    }
-
-    fun interface SelectionChangeListener {
-        fun onSelectionChange(position: Int, installation: Installation)
     }
 
     companion object : DiffUtil.ItemCallback<Installation>() {

@@ -12,8 +12,8 @@
         android:label="frag_blog_post_list"
         tools:layout="@layout/frag_blog_post_list" >
         <argument
-            android:name="installationId"
-            app:argType="string"
+            android:name="installation"
+            app:argType="com.webasyst.x.installations.Installation"
             app:nullable="true" />
         <argument
             android:name="installationUrl"

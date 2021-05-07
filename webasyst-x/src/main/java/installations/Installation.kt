@@ -18,11 +18,13 @@ data class Installation(
     override val id: String,
     val name: String,
     val domain: String,
+    /** Full installation URL */
     val rawUrl: String,
     val icon: Icon,
 ) : com.webasyst.api.Installation, Serializable {
     override val urlBase
         get() = rawUrl
+    /** Human-readable installation URL (without schema) */
     val url = rawUrl.replace(Regex("^https?://"), "")
     val isInsecure = rawUrl.startsWith("http://")
 

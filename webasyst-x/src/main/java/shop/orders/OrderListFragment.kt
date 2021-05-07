@@ -15,18 +15,20 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragShopOrderListBinding
+import com.webasyst.x.installations.Installation
 import com.webasyst.x.main.MainFragment
 import kotlinx.android.synthetic.main.frag_shop_order_list.orderListView
 import kotlinx.coroutines.launch
 
 class OrderListFragment : Fragment() {
+    private val installation by lazy { arguments?.getSerializable(MainFragment.INSTALLATION) as Installation? }
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(
             this,
             OrderListViewModel.Factory(
                 requireActivity().application,
-                arguments?.getString(MainFragment.INSTALLATION_ID),
-                arguments?.getString(MainFragment.INSTALLATION_URL)
+                installation?.id,
+                installation?.rawUrl,
             )
         )
             .get(OrderListViewModel::class.java)

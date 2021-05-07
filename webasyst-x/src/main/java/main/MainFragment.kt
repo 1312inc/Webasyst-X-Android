@@ -14,6 +14,7 @@ import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.blog.BlogRootFragment
 import com.webasyst.x.databinding.FragMainBinding
+import com.webasyst.x.intro.LoadingFragment
 import com.webasyst.x.shop.orders.OrderListFragment
 import com.webasyst.x.site.domainlist.DomainListFragment
 import kotlinx.android.synthetic.main.activity_main.toolbar
@@ -83,28 +84,29 @@ class MainFragment : Fragment() {
     private fun initDomainsFragment(): Fragment =
         DomainListFragment::class.java.newInstance().apply {
             arguments = Bundle().apply {
-                putString(INSTALLATION_ID, args.installation?.id)
-                putString(INSTALLATION_URL, args.installation?.rawUrl)
+                putSerializable(INSTALLATION, args.installation)
             }
         }
 
     private fun initShopFragment(): Fragment =
         OrderListFragment::class.java.newInstance().apply {
             arguments = Bundle().apply {
-                putString(INSTALLATION_ID, args.installation?.id)
-                putString(INSTALLATION_URL, args.installation?.rawUrl)
+                putSerializable(INSTALLATION, args.installation)
             }
         }
 
     private fun initBlogFragment(): Fragment =
         BlogRootFragment::class.java.newInstance().apply {
             arguments = Bundle().apply {
-                putString(INSTALLATION_ID, args.installation?.id)
-                putString(INSTALLATION_URL, args.installation?.rawUrl)
+                putSerializable(INSTALLATION, args.installation)
             }
         }
 
     private fun onTabChange(@IdRes id: Int) {
+        if (args.installation == null) {
+            loadFragment(LoadingFragment())
+            return
+        }
         val fragment = when(id) {
             R.id.site -> initDomainsFragment()
             R.id.shop -> initShopFragment()
@@ -125,7 +127,6 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-        const val INSTALLATION_ID = "installationId"
-        const val INSTALLATION_URL = "installationUrl"
+        const val INSTALLATION = "installation"
     }
 }

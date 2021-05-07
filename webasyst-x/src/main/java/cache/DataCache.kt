@@ -16,10 +16,10 @@ class DataCache(context: Context) {
     private val prefs = context
         .applicationContext
         .getSharedPreferences(PREFERENCES_STORE, Context.MODE_PRIVATE)
-    var selectedInstallationId by prefs.stringPreference("selected_installation_id")
+    var selectedInstallationId by prefs.stringPreference(SELECTED_INSTALLATION)
     private val gson = gson()
 
-    fun storeInstallationList(installations: List<Installation>) {
+    fun storeInstallationList(installations: List<Installation>?) {
         prefs.edit {
             putString(KEY_INSTALLATION_LIST, gson.toJson(installations))
         }
@@ -55,6 +55,8 @@ class DataCache(context: Context) {
     fun clearUserInfo() {
         prefs.edit {
             remove(KEY_USER_INFO)
+            remove(KEY_INSTALLATION_LIST)
+            remove(SELECTED_INSTALLATION)
         }
     }
 
@@ -81,6 +83,7 @@ class DataCache(context: Context) {
         private const val PREFERENCES_STORE = "data_cache"
         private const val KEY_INSTALLATION_LIST = "installation_list"
         private const val KEY_USER_INFO = "user_data"
+        private const val SELECTED_INSTALLATION = "selected_installation_id"
 
         fun gson() = GsonBuilder()
             .registerTypeAdapterFactory(

@@ -15,18 +15,20 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragBlogPostListBinding
+import com.webasyst.x.installations.Installation
 import com.webasyst.x.main.MainFragment
 import kotlinx.android.synthetic.main.frag_blog_post_list.postListView
 import kotlinx.coroutines.launch
 
 class PostListFragment : Fragment() {
+    private val installation by lazy { arguments?.getSerializable(MainFragment.INSTALLATION) as Installation? }
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(
             this,
             PostListViewModel.Factory(
                 requireActivity().application,
-                arguments?.getString(MainFragment.INSTALLATION_ID),
-                arguments?.getString(MainFragment.INSTALLATION_URL)
+                installation?.id,
+                installation?.rawUrl,
             )
         )
             .get(PostListViewModel::class.java)
@@ -52,7 +54,7 @@ class PostListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = PostListAdapter(arguments?.getString(MainFragment.INSTALLATION_URL) ?: "")
+        val adapter = PostListAdapter(installation?.rawUrl ?: "")
         postListView.layoutManager = LinearLayoutManager(
             postListView.context,
             LinearLayoutManager.VERTICAL,

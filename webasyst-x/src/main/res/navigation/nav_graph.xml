@@ -48,11 +48,7 @@
         app:destination="@id/noInstallationsFragment"
         app:launchSingleTop="true"
         app:popUpTo="@id/nav"
-        app:popUpToInclusive="true">
-        <action
-            android:id="@+id/action_action_global_noInstallationsFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
-    </action>
+        app:popUpToInclusive="true" />
     <action
         android:id="@+id/action_global_mainFragment"
         app:destination="@id/mainFragment" />
@@ -65,4 +61,9 @@
             android:id="@+id/action_loadingFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+    <action
+        android:id="@+id/action_global_loadingFragment"
+        app:destination="@id/loadingFragment"
+        app:popUpTo="@id/nav"
+        app:popUpToInclusive="true" />
 </navigation>
