@@ -101,6 +101,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
     override fun onAuthStateChange(state: AuthState) {
         if (!state.isAuthorized) {
             GlobalScope.launch(Dispatchers.Default) {
+                InstallationsController.clearInstallations()
                 InstallationsController.setSelectedInstallation(null)
                 tokenCache.clear()
                 dataCache.clearUserInfo()
