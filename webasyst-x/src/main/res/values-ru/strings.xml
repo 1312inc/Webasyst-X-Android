@@ -37,12 +37,12 @@
     <string name="add_webasyst_btn_existing_user_help">Как подключить Webasyst ID</string>
     <string name="add_webasyst_title_new_user">Я новый пользователь</string>
     <string name="add_webasyst_new_user">Скачайте фреймворк с сайта webasyst.ru и установите на свой хостинг (сервер) или создайте аккаунт в облаке Webasyst одной кнопкой — прямо сейчас.</string>
-    <string name="add_webasyst_error">Не удалось создать установку:\n%1$s</string>
-    <string name="add_webasyst_error_limit_exceeded">Не удалось создать установку. Скорее всего привышен лимит на количество облачных установок.</string>
+    <string name="add_webasyst_error">Не удалось создать аккаунт:\n%1$s</string>
+    <string name="add_webasyst_error_limit_exceeded">Не удалось создать аккаунт Webasyst. Скорее всего, превышен лимит на количество бесплатных облачных аккаунтов.</string>
     <string name="btn_create_new_account">Создать аккаунт Webasyst</string>
     <string name="create_new_account_30_days_free">30 дней бесплатно</string>
-    <string name="webasyst_added">Ваш облачный аккаунт Webasyst готов. Вы можете зайти в него по одноразоаой ссылке: %1$s</string>
-    <string name="btn_open_wa_auth">Открыть в браузере</string>	https://www.webasyst.com/webasyst-id-how-to/
+    <string name="webasyst_added">Ваш облачный аккаунт Webasyst готов. Вы можете открыть его в браузере по одноразовой ссылке: %1$s</string>
+    <string name="btn_open_wa_auth">Открыть в браузере</string>
     <string name="add_webasyst_new_user_help_url">https://www.webasyst.ru/webasyst-id-how-to/</string>
 
     <string name="btn_cancel">Отмена</string>
