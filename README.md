@@ -1,5 +1,7 @@
 # Webasyst-X-Android
 
+![webasyst-x-android-ru-v1-showcase-dev](https://user-images.githubusercontent.com/889083/117459691-5b5f0680-af54-11eb-9d3b-e7c79e4e66ac.jpg)
+
 ## Project structure
 
 This project consists of three (main) gradle modules:
