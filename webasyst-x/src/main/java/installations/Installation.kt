@@ -178,7 +178,7 @@ data class Installation(
                 } else {
                     GradientIcon(
                         logo.text.value,
-                        logo.twoLines,
+                        if (logo.text.value.length <= 2) false else logo.twoLines,
                         logo.text.color,
                         logo.gradient.from,
                         logo.gradient.to,
