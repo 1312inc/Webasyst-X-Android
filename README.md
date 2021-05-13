@@ -75,7 +75,7 @@ For details on string resource format see https://developer.android.com/guide/to
 2. Create new file `webasyst.properties` in repository root:
 ```
 webasyst.x.client_id="client id"
-webasyst.x.host="https://waid.dev.webasyst.com"
+webasyst.x.host="https://www.webasyst.com"
 ```
 (replace client id with actual client id)
 
