@@ -3,6 +3,7 @@ package com.webasyst.x
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
@@ -107,8 +108,10 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
         lifecycleScope.launch {
             InstallationsController.installations.collect {
                 if (it == null) {
+                    Log.d(TAG, "Navigating to LoadingFragment")
                     navController.navigate(NavDirections.actionGlobalLoadingFragment())
                 } else if (it.isEmpty()) {
+                    Log.d(TAG, "Navigating to NoInstallationsFragment")
                     navController.navigate(NavDirections.actionGlobalNoInstallationsFragment())
                 }
             }
@@ -118,6 +121,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
             var previousInstallation: Installation? = null
             InstallationsController.currentInstallation.collect {
                 if (it != null && previousInstallation?.id != it.id) {
+                    Log.d(TAG, "Navigating to ${it.domain}")
                     navController.navigate(NavDirections.actionGlobalMainFragment(installation = it))
                     drawerLayout.closeDrawers()
                 }
@@ -128,7 +132,6 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
 
         findNavController(R.id.navRoot)
             .addOnDestinationChangedListener { _, destination, _ ->
-                println(destination)
                 runOnUiThread {
                     when (destination.id) {
                         R.id.mainFragment -> {
@@ -231,5 +234,9 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
     override fun updateInstallations(idToSelect: String?) {
         (supportFragmentManager.findFragmentById(R.id.installationList) as InstallationListFragment)
             .updateInstallations(idToSelect)
+    }
+
+    companion object {
+        const val TAG = "MainActivity"
     }
 }

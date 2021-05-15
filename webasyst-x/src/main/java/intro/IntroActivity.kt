@@ -15,6 +15,11 @@ import com.webasyst.x.R
 import net.openid.appauth.AuthState
 
 class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
+    override val layoutId = R.layout.activity_intro
+
+    private val intro: View by lazy(LazyThreadSafetyMode.NONE) { findViewById(R.id.background) }
+    private val signingIn: View by lazy(LazyThreadSafetyMode.NONE) { findViewById(R.id.signingIn) }
+
     private val authState: WebasystAuthStateStore by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthStateStore.getInstance(this)
     }
@@ -24,6 +29,13 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        if (WebasystAuthHelper.ACTION_UPDATE_AFTER_AUTHORIZATION == intent.action) {
+            intro.visibility = View.GONE
+            signingIn.visibility = View.VISIBLE
+        } else {
+            intro.visibility = View.VISIBLE
+            signingIn.visibility = View.GONE
+        }
         authHelper.handleIntent(intent)
     }
 
@@ -41,7 +53,7 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
         super.onCreate(savedInstanceState)
 
         if (null != intent) {
-            authHelper.handleIntent(intent)
+            onNewIntent(intent)
         }
 
         isSkipButtonEnabled = false
