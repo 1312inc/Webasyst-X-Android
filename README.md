@@ -61,7 +61,7 @@ String resources are located in `/webasyst-x/src/main/res/values[-lang[-rREGION]
 where `lang` is two-letter ISO 639-1 language code
 and `REGION` is two letter ISO 3166-1-alpha-2 region code (note the lowercase r).
 
-Android selects resources based on system locale. If it fails to locate appropriate
+Android selects resources based on the system locale. If it fails to locate appropriate
 resources, it falls back to default (`res/values/`)
 
 For details, follow the link https://developer.android.com/guide/topics/resources/localization
