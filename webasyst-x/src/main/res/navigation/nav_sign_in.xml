@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_sign_in"
+    app:startDestination="@id/phoneInputFragment">
+
+    <fragment
+        android:id="@+id/phoneInputFragment"
+        android:name="com.webasyst.x.signin.PhoneInputFragment"
+        android:label="frag_sign_in_phone"
+        tools:layout="@layout/frag_sign_in_phone" >
+        <action
+            android:id="@+id/action_phoneInputFragment_to_codeInputFragment"
+            app:destination="@id/codeInputFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/codeInputFragment"
+        android:name="com.webasyst.x.signin.CodeInputFragment"
+        android:label="frag_sign_in_code"
+        tools:layout="@layout/frag_sign_in_code" />
+</navigation>

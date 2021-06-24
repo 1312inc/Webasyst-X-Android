@@ -30,6 +30,20 @@
     <string name="intro_btn_next">Next</string>
     <string name="intro_welcome_github_repo_url" translatable="false">https://github.com/1312inc/Webasyst-X-Android/</string>
 
+    <string name="sign_in_btn_with_phone_number">Войти по номеру телефона</string>
+    <string name="sign_in_or">или</string>
+    <string name="sign_in_enter_phone_title">Введите ваш номер телефона</string>
+    <string name="sign_in_enter_phone_subtitle">На этот номер мы отправим код подтверждения</string>
+    <string name="sign_in_btn_continue">Продолжить</string>
+    <string name="sign_in_err_number_format">Неверно указан номер телефона</string>
+    <string name="sign_in_enter_code_title">Введите код из сообщения</string>
+    <string name="sign_in_enter_code_sent_phone">Код был отправлен на номер</string>
+    <string name="sign_in_code">Код</string>
+    <string name="sign_in_code_not_received">Не пришло?</string>
+    <string name="sign_in_code_sent">Код отправлен</string>
+    <string name="sign_in_code_send_again_time">Отправить ещё раз можно через %1$s сек.</string>
+    <string name="sign_in_btn_send_again">Отправить ещё раз</string>
+
     <string name="add_webasyst">Add Webasyst</string>
     <string name="btn_add_webasyst">Add account</string>
     <string name="add_webasyst_title">Add account</string>
@@ -62,4 +76,6 @@
     <string name="empty_api_response">The %1$s app returned no records (API: %2$s).</string>
 
     <string name="app_redirect_scheme" translatable="false">com.webasyst.x</string>
+
+    <string name="generic_error_retry_later">An error occurred. Please try again later.</string>
 </resources>

@@ -58,4 +58,23 @@
     <style name="Theme.WebasystX.TextAppearance.Body2">
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="Theme.WebasystX.Toolbar_SignIn" parent="Widget.MaterialComponents.Toolbar">
+        <item name="toolbarNavigationButtonStyle">@style/Theme.WebasystX.Toolbar_Button_Tinted</item>
+    </style>
+    <style name="Theme.WebasystX.Toolbar_Button_Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">@color/primary</item>
+    </style>
+
+    <style name="Theme.WebasystX.Button_Round" parent="Widget.MaterialComponents.Button">
+        <item name="shapeAppearance">@style/ShapeAppearance.WebasystX.Rounded</item>
+    </style>
+    <style name="Theme.WebasystX.Button_Text" parent="Widget.MaterialComponents.Button">
+        <item name="background">@android:color/transparent</item>
+    </style>
+
+    <style name="ShapeAppearance.WebasystX.Rounded" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">42dp</item>
+    </style>
 </resources>

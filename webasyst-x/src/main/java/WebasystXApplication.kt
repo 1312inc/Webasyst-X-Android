@@ -35,12 +35,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
             setClientId(BuildConfig.CLIENT_ID)
             setHost(BuildConfig.WEBASYST_HOST)
             setCallbackUri(getString(R.string.app_redirect_scheme) + "://oidc_callback")
-            setScope(
-                webasystScope.joinToString(
-                    prefix = "token:",
-                    separator = "."
-                )
-            )
+            setScope(webasystScope)
         }
 
         WebasystAuthStateStore.getInstance(this).addObserver(this)
@@ -51,6 +46,9 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
         ShopApiClient.SCOPE,
         BlogApiClient.SCOPE,
         WebasystApiClient.SCOPE,
+    ).joinToString(
+        prefix = "token:",
+        separator = "."
     )
 
     val httpEngine: HttpClientEngine by lazy {
