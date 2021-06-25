@@ -74,10 +74,10 @@ For details on string resource format, follow the link https://developer.android
 
 2. Create new file `webasyst.properties` in repository root:
 ```
-webasyst.x.client_id="client id"
+webasyst.x.client_id="YOUR_WEBASYSTID_APP_CLIENT_ID_HERE"
 webasyst.x.host="https://www.webasyst.com"
 ```
-(replace client id with actual client id)
+(obtain Webasyst ID app client id from Webasyst and save it into this configuration file)
 
 3. Install Android Studio as described in https://developer.android.com/studio/install
 
