@@ -34,6 +34,7 @@ class PhoneInputFragment : Fragment(R.layout.frag_sign_in_phone) {
 
         val phoneTextWatcher = PhoneTextWatcher()
         binding.phoneInput.addTextChangedListener(phoneTextWatcher)
+        binding.toolbar.setNavigationOnClickListener(viewModel::navigateBack)
     }
 
     private class PhoneTextWatcher : TextWatcher {

@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
+import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.waid.HeadlessCodeRequestResult
 import com.webasyst.x.BuildConfig
 import com.webasyst.x.R
@@ -27,6 +28,7 @@ import kotlinx.coroutines.withContext
 class SignInViewModel(application: Application) : AndroidViewModel(application) {
     private val phoneNumberUtil by lazy { PhoneNumberUtil.getInstance() }
     private val waidClient by lazy { (getApplication() as WebasystXApplication).waidClient }
+    private val authStateStore by lazy { WebasystAuthStateStore.getInstance(getApplication()) }
 
     val phone = MutableLiveData("+7")
 
@@ -38,10 +40,18 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
 
     val code = MutableLiveData("")
 
+    private val _codeError = MutableLiveData<Int?>(null)
+    val codeError: LiveData<Int?> get() = _codeError
+
+    private val submittingCode = MutableLiveData(false)
     val submitCodeEnabled: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        this.addSource(code) {
-            value = it.isNotBlank()
-        }
+        var notBlank = false
+        var submitting = false
+
+        fun update() { value = notBlank && !submitting }
+
+        addSource(code) { notBlank = it.isNotBlank(); update() }
+        addSource(submittingCode) { submitting = it; update() }
     }
 
     private val codeResponse = MutableStateFlow<HeadlessCodeRequestResult?>(null)
@@ -99,20 +109,27 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
 
     var submitCodeJob: Job? = null
     fun onSubmitCode(view: View) {
-        println(codeResponse)
         submitCodeJob?.cancel()
-        submitCodeJob = viewModelScope.launch(Dispatchers.IO) {
-            val cr = codeResponse.value ?: return@launch
-            try {
-                val res = waidClient.postHeadlessToken(
-                    clientId = BuildConfig.CLIENT_ID,
-                    codeVerifier = cr.codeChallenge.password,
-                    code = code.value ?: "",
-                )
-                println(res)
-            } catch (e: Throwable) {
-                println(e)
-            }
+        submitCodeJob = viewModelScope.launch(Dispatchers.IO) { submitCode() }
+    }
+    private suspend fun submitCode() {
+        try {
+            submittingCode.postValue(true)
+            _codeError.postValue(null)
+            val cr = codeResponse.value ?: return
+            val res = waidClient.postHeadlessToken(
+                clientId = BuildConfig.CLIENT_ID,
+                codeVerifier = cr.codeChallenge.password,
+                code = code.value ?: "",
+            )
+
+            val tokenResponse = waidClient.tokenResponseFromHeadlessRequest(res)
+
+            val state = authStateStore.updateAfterTokenResponse(tokenResponse, null)
+        } catch (e: Throwable) {
+            _codeError.postValue(R.string.sign_in_err_code_invalid)
+        } finally {
+            submittingCode.postValue(false)
         }
     }
 
