@@ -12,7 +12,7 @@ import kotlinx.coroutines.sync.withLock
 import java.lang.reflect.Type
 import kotlin.reflect.KProperty
 
-class TokenCacheImpl(context: Context, private val expiration: Long = TOKEN_EXPIRATION) : TokenCache {
+class TokenCacheImpl(context: Context) : TokenCache {
     private val prefs = context.getSharedPreferences("tokens", Context.MODE_PRIVATE)
     private val gson = Gson()
     private val lock = Mutex()
@@ -29,13 +29,7 @@ class TokenCacheImpl(context: Context, private val expiration: Long = TOKEN_EXPI
 
     override suspend fun get(url: String, scope: String): AccessToken? = lock.withLock {
         val key = Key(url, scope).toString()
-        val token = tokens[key] ?: return null
-        return if (token.createdAt + expiration < System.currentTimeMillis()) {
-            tokens = (tokens.toMutableMap().apply { remove(key) })
-            null
-        } else {
-            token.token
-        }
+        return tokens[key]?.token
     }
 
     override suspend fun set(url: String, scope: String, token: AccessToken) = lock.withLock {
@@ -79,6 +73,5 @@ class TokenCacheImpl(context: Context, private val expiration: Long = TOKEN_EXPI
     companion object {
         const val AUTH_CODES = "auth_codes"
         const val TOKENS = "tokens"
-        const val TOKEN_EXPIRATION: Long = 1000 * 60 * 60 * 24 // 24 hours
     }
 }
