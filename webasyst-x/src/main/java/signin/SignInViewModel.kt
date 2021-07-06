@@ -1,8 +1,10 @@
 package com.webasyst.x.signin
 
+import android.app.Activity
 import android.app.Application
 import android.os.Build
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -18,6 +20,7 @@ import com.webasyst.waid.HeadlessCodeRequestResult
 import com.webasyst.x.BuildConfig
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.util.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -110,9 +113,9 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
     var submitCodeJob: Job? = null
     fun onSubmitCode(view: View) {
         submitCodeJob?.cancel()
-        submitCodeJob = viewModelScope.launch(Dispatchers.IO) { submitCode() }
+        submitCodeJob = viewModelScope.launch(Dispatchers.IO) { submitCode(view) }
     }
-    private suspend fun submitCode() {
+    private suspend fun submitCode(view: View) {
         try {
             submittingCode.postValue(true)
             _codeError.postValue(null)
@@ -126,6 +129,13 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
             val tokenResponse = waidClient.tokenResponseFromHeadlessRequest(res)
 
             val state = authStateStore.updateAfterTokenResponse(tokenResponse, null)
+
+            if (state.isAuthorized) {
+                view.getActivity()?.also { activity ->
+                    (activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+                        .hideSoftInputFromWindow(view.windowToken, 0)
+                }
+            }
         } catch (e: Throwable) {
             _codeError.postValue(R.string.sign_in_err_code_invalid)
         } finally {
