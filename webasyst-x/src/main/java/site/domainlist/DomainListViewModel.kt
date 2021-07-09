@@ -10,18 +10,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.webasyst.api.ApiError
 import com.webasyst.api.Installation
 import com.webasyst.api.site.SiteApiClient
 import com.webasyst.api.site.SiteApiClientFactory
-import com.webasyst.api.util.getRootCause
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.util.ConnectivityUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 class DomainListViewModel(
     app: Application,
@@ -81,14 +78,7 @@ class DomainListViewModel(
                 mutableDomainList.postValue(it.domains.map { domain -> Domain(domain) })
             }
             .onFailure {
-                val rootCause = it.getRootCause()
-                val errorMessage = when {
-                    rootCause is IOException ->
-                        context.getString(R.string.err_could_not_connect, appName)
-                    it is ApiError && it.error == ApiError.APP_NOT_INSTALLED ->
-                        context.getString(R.string.err_app_not_installed, it.app, installationUrl)
-                    else -> it.localizedMessage
-                }
+                val errorMessage = it.localizedMessage
                 mutableErrorText.postValue(errorMessage)
                 mutableState.postValue(STATE_ERROR)
             }
