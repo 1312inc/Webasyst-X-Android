@@ -43,11 +43,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawablePadding="12dp"
             android:gravity="center_horizontal"
             android:text="@{@string/data_fetch_error(viewModel.errorText)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="?colorError"
+            android:textColor="?colorOnSurfaceHighEmphasis"
             android:visibility="@{viewModel.errorVisibility}"
+            app:drawableTopCompat="@drawable/ic_error"
             tools:text="@string/data_fetch_error" />
 
     </FrameLayout>
