@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.databinding.BindingAdapter
+import com.google.android.material.textfield.TextInputLayout
 import java.text.DateFormat
 import java.util.Calendar
 
@@ -32,6 +33,16 @@ object DataBinding {
             ""
         } else {
             DateFormat.getDateTimeInstance().format(calendar.time)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("errorText")
+    fun bindErrorText(view: TextInputLayout, error: Int?) {
+        if (error == null) {
+            view.error = null
+        } else {
+            view.error = view.context.getString(error)
         }
     }
 }

@@ -102,7 +102,6 @@ dependencies {
     def ktor_version='1.4.0'
     implementation "io.ktor:ktor-client-android:$ktor_version"
     implementation "io.ktor:ktor-client-gson:$ktor_version"
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.25'
     implementation 'org.danilopianini:gson-extras:0.2.2'
 
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
