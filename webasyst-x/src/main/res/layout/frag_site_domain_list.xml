@@ -37,7 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="@{viewModel.spinnerVisibility}" />
+            android:drawablePadding="12dp"
+            android:visibility="@{viewModel.spinnerVisibility}"
+            app:drawableTopCompat="@drawable/ic_ghost" />
 
         <TextView
             android:layout_width="wrap_content"

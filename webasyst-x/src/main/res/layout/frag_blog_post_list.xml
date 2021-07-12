@@ -36,9 +36,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawablePadding="12dp"
             android:gravity="center_horizontal"
             android:text="@string/app_blog_no_posts"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:drawableTopCompat="@drawable/ic_ghost"
             app:gone="@{viewModel.state != PostListViewModel.STATE_LOADED_EMPTY}" />
 
         <TextView
