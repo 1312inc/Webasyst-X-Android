@@ -52,8 +52,8 @@ class OrderListViewModel(
     private val mutableState = MutableLiveData<Int>().apply { value = STATE_UNKNOWN }
     val state: LiveData<Int> = mutableState
 
-    private val mutableErrorText = MutableLiveData<String>()
-    val errorText: LiveData<String> = mutableErrorText
+    private val _error = MutableLiveData<Throwable?>(null)
+    val error: LiveData<Throwable?> get() = _error
 
     suspend fun updateData(context: Context) {
         if (mutableState.value == STATE_LOADING) {
@@ -65,7 +65,7 @@ class OrderListViewModel(
         }
         shopApiClient.getOrders()
             .onSuccess { orders ->
-                mutableErrorText.postValue("")
+                _error.postValue(null)
                 mutableOrderList.postValue(orders.orders.map { Order(it) })
                 mutableState.postValue(if (orders.orders.isEmpty()) {
                     STATE_LOADED_EMPTY
@@ -74,9 +74,8 @@ class OrderListViewModel(
                 })
             }
             .onFailure {
-                val errorMessage = it.localizedMessage
+                _error.postValue(it)
                 mutableState.postValue(STATE_ERROR)
-                mutableErrorText.postValue(errorMessage)
             }
     }
 

@@ -1,10 +1,15 @@
 package com.webasyst.x.util
 
+import android.graphics.Rect
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
+import com.webasyst.api.WebasystException
+import com.webasyst.x.R
 import java.text.DateFormat
 import java.util.Calendar
 
@@ -44,5 +49,26 @@ object DataBinding {
         } else {
             view.error = view.context.getString(error)
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("webasystError")
+    fun bindWebasystError(view: TextView, error: Throwable?) {
+        if (null == error) return
+
+        view.text = error.localizedMessage
+        val drawableRes = if (error is WebasystException) {
+            if (error.webasystCode == WebasystException.ERROR_CONNECTION_FAILED) {
+                R.drawable.ic_offline
+            } else {
+                R.drawable.ic_error
+            }
+        } else {
+            R.drawable.ic_error
+        }
+        val resolution = (view.context.resources.displayMetrics.density * 96).toInt()
+        val drawable = ContextCompat.getDrawable(view.context, drawableRes)
+        drawable?.bounds = Rect(0, 0, resolution, resolution)
+        TextViewCompat.setCompoundDrawablesRelative(view, null, drawable, null, null)
     }
 }

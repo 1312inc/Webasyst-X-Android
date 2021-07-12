@@ -44,15 +44,15 @@
             app:gone="@{viewModel.state != PostListViewModel.STATE_LOADED_EMPTY}" />
 
         <TextView
+            webasystError="@{viewModel.error}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:drawablePadding="12dp"
             android:gravity="center"
-            android:text="@{@string/data_fetch_error(viewModel.errorText)}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?colorOnSurfaceHighEmphasis"
-            app:drawableTopCompat="@drawable/ic_error"
-            app:gone="@{viewModel.state != PostListViewModel.STATE_ERROR}" />
+            app:gone="@{viewModel.state != PostListViewModel.STATE_ERROR}"
+            tools:drawableTopCompat="@drawable/ic_error" />
     </FrameLayout>
 </layout>

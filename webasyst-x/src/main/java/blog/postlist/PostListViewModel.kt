@@ -40,8 +40,8 @@ class PostListViewModel(
     private val mutableState = MutableLiveData<Int>().apply { value = STATE_UNKNOWN }
     val state: LiveData<Int> = mutableState
 
-    private val mutableErrorText = MutableLiveData<String>()
-    val errorText: LiveData<String> = mutableErrorText
+    private val _error = MutableLiveData<Throwable?>(null)
+    val error: LiveData<Throwable?> get() = _error
 
     init {
         val connectivityUtil = ConnectivityUtil(application)
@@ -65,7 +65,7 @@ class PostListViewModel(
         }
         blogApiClient.getPosts()
             .onSuccess { posts ->
-                mutableErrorText.postValue("")
+                _error.postValue(null)
                 mutablePostList.postValue(posts.posts ?: emptyList())
                 mutableState.postValue(if (posts.posts?.isEmpty() == true) {
                     STATE_LOADED_EMPTY
@@ -74,9 +74,8 @@ class PostListViewModel(
                 })
             }
             .onFailure {
-                val errorMessage = it.localizedMessage
                 mutableState.postValue(STATE_ERROR)
-                mutableErrorText.postValue(errorMessage)
+                _error.postValue(it)
             }
     }
 

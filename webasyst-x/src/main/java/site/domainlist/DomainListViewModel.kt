@@ -52,8 +52,8 @@ class DomainListViewModel(
     val errorVisibility: LiveData<Int> = MediatorLiveData<Int>().apply {
         addSource(mutableState) { value = if (it == STATE_ERROR) View.VISIBLE else View.GONE }
     }
-    private val mutableErrorText = MutableLiveData<String>()
-    val errorText: LiveData<String> = mutableErrorText
+    private val _error = MutableLiveData<Throwable?>(null)
+    val error: LiveData<Throwable?> get() = _error
 
     private val mutableDomainList = MutableLiveData<List<Domain>>()
     val domainList: LiveData<List<Domain>> = mutableDomainList
@@ -73,13 +73,12 @@ class DomainListViewModel(
         siteApiClient
             .getDomainList()
             .onSuccess {
-                mutableErrorText.postValue("")
+                _error.postValue(null)
                 mutableState.postValue(if (it.domains.isEmpty()) STATE_DATA_EMPTY else STATE_DATA_READY)
                 mutableDomainList.postValue(it.domains.map { domain -> Domain(domain) })
             }
             .onFailure {
-                val errorMessage = it.localizedMessage
-                mutableErrorText.postValue(errorMessage)
+                _error.postValue(it)
                 mutableState.postValue(STATE_ERROR)
             }
     }
