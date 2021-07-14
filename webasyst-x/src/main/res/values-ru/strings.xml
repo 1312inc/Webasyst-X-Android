@@ -66,6 +66,8 @@
 
     <string name="app_site">Сайт</string>
     <string name="data_fetch_error">Не удалось загрузить данные.\n%1$s</string>
+    <string name="btn_error_details_malformed_response">Посмотреть ответ сервера</string>
+    <string name="error_details_title_response_body">Ответ сервера</string>
 
     <string name="app_shop">Магазин</string>
 

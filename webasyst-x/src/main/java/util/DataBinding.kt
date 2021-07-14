@@ -2,11 +2,13 @@ package com.webasyst.x.util
 
 import android.graphics.Rect
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.webasyst.api.WebasystException
 import com.webasyst.x.R
@@ -70,5 +72,34 @@ object DataBinding {
         val drawable = ContextCompat.getDrawable(view.context, drawableRes)
         drawable?.bounds = Rect(0, 0, resolution, resolution)
         TextViewCompat.setCompoundDrawablesRelative(view, null, drawable, null, null)
+    }
+
+    /**
+     * This multi-purpose binding adapter is meant to fully configure "error details" button.
+     * It sets button visibility, appropriate text and
+     * configures onClickListener to show meaningful details dialog.
+     */
+    @JvmStatic
+    @BindingAdapter("webasystErrorDetailsButton")
+    fun bindWebasystErrorDetalsButton(button: Button, error: Throwable?) {
+        when {
+            null == error ->
+                button.visibility = View.GONE
+            error !is WebasystException ->
+                button.visibility = View.GONE
+            error.webasystCode == WebasystException.ERROR_INVALID_ERROR_OBJECT -> {
+                button.visibility = View.VISIBLE
+                button.setText(R.string.btn_error_details_malformed_response)
+                button.setOnClickListener { btn ->
+                    MaterialAlertDialogBuilder(btn.context)
+                        .setPositiveButton(R.string.btn_ok) { dialog, _ -> dialog.dismiss() }
+                        .setTitle(R.string.error_details_title_response_body)
+                        .setMessage(error.responseBody)
+                        .show()
+                }
+            }
+            else ->
+                button.visibility = View.GONE
+        }
     }
 }
