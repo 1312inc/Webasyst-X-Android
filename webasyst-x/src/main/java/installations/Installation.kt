@@ -12,6 +12,7 @@ import com.webasyst.api.webasyst.InstallationInfo
 import com.webasyst.waid.CloudSignupResponse
 import java.io.Serializable
 import java.lang.reflect.Type
+import java.util.Calendar
 import java.util.Comparator
 
 data class Installation(
@@ -21,6 +22,7 @@ data class Installation(
     /** Full installation URL */
     val rawUrl: String,
     val icon: Icon,
+    val cloudExpireDate: Calendar?,
 ) : com.webasyst.api.Installation, Serializable {
     override val urlBase
         get() = rawUrl
@@ -34,6 +36,7 @@ data class Installation(
         domain = installation.domain,
         rawUrl = installation.url,
         icon = Icon.AutoIcon(installation.domain.firstOrNull()?.toString() ?: " "),
+        cloudExpireDate = installation.cloudExpireDate,
     )
 
     constructor(cloudSignupResponse: CloudSignupResponse) : this(
@@ -41,7 +44,8 @@ data class Installation(
         name = cloudSignupResponse.domain,
         domain = cloudSignupResponse.domain,
         rawUrl = cloudSignupResponse.url,
-        icon = Icon.AutoIcon(cloudSignupResponse.domain.firstOrNull()?.toString() ?: " ")
+        icon = Icon.AutoIcon(cloudSignupResponse.domain.firstOrNull()?.toString() ?: " "),
+        cloudExpireDate = null,
     )
 
     sealed class Icon {

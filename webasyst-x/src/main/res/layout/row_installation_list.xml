@@ -82,37 +82,24 @@
 
         <TextView
             android:id="@+id/urlView2"
+            insecureOrExpiration="@{installation}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:singleLine="true"
-            android:text="@string/installation_connection_not_secure"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="?colorError"
-            app:gone="@{!installation.insecure}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView5"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            app:layout_constraintTop_toBottomOf="@+id/urlView" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:contentDescription="@string/installation_insecure_connection"
-            app:gone="@{!installation.insecure}"
-            app:layout_constraintBottom_toBottomOf="@+id/urlView2"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:drawablePadding="4dp"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?colorError"
+            app:drawableStartCompat="@drawable/ic_warning"
+            app:drawableTint="?colorError"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
             app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
-            app:layout_constraintTop_toTopOf="@+id/urlView2"
-            app:srcCompat="@drawable/ic_warning"
-            app:tint="?colorError"
-            tools:ignore="RtlSymmetry" />
+            app:layout_constraintTop_toBottomOf="@+id/urlView"
+            tools:text="@string/installation_connection_not_secure" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
