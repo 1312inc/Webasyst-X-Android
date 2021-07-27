@@ -1,9 +1,25 @@
 buildscript {
-    ext.target_sdk_version = 30
-    ext.build_tools_version = '30.0.2'
-    ext.kotlin_version = '1.4.0'
-    ext.androidx_annotation_version = '1.1.0'
-    ext.ktor_version = '1.4.0'
+    ext {
+        androidx_annotation_version = '1.1.0'
+        appcompat_version = '1.2.0'
+        build_tools_version = '30.0.2'
+        constraint_layout_version = '2.0.4'
+        coroutines_version = '1.5.0'
+        glide_version = '4.12.0'
+        koin_version = '2.2.3'
+        kotlin_version = '1.5.21'
+        ktor_version = '1.4.0'
+        lifecycle_version = '2.3.1'
+        material_version = '1.4.0'
+        nav_version = '2.3.0'
+        recyclerview_version = '1.2.1'
+        webasyst_version = '1.1.0-SNAPSHOT'
+
+        compile_sdk_version = 30
+        min_sdk_version = 16
+        target_sdk_version = 30
+    }
+
     repositories {
         mavenCentral()
         google()
