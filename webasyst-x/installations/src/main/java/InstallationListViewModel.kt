@@ -10,28 +10,27 @@ import androidx.navigation.NavController
 import com.webasyst.api.webasyst.WebasystApiClient
 import com.webasyst.api.webasyst.WebasystApiClientFactory
 import com.webasyst.auth.WebasystAuthStateStore
-import com.webasyst.x.R
-import com.webasyst.x.WebasystXApplication
-import com.webasyst.x.main.MainFragmentDirections
-import com.webasyst.x.util.findRootNavController
+import com.webasyst.x.common.XComponentProvider
+import com.webasyst.x.common.findRootNavController
 import net.openid.appauth.AuthState
 
 class InstallationListViewModel(app: Application) : AndroidViewModel(app), WebasystAuthStateStore.Observer {
-    private val waidClient = getApplication<WebasystXApplication>().waidClient
-    private val apiClient = getApplication<WebasystXApplication>().apiClient
+    private val waidClient = (getApplication() as XComponentProvider).getWAIDClient()
+    private val apiClient = (getApplication() as XComponentProvider).getApiClient()
     private val webasystApiClientFactory = (apiClient.getFactory(WebasystApiClient::class.java) as WebasystApiClientFactory)
     private val authStateStore = WebasystAuthStateStore.getInstance(getApplication())
-    private val cache = getApplication<WebasystXApplication>().dataCache
+    private val cache = (getApplication() as XComponentProvider).getInstallationListStore()
     var navController: NavController? = null
 
-    val installations = InstallationsController.installations.asLiveData()
+    private val installationsController = InstallationsController.instance(app as XComponentProvider)
+    val installations = installationsController.installations.asLiveData()
 
     private val _state = MutableLiveData<Int>().apply { value = STATE_LOADING }
     val state: LiveData<Int>
         get() = _state
 
     init {
-        InstallationsController.updateInstallations()
+        installationsController.updateInstallations()
         if (installations.value?.isEmpty() == true) {
             _state.value = STATE_EMPTY
         } else {
@@ -52,9 +51,9 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
     override fun onAuthStateChange(state: AuthState) {
         if (state.isAuthorized != wasAuthorized) {
             if (wasAuthorized == true) {
-                InstallationsController.updateInstallations()
+                installationsController.updateInstallations()
             } else if (wasAuthorized == false) {
-                InstallationsController.clearInstallations()
+                installationsController.clearInstallations()
             }
         }
         wasAuthorized = state.isAuthorized
@@ -64,7 +63,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         val navController = view.findRootNavController()
         if (navController.currentDestination?.id == R.id.mainFragment) {
             view.findRootNavController().navigate(
-                MainFragmentDirections.actionMainFragmentToAddWebasystFragment()
+                R.id.action_mainFragment_to_addWebasystFragment
             )
         }
     }

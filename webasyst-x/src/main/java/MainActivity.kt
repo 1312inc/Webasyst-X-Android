@@ -25,9 +25,6 @@ import com.webasyst.x.installations.InstallationListFragment
 import com.webasyst.x.installations.InstallationsController
 import com.webasyst.x.intro.IntroActivity
 import com.webasyst.x.util.BackPressHandler
-import kotlinx.android.synthetic.main.activity_main.drawerLayout
-import kotlinx.android.synthetic.main.activity_main.navRoot
-import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
@@ -35,13 +32,18 @@ import net.openid.appauth.AuthorizationException
 import java.lang.ref.WeakReference
 
 class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, InstallationListFragment.InstallationListView {
+    lateinit var binding: ActivityMainBinding
     private val viewModel by lazy {
         ViewModelProvider(this).get(MainActivityViewModel::class.java)
     }
     private val stateStore by lazy(LazyThreadSafetyMode.NONE) {
         WebasystAuthStateStore.getInstance(this)
     }
-    private val navController by lazy(LazyThreadSafetyMode.NONE) { navRoot.findNavController() }
+    private val navController by lazy(LazyThreadSafetyMode.NONE) { binding.navRoot.findNavController() }
+    private val installationsController by lazy(LazyThreadSafetyMode.NONE) {
+        InstallationsController.instance(WebasystXApplication.instance)
+    }
+    val toolbar by lazy(LazyThreadSafetyMode.NONE) { binding.toolbar }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -67,7 +69,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(
+        binding = DataBindingUtil.setContentView(
             this,
             R.layout.activity_main
         )
@@ -77,10 +79,10 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
 
         binding.toolbar.setNavigationOnClickListener {
             if (!handleBackButton()) {
-                val navController = navRoot.findNavController()
-                when (navRoot.findNavController().currentDestination?.id ?: Int.MIN_VALUE) {
+                val navController = binding.navRoot.findNavController()
+                when (binding.navRoot.findNavController().currentDestination?.id ?: Int.MIN_VALUE) {
                     R.id.mainFragment,
-                    R.id.noInstallationsFragment -> drawerLayout.openDrawer(binding.navigation)
+                    R.id.noInstallationsFragment -> binding.drawerLayout.openDrawer(binding.navigation)
                     R.id.addWebasystFragment -> navController.popBackStack()
                 }
             }
@@ -92,7 +94,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
                 if (state.isAuthorized) {
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                 } else {
-                    InstallationsController.setSelectedInstallation(null)
+                    installationsController.setSelectedInstallation(null)
                     val intent = Intent(this, IntroActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -106,7 +108,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
         super.onStart()
 
         lifecycleScope.launch {
-            InstallationsController.installations.collect {
+            installationsController.installations.collect {
                 if (it == null) {
                     Log.d(TAG, "Navigating to LoadingFragment")
                     navController.navigate(NavDirections.actionGlobalLoadingFragment())
@@ -119,11 +121,11 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
 
         lifecycleScope.launch {
             var previousInstallation: Installation? = null
-            InstallationsController.currentInstallation.collect {
+            installationsController.currentInstallation.collect {
                 if (it != null && previousInstallation?.id != it.id) {
                     Log.d(TAG, "Navigating to ${it.domain}")
                     navController.navigate(NavDirections.actionGlobalMainFragment(installation = it))
-                    drawerLayout.closeDrawers()
+                    binding.drawerLayout.closeDrawers()
                 }
                 it?.icon?.let { icon -> updateToolbarIcon(icon) }
                 previousInstallation = it
@@ -135,18 +137,18 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
                 runOnUiThread {
                     when (destination.id) {
                         R.id.mainFragment -> {
-                            toolbar.visibility = View.VISIBLE
-                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                            binding.toolbar.visibility = View.VISIBLE
+                            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                         }
                         R.id.addWebasystFragment -> {
-                            toolbar.visibility = View.VISIBLE
-                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                            toolbar.setTitle(R.string.add_webasyst)
+                            binding.toolbar.visibility = View.VISIBLE
+                            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                            binding.toolbar.setTitle(R.string.add_webasyst)
                         }
                         R.id.noInstallationsFragment -> {
-                            toolbar.visibility = View.VISIBLE
-                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                            toolbar.setTitle(R.string.app_name)
+                            binding.toolbar.visibility = View.VISIBLE
+                            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                            binding.toolbar.setTitle(R.string.app_name)
                         }
                     }
                 }
@@ -192,7 +194,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
                     resource: Drawable,
                     transition: Transition<in Drawable>?
                 ) {
-                    toolbar.navigationIcon = resource
+                    binding.toolbar.navigationIcon = resource
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) = Unit

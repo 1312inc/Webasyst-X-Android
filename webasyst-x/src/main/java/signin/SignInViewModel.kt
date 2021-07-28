@@ -20,7 +20,7 @@ import com.webasyst.waid.HeadlessCodeRequestResult
 import com.webasyst.x.BuildConfig
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
-import com.webasyst.x.util.getActivity
+import com.webasyst.x.common.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

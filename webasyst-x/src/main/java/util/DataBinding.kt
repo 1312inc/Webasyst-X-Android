@@ -17,12 +17,6 @@ import java.util.Calendar
 
 object DataBinding {
     @JvmStatic
-    @BindingAdapter("app:gone")
-    fun bindGone(view: View, gone: Boolean) {
-        view.visibility = if (gone) View.GONE else View.VISIBLE
-    }
-
-    @JvmStatic
     @BindingAdapter("app:html")
     fun bindHtml(view: TextView, html: String?) {
         val imageGetter = GlideImageGetter(view.context, view)

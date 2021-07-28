@@ -1,11 +1,10 @@
-package com.webasyst.x.util
+package com.webasyst.x.common
 
 import android.app.Activity
 import android.content.ContextWrapper
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.webasyst.x.R
 
 fun View.getActivity(): Activity? {
     var context = this.context

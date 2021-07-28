@@ -17,10 +17,10 @@ import com.webasyst.x.R
 import com.webasyst.x.databinding.FragShopOrderListBinding
 import com.webasyst.x.installations.Installation
 import com.webasyst.x.main.MainFragment
-import kotlinx.android.synthetic.main.frag_shop_order_list.orderListView
 import kotlinx.coroutines.launch
 
 class OrderListFragment : Fragment() {
+    private lateinit var binding: FragShopOrderListBinding
     private val installation by lazy { arguments?.getSerializable(MainFragment.INSTALLATION) as Installation? }
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(
@@ -28,7 +28,7 @@ class OrderListFragment : Fragment() {
             OrderListViewModel.Factory(
                 requireActivity().application,
                 installation?.id,
-                installation?.rawUrl,
+                installation?.url,
             )
         )
             .get(OrderListViewModel::class.java)
@@ -43,29 +43,26 @@ class OrderListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragShopOrderListBinding.inflate(
-        inflater,
-        container,
-        false
-    ).let { binding ->
+    ): View {
+        binding = FragShopOrderListBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = OrderListAdapter()
-        orderListView.layoutManager = LinearLayoutManager(
-            orderListView.context,
+        binding.orderListView.layoutManager = LinearLayoutManager(
+            binding.orderListView.context,
             LinearLayoutManager.VERTICAL,
             false
         )
-        orderListView.adapter = adapter
-        orderListView.addItemDecoration(
-            DividerItemDecoration(orderListView.context, DividerItemDecoration.VERTICAL).apply {
-                setDrawable(ContextCompat.getDrawable(orderListView.context, R.drawable.list_divider)!!)
+        binding.orderListView.adapter = adapter
+        binding.orderListView.addItemDecoration(
+            DividerItemDecoration(binding.orderListView.context, DividerItemDecoration.VERTICAL).apply {
+                setDrawable(ContextCompat.getDrawable(binding.orderListView.context, R.drawable.list_divider)!!)
             }
         )
 

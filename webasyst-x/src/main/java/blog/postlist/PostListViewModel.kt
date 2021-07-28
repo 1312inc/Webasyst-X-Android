@@ -25,7 +25,7 @@ class PostListViewModel(
     private val installationUrl: String?
 ) : AndroidViewModel(application) {
     private val blogApiClient by lazy {
-        (getApplication<WebasystXApplication>().apiClient.getFactory(BlogApiClient::class.java) as BlogApiClientFactory)
+        (getApplication<WebasystXApplication>().getApiClient().getFactory(BlogApiClient::class.java) as BlogApiClientFactory)
             .instanceForInstallation(Installation.invoke(
                 id = installationId ?: "",
                 urlBase = installationUrl ?: ""))

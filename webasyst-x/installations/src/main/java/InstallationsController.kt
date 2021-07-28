@@ -1,27 +1,32 @@
 package com.webasyst.x.installations
 
 import android.util.Log
+import com.webasyst.api.ApiClient
 import com.webasyst.api.webasyst.WebasystApiClient
 import com.webasyst.api.webasyst.WebasystApiClientFactory
 import com.webasyst.waid.WAIDClient
-import com.webasyst.x.WebasystXApplication
-import com.webasyst.x.cache.DataCache
+import com.webasyst.x.common.InstallationListStore
+import com.webasyst.x.common.SingletonHolder
+import com.webasyst.x.common.XComponentProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
-object InstallationsController {
-    private val waidClient: WAIDClient = WebasystXApplication.instance.waidClient
-    private val apiClient = WebasystXApplication.instance.apiClient
+class InstallationsController private constructor(componentProvider: XComponentProvider) {
+    private val waidClient: WAIDClient = componentProvider.getWAIDClient()
+    private val apiClient: ApiClient = componentProvider.getApiClient()
     private val webasystApiClientFactory = (apiClient.getFactory(WebasystApiClient::class.java) as WebasystApiClientFactory)
-    private val dataCache: DataCache = WebasystXApplication.instance.dataCache
+    private val dataCache: InstallationListStore = componentProvider.getInstallationListStore()
 
-    private val mutableInstallations = MutableStateFlow(dataCache.readInstallationList()?.also {
-        Log.d(TAG, "Loaded ${it.size} installations from local storage")
-    } ?: null.also { Log.d(TAG, "Did not load any installations from local storage") })
+    private val mutableInstallations = MutableStateFlow(runBlocking { dataCache.getInstallations() }
+        .map { Installation(it) }
+        .also {
+            Log.d(TAG, "Loaded ${it.size} installations from local storage")
+        } ?: null.also { Log.d(TAG, "Did not load any installations from local storage") })
     val installations: StateFlow<List<Installation>?>
         get() = mutableInstallations
 
@@ -31,7 +36,7 @@ object InstallationsController {
 
     fun clearInstallations() {
         mutableInstallations.value = null
-        dataCache.clearInstallationList()
+        runBlocking { dataCache.clearInstallations() }
         mutableCurrentInstallation.value = null
     }
 
@@ -52,7 +57,7 @@ object InstallationsController {
             if (installations.isNotEmpty() && selectedInstallation == null) {
                 selectedInstallation = installations.first().id
             }
-            dataCache.storeInstallationList(installations)
+            dataCache.setInstallationList(installations)
             Log.d(TAG, "Saved ${installations.size} installations to local storage")
             val namedInstallations = installations
                 .associateWith { installation ->
@@ -75,7 +80,7 @@ object InstallationsController {
                     }
                 }
             restoreSelection(namedInstallations, selectedInstallation)
-            dataCache.storeInstallationList(namedInstallations)
+            dataCache.setInstallationList(namedInstallations)
             Log.d(TAG, "Saved ${installations.size} augmented installations to local storage")
             mutableInstallations.value = namedInstallations
         }
@@ -99,5 +104,7 @@ object InstallationsController {
         }
     }
 
-    const val TAG = "InstallationsController"
+    companion object : SingletonHolder<XComponentProvider, InstallationsController>(::InstallationsController) {
+        const val TAG = "InstallationsController"
+    }
 }

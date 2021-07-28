@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="mainFragment" type="id" />
+    <item name="navRoot" type="id" />
+    <item name="toolbar" type="id" />
+
+    <item name="action_global_noInstallationsFragment" type="id" />
+    <item name="action_mainFragment_to_addWebasystFragment" type="id" />
+    <item name="action_noInstallationsFragment_to_addWebasystFragment" type="id" />
+</resources>

@@ -23,7 +23,7 @@ class PostListAdapter(private val urlBase: String) : ListAdapter<Post, PostListA
     class PostViewHolder(private val urlBase: String, private val binding: RowBlogPostListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
     {
-        private val userPic = itemView.imageView
+        private val userPic = binding.imageView
 
         init {
             itemView.setOnClickListener { view ->
@@ -45,7 +45,7 @@ class PostListAdapter(private val urlBase: String) : ListAdapter<Post, PostListA
                     .circleCrop()
                     .thumbnail(Glide.with(userPic).load(R.drawable.ic_userpic_placeholder))
                     .into(userPic)
-            } ?: itemView.imageView.setImageResource(R.drawable.ic_userpic_placeholder)
+            } ?: binding.imageView.setImageResource(R.drawable.ic_userpic_placeholder)
             binding.imageView
             binding.post = post
             binding.executePendingBindings()

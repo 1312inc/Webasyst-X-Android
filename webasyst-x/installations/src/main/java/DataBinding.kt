@@ -5,10 +5,15 @@ import android.text.format.DateFormat
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.webasyst.x.R
 import java.util.Calendar
 
 object DataBinding {
+    @JvmStatic
+    @BindingAdapter("app:gone")
+    fun bindGone(view: View, gone: Boolean) {
+        view.visibility = if (gone) View.GONE else View.VISIBLE
+    }
+
     @JvmStatic
     @BindingAdapter("insecureOrExpiration")
     fun bindInsecureOrExpiration(view: TextView, installation: Installation?) {

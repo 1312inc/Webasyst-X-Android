@@ -15,10 +15,10 @@ import com.webasyst.waid.WAIDClient
 import com.webasyst.x.NavDirections
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.common.findRootNavController
+import com.webasyst.x.common.getActivity
 import com.webasyst.x.installations.Installation
 import com.webasyst.x.installations.InstallationListFragment
-import com.webasyst.x.util.findRootNavController
-import com.webasyst.x.util.getActivity
 import io.ktor.client.features.ClientRequestException
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers

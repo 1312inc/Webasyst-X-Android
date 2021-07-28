@@ -17,10 +17,10 @@ import com.webasyst.x.R
 import com.webasyst.x.databinding.FragBlogPostListBinding
 import com.webasyst.x.installations.Installation
 import com.webasyst.x.main.MainFragment
-import kotlinx.android.synthetic.main.frag_blog_post_list.postListView
 import kotlinx.coroutines.launch
 
 class PostListFragment : Fragment() {
+    private lateinit var binding: FragBlogPostListBinding
     private val installation by lazy { arguments?.getSerializable(MainFragment.INSTALLATION) as Installation? }
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(
@@ -28,7 +28,7 @@ class PostListFragment : Fragment() {
             PostListViewModel.Factory(
                 requireActivity().application,
                 installation?.id,
-                installation?.rawUrl,
+                installation?.url,
             )
         )
             .get(PostListViewModel::class.java)
@@ -43,27 +43,26 @@ class PostListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragBlogPostListBinding
-        .inflate(inflater, container, false)
-        .let { binding ->
-            binding.viewModel = viewModel
-            binding.lifecycleOwner = viewLifecycleOwner
-            binding.root
-        }
+    ): View {
+        binding = FragBlogPostListBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = PostListAdapter(installation?.rawUrl ?: "")
-        postListView.layoutManager = LinearLayoutManager(
-            postListView.context,
+        val adapter = PostListAdapter(installation?.url ?: "")
+        binding.postListView.layoutManager = LinearLayoutManager(
+            binding.postListView.context,
             LinearLayoutManager.VERTICAL,
             false
         )
-        postListView.adapter = adapter
-        postListView.addItemDecoration(
-            DividerItemDecoration(postListView.context, DividerItemDecoration.VERTICAL).apply {
-                setDrawable(ContextCompat.getDrawable(postListView.context, R.drawable.list_divider)!!)
+        binding.postListView.adapter = adapter
+        binding.postListView.addItemDecoration(
+            DividerItemDecoration(binding.postListView.context, DividerItemDecoration.VERTICAL).apply {
+                setDrawable(ContextCompat.getDrawable(binding.postListView.context, R.drawable.list_divider)!!)
             }
         )
 

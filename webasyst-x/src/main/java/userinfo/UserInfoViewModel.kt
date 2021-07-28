@@ -13,7 +13,7 @@ import com.webasyst.waid.UserInfo
 import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
-import com.webasyst.x.util.getActivity
+import com.webasyst.x.common.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -6,7 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.webasyst.x.MainActivity
-import com.webasyst.x.util.getActivity
+import com.webasyst.x.common.getActivity
 
 class AuthViewModel : ViewModel() {
     val state = MutableLiveData<Int>()

@@ -6,10 +6,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.webasyst.x.R
-import com.webasyst.x.databinding.RowInstallationListBinding
+import com.webasyst.x.common.XComponentProvider
+import com.webasyst.x.installations.databinding.RowInstallationListBinding
+import kotlinx.coroutines.runBlocking
 
-class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapter.InstallationViewHolder>(Companion) {
+class InstallationListAdapter(
+    private val componentProvider: XComponentProvider
+) : ListAdapter<Installation, InstallationListAdapter.InstallationViewHolder>(Companion) {
     var selectedPosition = RecyclerView.NO_POSITION
         private set
 
@@ -32,7 +35,10 @@ class InstallationListAdapter : ListAdapter<Installation, InstallationListAdapte
             selectedPosition = position
             notifyItemChanged(selectedPosition)
             val installation = getItem(position)
-            InstallationsController.setSelectedInstallation(installation)
+            runBlocking {
+                InstallationsController.instance(componentProvider)
+                    .setSelectedInstallation(installation)
+            }
         }
     }
 

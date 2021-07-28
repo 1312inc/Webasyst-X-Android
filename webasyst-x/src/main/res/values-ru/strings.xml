@@ -2,11 +2,7 @@
 <resources>
     <string name="app_name">Webasyst X</string>
     <string name="webasyst">Webasyst</string>
-    <string name="no_webasyst_accounts">К вашему Webasyst ID не подключено ни одного аккаунта Webasyst.</string>
     <string name="installation_insecure_connection">Соединение не защищено</string>
-    <string name="installation_connection_not_secure">Небезопасное соединение</string>
-    <string name="expires_on">Истекает %s</string>
-    <string name="expired_on">Истекла %s</string>
     <string name="app_name_placeholder">My App</string>
     <string name="btn_sign_in">Войти c Webasyst ID</string>
     <string name="btn_sign_out">Выйти</string>

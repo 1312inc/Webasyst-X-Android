@@ -67,7 +67,7 @@ class DomainListViewModel(
             return
         }
         val siteApiClient = (getApplication<WebasystXApplication>()
-            .apiClient
+            .getApiClient()
             .getFactory(SiteApiClient::class.java) as SiteApiClientFactory)
             .instanceForInstallation(Installation(installationId, installationUrl))
         siteApiClient

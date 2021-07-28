@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.frag_main.bottomNav
 
 class MainFragment : Fragment() {
     private val args: MainFragmentArgs by navArgs()
+    private lateinit var binding: FragMainBinding
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(this).get(MainViewModel::class.java).also {
             it.showAddWA.value = args.showAddWA
@@ -34,15 +35,11 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = DataBindingUtil.inflate<FragMainBinding>(
-        inflater,
-        R.layout.frag_main,
-        container,
-        false
-    ).let { binding ->
+    ): View {
+        binding = FragMainBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +49,7 @@ class MainFragment : Fragment() {
             (requireActivity() as MainActivity).toolbar.setTitle(R.string.add_webasyst)
         }
 
-        bottomNav.setOnNavigationItemSelectedListener { item ->
+        binding.bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.site, R.id.shop, R.id.blog -> {
                     onTabChange(item.itemId)
@@ -62,13 +59,13 @@ class MainFragment : Fragment() {
             }
         }
 
-        onTabChange(bottomNav.selectedItemId)
+        onTabChange(binding.bottomNav.selectedItemId)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if ((args.installation?.rawUrl ?: "").startsWith("http://")) {
+        if ((args.installation?.url ?: "").startsWith("http://")) {
             insecureAlert = Snackbar
                 .make(requireView(), R.string.installation_connection_not_secure, Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.btn_dismiss) {}
@@ -115,7 +112,7 @@ class MainFragment : Fragment() {
         }
         loadFragment(fragment)
         if (args.installation?.id != null) {
-            requireActivity().toolbar.title = bottomNav.menu.findItem(id).title
+            (requireActivity() as MainActivity).toolbar.title = binding.bottomNav.menu.findItem(id).title
         }
     }
 

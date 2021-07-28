@@ -4,42 +4,47 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.webasyst.x.R
-import com.webasyst.x.WebasystXApplication
-import com.webasyst.x.cache.DataCache
-import com.webasyst.x.databinding.FragInstallationListBinding
-import com.webasyst.x.util.findRootNavController
-import kotlinx.android.synthetic.main.frag_installation_list.installationList
+import com.webasyst.x.common.InstallationListStore
+import com.webasyst.x.common.XComponentProvider
+import com.webasyst.x.common.findRootNavController
+import com.webasyst.x.installations.databinding.FragInstallationListBinding
+import kotlinx.coroutines.runBlocking
 
-class InstallationListFragment :
-    Fragment(R.layout.frag_installation_list)
-{
+class InstallationListFragment : Fragment(R.layout.frag_installation_list) {
+    lateinit var binding: FragInstallationListBinding
+
+    private val componentProvider: XComponentProvider by lazy(LazyThreadSafetyMode.NONE) {
+        requireActivity().application as XComponentProvider
+    }
+
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(requireActivity()).get(InstallationListViewModel::class.java)
     }
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
-        InstallationListAdapter()
+        InstallationListAdapter(componentProvider)
     }
 
-    private val dataCache: DataCache by lazy(LazyThreadSafetyMode.NONE) {
-        (requireActivity().application as WebasystXApplication).dataCache
+    private val installationsController: InstallationsController by lazy(LazyThreadSafetyMode.NONE) {
+        InstallationsController.instance(componentProvider)
+    }
+
+    private val dataCache: InstallationListStore by lazy(LazyThreadSafetyMode.NONE) {
+        (requireActivity().application as XComponentProvider).getInstallationListStore()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = DataBindingUtil.inflate<FragInstallationListBinding>(
-        inflater, R.layout.frag_installation_list, container, false
-    ).let { binding ->
+    ): View {
+        binding = FragInstallationListBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,8 +52,8 @@ class InstallationListFragment :
 
         viewModel.navController = view.findRootNavController()
 
-        installationList.adapter = adapter
-        installationList.layoutManager = LinearLayoutManager(
+        binding.installationList.adapter = adapter
+        binding.installationList.layoutManager = LinearLayoutManager(
             requireContext(),
             LinearLayoutManager.VERTICAL,
             false
@@ -58,7 +63,7 @@ class InstallationListFragment :
             val previousSize = adapter.itemCount
             adapter.submitList(installations) {
                 if (previousSize == 0 && installations?.isNotEmpty() == true) {
-                    val selectedInstallation = dataCache.selectedInstallationId
+                    val selectedInstallation = runBlocking { dataCache.getSelectedInstallationId() }
                     if (selectedInstallation.isNotEmpty()) {
                         adapter.setSelectedItemById(selectedInstallation)
                     } else {
@@ -76,7 +81,7 @@ class InstallationListFragment :
     }
 
     fun updateInstallations(idToSelect: String?) {
-        InstallationsController.updateInstallations()
+        installationsController.updateInstallations()
     }
 
     interface InstallationListView {

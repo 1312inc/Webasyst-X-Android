@@ -10,18 +10,18 @@ import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.databinding.FragBlogRootBinding
 import com.webasyst.x.util.BackPressHandler
-import kotlinx.android.synthetic.main.frag_blog_root.view.blogRoot
 
 class BlogRootFragment : Fragment(), BackPressHandler {
+    private lateinit var binding: FragBlogRootBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = FragBlogRootBinding.inflate(
-        inflater, container, false
-    ).let { binding ->
+    ): View {
+        binding = FragBlogRootBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.root
+        return binding.root
     }
 
     override fun onResume() {
@@ -29,13 +29,13 @@ class BlogRootFragment : Fragment(), BackPressHandler {
 
         (requireActivity() as MainActivity).addBackPressHandler(this)
 
-        val navController = requireView().blogRoot.findNavController()
+        val navController = binding.blogRoot.findNavController()
         navController.setGraph(R.navigation.nav_blog, arguments)
     }
 
     override fun onBackPressed(): Boolean =
         try {
-            val navController = requireView().blogRoot.findNavController()
+            val navController = binding.blogRoot.findNavController()
             navController.popBackStack()
         } catch (e: IllegalStateException) {
             // This was called before onCreateView

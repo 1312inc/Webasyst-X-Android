@@ -8,34 +8,43 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory
 import com.webasyst.waid.UserInfo
+import com.webasyst.x.common.InstallationInterface
+import com.webasyst.x.common.InstallationListStore
 import com.webasyst.x.installations.Installation
-import com.webasyst.x.installations.InstallationsController
 import kotlin.reflect.KProperty
 
-class DataCache(context: Context) {
+class DataCache(context: Context) : InstallationListStore {
     private val prefs = context
         .applicationContext
         .getSharedPreferences(PREFERENCES_STORE, Context.MODE_PRIVATE)
     var selectedInstallationId by prefs.stringPreference(SELECTED_INSTALLATION)
     private val gson = gson()
 
-    fun storeInstallationList(installations: List<Installation>?) {
+    override suspend fun getSelectedInstallationId(): String {
+        return selectedInstallationId
+    }
+
+    override suspend fun setSelectedInstallationId(id: String) {
+        selectedInstallationId = id
+    }
+
+    override suspend fun setInstallationList(installations: List<InstallationInterface>) {
         prefs.edit {
             putString(KEY_INSTALLATION_LIST, gson.toJson(installations))
         }
     }
 
-    fun readInstallationList(): List<Installation>? {
+    override suspend fun getInstallations(): List<InstallationInterface> {
         try{
-            val installationList = prefs.getString(KEY_INSTALLATION_LIST, null) ?: return null
+            val installationList = prefs.getString(KEY_INSTALLATION_LIST, null) ?: return emptyList()
             return gson.fromJson(installationList, object : TypeToken<List<Installation>>() {}.type)
         } catch (e: Throwable) {
-            Log.w(InstallationsController.TAG, "Caught an exception while loading cached installations", e)
-            return null
+            Log.w(TAG, "Caught an exception while loading cached installations", e)
+            return emptyList()
         }
     }
 
-    fun clearInstallationList() {
+    override suspend fun clearInstallations() {
         prefs.edit {
             remove(KEY_INSTALLATION_LIST)
         }

@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'idea'
+
+android {
+    compileSdkVersion compile_sdk_version
+
+    defaultConfig {
+        minSdkVersion min_sdk_version
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    kotlinOptions {
+        languageVersion = "1.4"
+    }
+}
+
+dependencies {
+    implementation "com.webasyst:waid:$webasyst_version"
+    implementation "com.webasyst:webasyst:$webasyst_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "com.google.android.material:material:$material_version"
+}

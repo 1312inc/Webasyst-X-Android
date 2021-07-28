@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_webasyst_accounts">К вашему Webasyst ID не подключено ни одного аккаунта Webasyst.</string>
+    <string name="installation_connection_not_secure">Небезопасное соединение</string>
+    <string name="expires_on">Истекает %s</string>
+    <string name="expired_on">Истекла %s</string>
+</resources>

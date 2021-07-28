@@ -16,6 +16,8 @@ import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.auth.configureWebasystAuth
 import com.webasyst.waid.WAIDClient
 import com.webasyst.x.cache.DataCache
+import com.webasyst.x.common.InstallationListStore
+import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.installations.InstallationsController
 import com.webasyst.x.util.TokenCacheImpl
 import io.ktor.client.engine.HttpClientEngine
@@ -25,7 +27,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
 
-class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
+class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XComponentProvider {
     override fun onCreate() {
         super.onCreate()
 
@@ -71,7 +73,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
         )
     }
 
-    val apiClient: ApiClient by lazy {
+    private val apiClient_: ApiClient by lazy {
         ApiClient {
             addModuleFactory(BlogApiClient::class.java) { config, waidAuthenticator ->
                 BlogApiClientFactory(config, waidAuthenticator)
@@ -96,11 +98,18 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer {
         DataCache(this)
     }
 
+    override fun getInstallationListStore(): InstallationListStore = dataCache
+
+    override fun getApiClient(): ApiClient = apiClient_
+
+    override fun getWAIDClient(): WAIDClient = waidClient
+
     override fun onAuthStateChange(state: AuthState) {
         if (!state.isAuthorized) {
             GlobalScope.launch(Dispatchers.Default) {
-                InstallationsController.clearInstallations()
-                InstallationsController.setSelectedInstallation(null)
+                val installationsController = InstallationsController.instance(this@WebasystXApplication)
+                installationsController.clearInstallations()
+                installationsController.setSelectedInstallation(null)
                 tokenCache.clear()
                 dataCache.clearUserInfo()
             }
