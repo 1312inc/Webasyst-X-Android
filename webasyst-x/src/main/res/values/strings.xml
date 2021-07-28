@@ -32,20 +32,20 @@
     <string name="intro_btn_next">Next</string>
     <string name="intro_welcome_github_repo_url" translatable="false">https://github.com/1312inc/Webasyst-X-Android/</string>
 
-    <string name="sign_in_btn_with_phone_number">Войти по номеру телефона</string>
-    <string name="sign_in_or">или</string>
-    <string name="sign_in_enter_phone_title">Введите ваш номер телефона</string>
-    <string name="sign_in_enter_phone_subtitle">На этот номер мы отправим код подтверждения</string>
-    <string name="sign_in_btn_continue">Продолжить</string>
-    <string name="sign_in_err_number_format">Неверно указан номер телефона</string>
-    <string name="sign_in_enter_code_title">Введите код из сообщения</string>
-    <string name="sign_in_enter_code_sent_phone">Код был отправлен на номер</string>
-    <string name="sign_in_code">Код</string>
-    <string name="sign_in_code_not_received">Не пришло?</string>
-    <string name="sign_in_code_sent">Код отправлен</string>
-    <string name="sign_in_code_send_again_time">Отправить ещё раз можно через %1$s сек.</string>
-    <string name="sign_in_err_code_invalid">Неверный код</string>
-    <string name="sign_in_btn_send_again">Отправить ещё раз</string>
+    <string name="sign_in_btn_with_phone_number">Sign in with a phone number</string>
+    <string name="sign_in_or">or</string>
+    <string name="sign_in_enter_phone_title">Enter your phone number</string>
+    <string name="sign_in_enter_phone_subtitle">We’ll send you an authorization code via SMS</string>
+    <string name="sign_in_btn_continue">Continue</string>
+    <string name="sign_in_err_number_format">Invalid phone number</string>
+    <string name="sign_in_enter_code_title">Enter the code</string>
+    <string name="sign_in_enter_code_sent_phone">The code has been sent as an SMS to</string>
+    <string name="sign_in_code">Code</string>
+    <string name="sign_in_code_not_received">No message received?</string>
+    <string name="sign_in_code_sent">The code has been sent</string>
+    <string name="sign_in_code_send_again_time">Resend the code will be possible in %1$s s</string>
+    <string name="sign_in_err_code_invalid">Invalid code</string>
+    <string name="sign_in_btn_send_again">Send again</string>
 
     <string name="add_webasyst">Add Webasyst</string>
     <string name="btn_add_webasyst">Add account</string>
