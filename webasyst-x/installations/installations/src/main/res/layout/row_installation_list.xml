@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="installation"
+            type="com.webasyst.x.installations.Installation" />
+        <variable
+            name="selected"
+            type="Boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_selectable_list_item"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="?screenPaddingHorizontal"
+        android:paddingRight="?screenPaddingHorizontal">
+
+        <com.webasyst.x.installations.InstallationIcon
+            android:id="@+id/installationIconDrawable"
+            android:layout_width="50dp"
+            android:layout_height="32dp"
+            app:icon="@{installation.icon}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:gone="@{!selected}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_selected"
+            app:tint="?colorSelected" />
+
+        <TextView
+            android:id="@+id/hostView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:singleLine="true"
+            android:text="@{installation.name}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="?colorOnSurfaceHighEmphasis"
+            app:layout_constraintBottom_toTopOf="@+id/urlView"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="example.com" />
+
+        <TextView
+            android:id="@+id/urlView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:singleLine="true"
+            android:text="@{installation.url}"
+            android:textColor="?colorOnSurfaceMediumEmphasis"
+            app:layout_constraintBottom_toTopOf="@+id/urlView2"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
+            app:layout_constraintTop_toBottomOf="@+id/hostView"
+            tools:text="https://example.com/webasyst/" />
+
+        <TextView
+            android:id="@+id/urlView2"
+            insecureOrExpiration="@{installation}"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:drawablePadding="4dp"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="?colorError"
+            app:drawableStartCompat="@drawable/ic_warning"
+            app:drawableTint="?colorError"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
+            app:layout_constraintStart_toEndOf="@+id/installationIconDrawable"
+            app:layout_constraintTop_toBottomOf="@+id/urlView"
+            tools:text="@string/installation_connection_not_secure" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
