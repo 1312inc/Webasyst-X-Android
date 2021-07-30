@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.webasyst.x.R
 import com.webasyst.x.databinding.RowBlogPostListItemBinding
-import kotlinx.android.synthetic.main.row_blog_post_list_item.view.imageView
 
 class PostListAdapter(private val urlBase: String) : ListAdapter<Post, PostListAdapter.PostViewHolder>(Companion) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder =

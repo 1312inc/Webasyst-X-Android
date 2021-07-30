@@ -17,8 +17,6 @@ import com.webasyst.x.databinding.FragMainBinding
 import com.webasyst.x.intro.LoadingFragment
 import com.webasyst.x.shop.orders.OrderListFragment
 import com.webasyst.x.site.domainlist.DomainListFragment
-import kotlinx.android.synthetic.main.activity_main.toolbar
-import kotlinx.android.synthetic.main.frag_main.bottomNav
 
 class MainFragment : Fragment() {
     private val args: MainFragmentArgs by navArgs()
