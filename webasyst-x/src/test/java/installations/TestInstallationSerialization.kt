@@ -40,14 +40,15 @@ class TestInstallationSerialization {
             id = "id",
             name = "name",
             domain = "domain",
-            rawUrl = "url",
+            url = "url",
             icon = Installation.Icon.ImageIcon(
                 thumbs = mapOf(
                     Installation.Icon.ImageIcon.ResolutionKey(1, 1) to "a",
                     Installation.Icon.ImageIcon.ResolutionKey(2, 2) to "b",
                     Installation.Icon.ImageIcon.ResolutionKey(3, 3) to "c",
-                )
-            )
+                ).toSortedMap()
+            ),
+            cloudExpireDate = null,
         )
         val serialized = gson.toJson(installation)
         val deserialized = gson.fromJson(serialized, Installation::class.java)
