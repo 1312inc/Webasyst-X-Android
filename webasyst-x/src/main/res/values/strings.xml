@@ -44,7 +44,6 @@
     <string name="sign_in_btn_send_again">Отправить ещё раз</string>
 
     <string name="add_webasyst">Add Webasyst</string>
-    <string name="btn_add_webasyst">Add account</string>
     <string name="add_webasyst_title">Add account</string>
     <string name="add_webasyst_title_existing_user">I’m using Webasyst already</string>
     <string name="add_webasyst_existing_user">If you don’t see your existing Webasyst account (website) in this app, it is likely that the account simply isn’t connected to your Webasyst ID. Head on to Webasyst backend on your domain using a web browser > go to Settings app > Webasyst ID > Enable Webasyst ID and link your personal account with just few clicks. Then simply restart this app.</string>

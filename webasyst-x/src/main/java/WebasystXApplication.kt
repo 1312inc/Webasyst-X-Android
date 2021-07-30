@@ -36,7 +36,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
         configureWebasystAuth {
             setClientId(BuildConfig.CLIENT_ID)
             setHost(BuildConfig.WEBASYST_HOST)
-            setCallbackUri(getString(R.string.app_redirect_scheme) + "://oidc_callback")
+            setCallbackUri(BuildConfig.APPLICATION_ID + "://oidc_callback")
             setScope(webasystScope)
         }
 

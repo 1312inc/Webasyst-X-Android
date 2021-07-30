@@ -4,4 +4,5 @@
     <string name="installation_connection_not_secure">Connection is not secure</string>
     <string name="expires_on">Expires on %s</string>
     <string name="expired_on">Expired on %s</string>
+    <string name="btn_add_webasyst">Add account</string>
 </resources>

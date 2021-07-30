@@ -43,7 +43,6 @@
     <string name="sign_in_btn_send_again">Отправить ещё раз</string>
 
     <string name="add_webasyst">Подключить Webasyst</string>
-    <string name="btn_add_webasyst">Добавить аккаунт</string>
     <string name="add_webasyst_title">Добавить аккаунт</string>
     <string name="add_webasyst_title_existing_user">Я уже использую Webasyst</string>
     <string name="add_webasyst_existing_user">Если вы не видите свой аккаунт (сайт) Webasyst в этом приложении, то скорее всего этот аккаунт просто не подключен к вашему Webasyst ID. Откройте бекенд Webasyst > приложение «Настройки» > Webasyst ID > и включите авторизацию по Webasyst ID для себя и коллег. Затем просто перезапустите это приложение.</string>

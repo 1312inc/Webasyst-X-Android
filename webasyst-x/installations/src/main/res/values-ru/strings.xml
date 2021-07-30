@@ -4,4 +4,5 @@
     <string name="installation_connection_not_secure">Небезопасное соединение</string>
     <string name="expires_on">Истекает %s</string>
     <string name="expired_on">Истекла %s</string>
+    <string name="btn_add_webasyst">Добавить аккаунт</string>
 </resources>
