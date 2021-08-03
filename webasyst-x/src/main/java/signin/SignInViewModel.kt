@@ -98,7 +98,7 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
                 )
             }
             codeResponse.value = response
-            startResendTimer(response.nextRequestAllowedAt)
+            startResendTimer(response.nextRequestAllowedAt * 1000L)
 
             withContext(Dispatchers.Main) {
                 navController.navigate(PhoneInputFragmentDirections.actionPhoneInputFragmentToCodeInputFragment())
@@ -151,11 +151,11 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
     }
     private var resendTimer: Job? = null
     private suspend fun resendTimer(tt: Long) {
-        var t = tt - System.currentTimeMillis()
+        var now = System.currentTimeMillis()
         withContext(Dispatchers.Main) {
-            while (t > 0) {
-                _codeSendTime.postValue(t)
-                t--
+            while (tt > now) {
+                now = System.currentTimeMillis()
+                _codeSendTime.postValue((tt - now) / 1000)
                 delay(1000)
             }
             _codeSendTime.postValue(0)
@@ -163,9 +163,6 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
     }
     val resendButtonEnabled: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         addSource(codeSendAgain) { this.value = it != 0L }
-    }
-    init {
-        startResendTimer(System.currentTimeMillis() + 10)
     }
 
     fun navigateBack(view: View) {
