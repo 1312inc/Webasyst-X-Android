@@ -20,6 +20,7 @@ import com.webasyst.waid.HeadlessCodeRequestResult
 import com.webasyst.x.BuildConfig
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.common.findRootNavController
 import com.webasyst.x.common.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -166,6 +167,8 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun navigateBack(view: View) {
-        view.findNavController().popBackStack()
+        if (!view.findNavController().popBackStack()) {
+            view.findRootNavController().popBackStack()
+        }
     }
 }
