@@ -91,7 +91,9 @@ class InstallationsController private constructor(componentProvider: XComponentP
     }
 
     fun setSelectedInstallation(installation: Installation) {
-        mutableCurrentInstallation.value = installation
+        mutableCurrentInstallation.value = installations.value?.firstOrNull {
+            it.id == installation.id
+        }
     }
 
     private fun restoreSelection(installations: List<Installation>?, selected: String?) {

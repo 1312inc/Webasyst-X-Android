@@ -27,14 +27,17 @@ object DataBinding {
                 if (installation.cloudExpireDate!!.before(now)) {
                     view.setTypeface(null, Typeface.BOLD)
                     view.text = view.context.resources.getString(R.string.expired_on, expireDate)
+                    view.visibility = View.VISIBLE
                 } else {
                     view.setTypeface(null, Typeface.NORMAL)
                     view.text = view.context.resources.getString(R.string.expires_on, expireDate)
+                    view.visibility = View.VISIBLE
                 }
             }
             installation.isInsecure -> {
                 view.setTypeface(null, Typeface.NORMAL)
                 view.setText(R.string.installation_connection_not_secure)
+                view.visibility = View.VISIBLE
             }
             else -> {
                 view.visibility = View.GONE

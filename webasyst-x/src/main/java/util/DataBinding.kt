@@ -52,7 +52,7 @@ object DataBinding {
     fun bindWebasystError(view: TextView, error: Throwable?) {
         if (null == error) return
 
-        view.text = error.localizedMessage
+        view.text = error.localizedMessage ?: error.message
         val drawableRes = if (error is WebasystException) {
             if (error.webasystCode == WebasystException.ERROR_CONNECTION_FAILED) {
                 R.drawable.ic_offline
