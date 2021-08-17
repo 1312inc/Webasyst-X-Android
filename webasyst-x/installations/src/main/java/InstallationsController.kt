@@ -40,7 +40,7 @@ class InstallationsController private constructor(componentProvider: XComponentP
         mutableCurrentInstallation.value = null
     }
 
-    fun updateInstallations() {
+    fun updateInstallations(callback: () -> Unit) {
         GlobalScope.launch(Dispatchers.IO) {
             var selectedInstallation = currentInstallation.value?.id
             Log.d(TAG, "Updating installations...")
@@ -83,6 +83,8 @@ class InstallationsController private constructor(componentProvider: XComponentP
             dataCache.setInstallationList(namedInstallations)
             Log.d(TAG, "Saved ${installations.size} augmented installations to local storage")
             mutableInstallations.value = namedInstallations
+
+            callback()
         }
     }
 

@@ -52,6 +52,10 @@ class InstallationListFragment : Fragment(R.layout.frag_installation_list) {
 
         viewModel.navController = view.findRootNavController()
 
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.updateInstallations(force = true)
+        }
+
         binding.installationList.adapter = adapter
         binding.installationList.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -77,11 +81,18 @@ class InstallationListFragment : Fragment(R.layout.frag_installation_list) {
             if (state == InstallationListViewModel.STATE_EMPTY) {
                 view.findRootNavController().navigate(R.id.action_global_noInstallationsFragment)
             }
+
+            binding.swipeRefresh.isRefreshing = state == InstallationListViewModel.STATE_LOADING
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateInstallations(force = false)
+    }
+
     fun updateInstallations(idToSelect: String?) {
-        installationsController.updateInstallations()
+        installationsController.updateInstallations {}
     }
 
     interface InstallationListView {

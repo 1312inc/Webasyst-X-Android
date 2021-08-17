@@ -30,7 +30,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         get() = _state
 
     init {
-        installationsController.updateInstallations()
+        updateInstallations()
         if (installations.value?.isEmpty() == true) {
             _state.value = STATE_EMPTY
         } else {
@@ -42,6 +42,17 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         authStateStore.addObserver(this)
     }
 
+    var lastUpdate: Long = Long.MIN_VALUE
+    fun updateInstallations(force: Boolean = false) {
+        if (force || lastUpdate + UPDATE_INTERVAL < System.currentTimeMillis()) {
+            _state.postValue(STATE_LOADING)
+            installationsController.updateInstallations {
+                _state.postValue(STATE_READY)
+            }
+            lastUpdate = System.currentTimeMillis()
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         authStateStore.removeObserver(this)
@@ -51,7 +62,7 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
     override fun onAuthStateChange(state: AuthState) {
         if (state.isAuthorized != wasAuthorized) {
             if (wasAuthorized == true) {
-                installationsController.updateInstallations()
+                updateInstallations()
             } else if (wasAuthorized == false) {
                 installationsController.clearInstallations()
             }
@@ -73,5 +84,6 @@ class InstallationListViewModel(app: Application) : AndroidViewModel(app), Webas
         const val STATE_LOADING = 0
         const val STATE_EMPTY = 1
         const val STATE_READY = 2
+        const val UPDATE_INTERVAL = 1000L * 60 * 60 // 1 hour
     }
 }
