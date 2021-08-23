@@ -50,13 +50,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline1"
             app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/img_appicon_example" />
+            app:srcCompat="@{viewModel.appLogoRes}" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/intro_welcome_title"
+            android:text="@{viewModel.welcomeTitle}"
             android:textAppearance="@style/Theme.WebasystX.TextAppearance.Headline6"
             android:textColor="?colorOnSurfaceHighEmphasis"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center_horizontal"
-            android:text="@string/intro_welcome_text"
+            android:text="@{viewModel.welcomeText}"
             android:textAppearance="@style/Theme.WebasystX.TextAppearance.Body1"
             android:textColor="?colorOnSurfaceHighEmphasis"
             app:layout_constraintEnd_toEndOf="parent"

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.DrawableRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -34,10 +33,6 @@ class SignInViewModel(
     private val navigator: Navigator,
 ) : AndroidViewModel(application) {
     private val xComponentProvider = application as XComponentProvider
-    open val welcomeTitle: String = application.getString(R.string.intro_welcome_title)
-    open val welcomeText: String = application.getString(R.string.intro_welcome_text)
-    @DrawableRes
-    open val appLogoRes = R.drawable.img_appicon_example
 
     private val phoneNumberUtil by lazy { PhoneNumberUtil.getInstance() }
     private val waidClient by lazy { (getApplication() as XComponentProvider).getWAIDClient() }
