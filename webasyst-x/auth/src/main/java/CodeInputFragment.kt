@@ -1,4 +1,4 @@
-package com.webasyst.x.signin
+package com.webasyst.x.auth
 
 import android.content.Context
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.webasyst.x.databinding.FragSignInCodeBinding
+import com.webasyst.x.auth.databinding.FragSignInCodeBinding
 
 class CodeInputFragment : Fragment() {
     private lateinit var binding: FragSignInCodeBinding
@@ -30,7 +30,7 @@ class CodeInputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.toolbar.setNavigationOnClickListener(viewModel::navigateBack)
+        binding.toolbar.setNavigationOnClickListener(viewModel::navigateBackFromCodeInput)
     }
 
     override fun onResume() {

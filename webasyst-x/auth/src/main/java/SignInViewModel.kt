@@ -1,26 +1,26 @@
-package com.webasyst.x.signin
+package com.webasyst.x.auth
 
 import android.app.Activity
 import android.app.Application
+import android.content.Intent
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.DrawableRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
+import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.waid.HeadlessCodeRequestResult
-import com.webasyst.x.BuildConfig
-import com.webasyst.x.R
-import com.webasyst.x.WebasystXApplication
-import com.webasyst.x.common.findRootNavController
+import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.common.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -29,9 +29,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SignInViewModel(application: Application) : AndroidViewModel(application) {
+class SignInViewModel(
+    application: Application,
+    private val navigator: Navigator,
+) : AndroidViewModel(application) {
+    private val xComponentProvider = application as XComponentProvider
+    open val welcomeTitle: String = application.getString(R.string.intro_welcome_title)
+    open val welcomeText: String = application.getString(R.string.intro_welcome_text)
+    @DrawableRes
+    open val appLogoRes = R.drawable.img_appicon_example
+
     private val phoneNumberUtil by lazy { PhoneNumberUtil.getInstance() }
-    private val waidClient by lazy { (getApplication() as WebasystXApplication).waidClient }
+    private val waidClient by lazy { (getApplication() as XComponentProvider).getWAIDClient() }
     private val authStateStore by lazy { WebasystAuthStateStore.getInstance(getApplication()) }
 
     val phone = MutableLiveData("+7")
@@ -63,9 +72,9 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
     private var submitJob: Job? = null
     fun onSubmit(view: View) {
         submitJob?.cancel()
-        submitJob = viewModelScope.launch(Dispatchers.Default) { submit(phone.value ?: "", view.findNavController()) }
+        submitJob = viewModelScope.launch(Dispatchers.Default) { submit(phone.value ?: "") }
     }
-    suspend fun submit(phoneValue: String, navController: NavController) {
+    suspend fun submit(phoneValue: String) {
         try {
             _submitEnabled.postValue(false)
             var phoneNumber: Phonenumber.PhoneNumber? = null
@@ -81,11 +90,11 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
                 return
             }
 
-            val application = getApplication<WebasystXApplication>()
+            val application = getApplication<Application>()
             val response = withContext(Dispatchers.IO) {
                 waidClient.postAuthCode(
-                    clientId = BuildConfig.CLIENT_ID,
-                    scope = application.webasystScope,
+                    clientId = xComponentProvider.clientId(),
+                    scope = xComponentProvider.webasystScope(),
                     locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         application.applicationContext.resources.configuration.locales[0].toString()
                     } else {
@@ -102,7 +111,7 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
             startResendTimer(response.nextRequestAllowedAt * 1000L)
 
             withContext(Dispatchers.Main) {
-                navController.navigate(PhoneInputFragmentDirections.actionPhoneInputFragmentToCodeInputFragment())
+                navigator.navigateFromPhoneInputToCodeInput()
             }
         } catch (e: Throwable) {
             _phoneError.postValue(R.string.generic_error_retry_later)
@@ -122,7 +131,7 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
             _codeError.postValue(null)
             val cr = codeResponse.value ?: return
             val res = waidClient.postHeadlessToken(
-                clientId = BuildConfig.CLIENT_ID,
+                clientId = xComponentProvider.clientId(),
                 codeVerifier = cr.codeChallenge.password,
                 code = code.value ?: "",
             )
@@ -166,9 +175,43 @@ class SignInViewModel(application: Application) : AndroidViewModel(application) 
         addSource(codeSendAgain) { this.value = it != 0L }
     }
 
-    fun navigateBack(view: View) {
-        if (!view.findNavController().popBackStack()) {
-            view.findRootNavController().popBackStack()
+    fun onPhoneSignIn(view: View) {
+        val intent = Intent(view.context, SignInActivity::class.java)
+        view.context.startActivity(intent)
+    }
+
+    fun onSignIn(view: View) {
+        view.getActivity()?.let { activity ->
+            activity.javaClass.let { activityClass ->
+                val authHelper = WebasystAuthHelper(activity)
+                authHelper.signIn(activityClass)
+            }
+        }
+    }
+
+    fun navigateBackFromPhoneInput(view: View) {
+        view.getActivity()?.onBackPressed()
+    }
+
+    fun navigateBackFromCodeInput(view: View) {
+        navigator.popBackStack()
+    }
+
+    interface Navigator {
+        fun navigateFromPhoneInputToCodeInput()
+        fun popBackStack()
+    }
+
+    class Factory(
+        private val navigator: Navigator,
+        private val application: Application,
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass == SignInViewModel::class.java) {
+                return SignInViewModel(application, navigator) as T
+            } else {
+                throw IllegalArgumentException()
+            }
         }
     }
 }

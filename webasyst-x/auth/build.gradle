@@ -1,0 +1,36 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'idea'
+
+android {
+    compileSdkVersion compile_sdk_version
+
+    buildFeatures {
+        dataBinding true
+    }
+
+    defaultConfig {
+        minSdkVersion min_sdk_version
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    kotlinOptions {
+        languageVersion = "1.4"
+    }
+}
+
+dependencies {
+    api project(':webasyst-x:common')
+    implementation "com.webasyst:auth:$webasyst_version"
+    implementation "com.webasyst:waid:$webasyst_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.25'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    api 'com.github.AppIntro:AppIntro:6.1.0'
+}

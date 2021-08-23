@@ -1,6 +1,8 @@
 package com.webasyst.x
 
+import android.app.Activity
 import android.app.Application
+import androidx.fragment.app.Fragment
 import com.webasyst.api.ApiClient
 import com.webasyst.api.TokenCache
 import com.webasyst.api.blog.BlogApiClient
@@ -15,10 +17,12 @@ import com.webasyst.auth.WebasystAuthService
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.auth.configureWebasystAuth
 import com.webasyst.waid.WAIDClient
+import com.webasyst.x.auth.WelcomeFragment
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.common.InstallationListStore
 import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.installations.InstallationsController
+import com.webasyst.x.intro.GithubFragment
 import com.webasyst.x.util.TokenCacheImpl
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.android.Android
@@ -37,13 +41,13 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
             setClientId(BuildConfig.CLIENT_ID)
             setHost(BuildConfig.WEBASYST_HOST)
             setCallbackUri(BuildConfig.APPLICATION_ID + "://oidc_callback")
-            setScope(webasystScope)
+            setScope(webasystScope())
         }
 
         WebasystAuthStateStore.getInstance(this).addObserver(this)
     }
 
-    val webasystScope = listOf(
+    override fun webasystScope() = listOf(
         SiteApiClient.SCOPE,
         ShopApiClient.SCOPE,
         BlogApiClient.SCOPE,
@@ -103,6 +107,17 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
     override fun getApiClient(): ApiClient = apiClient_
 
     override fun getWAIDClient(): WAIDClient = waidClient
+
+    override fun mainActivityClass(): Class<out Activity> = MainActivity::class.java
+
+    override fun introSlides(): List<Fragment> = listOf(
+        Fragment(R.layout.frag_intro_hello_world),
+        Fragment(R.layout.frag_intro_projects),
+        GithubFragment(),
+        WelcomeFragment(),
+    )
+
+    override fun clientId(): String = BuildConfig.CLIENT_ID
 
     override fun onAuthStateChange(state: AuthState) {
         if (!state.isAuthorized) {

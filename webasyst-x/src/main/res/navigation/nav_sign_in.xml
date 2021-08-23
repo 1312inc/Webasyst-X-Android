@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/phoneInputFragment"
-        android:name="com.webasyst.x.signin.PhoneInputFragment"
+        android:name="com.webasyst.x.auth.PhoneInputFragment"
         android:label="frag_sign_in_phone"
         tools:layout="@layout/frag_sign_in_phone" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/codeInputFragment"
-        android:name="com.webasyst.x.signin.CodeInputFragment"
+        android:name="com.webasyst.x.auth.CodeInputFragment"
         android:label="frag_sign_in_code"
         tools:layout="@layout/frag_sign_in_code" />
 </navigation>

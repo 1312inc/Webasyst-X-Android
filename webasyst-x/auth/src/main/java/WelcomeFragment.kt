@@ -1,4 +1,4 @@
-package com.webasyst.x.intro
+package com.webasyst.x.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.webasyst.x.databinding.FragIntroWelcomeBinding
+import com.webasyst.x.auth.databinding.FragIntroWelcomeBinding
 
 class WelcomeFragment : Fragment() {
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {

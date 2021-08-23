@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.webasyst.x.intro.WelcomeViewModel" />
+            type="com.webasyst.x.auth.WelcomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/appintro2_bottombar_height"
             android:onClick="@{viewModel::onSignIn}"
-            android:text="@string/intro_btn_sign_in"
+            android:text="@string/btn_sign_in_with_waid"
             android:textColor="?colorOnSurface"
             app:icon="@drawable/x_logo"
             app:iconGravity="textStart"

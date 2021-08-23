@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".signin.CodeInputFragment">
+    tools:context=".auth.CodeInputFragment">
 
     <data>
         <import type="android.view.View" />
         <variable
             name="viewModel"
-            type="com.webasyst.x.signin.SignInViewModel" />
+            type="com.webasyst.x.auth.SignInViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

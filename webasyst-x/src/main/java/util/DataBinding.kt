@@ -9,7 +9,6 @@ import androidx.core.text.HtmlCompat
 import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputLayout
 import com.webasyst.api.WebasystException
 import com.webasyst.x.R
 import java.text.DateFormat
@@ -34,16 +33,6 @@ object DataBinding {
             ""
         } else {
             DateFormat.getDateTimeInstance().format(calendar.time)
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter("errorText")
-    fun bindErrorText(view: TextInputLayout, error: Int?) {
-        if (error == null) {
-            view.error = null
-        } else {
-            view.error = view.context.getString(error)
         }
     }
 

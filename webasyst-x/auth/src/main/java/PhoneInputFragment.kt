@@ -1,4 +1,4 @@
-package com.webasyst.x.signin
+package com.webasyst.x.auth
 
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
@@ -9,13 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.webasyst.x.R
-import com.webasyst.x.databinding.FragSignInPhoneBinding
+import com.webasyst.x.auth.databinding.FragSignInPhoneBinding
 
 class PhoneInputFragment : Fragment(R.layout.frag_sign_in_phone) {
     private lateinit var binding: FragSignInPhoneBinding
     private val viewModel: SignInViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProvider(requireActivity()).get(SignInViewModel::class.java)
+        val activity = requireActivity()
+        ViewModelProvider(
+            requireActivity(),
+            SignInViewModel.Factory(activity as SignInViewModel.Navigator, activity.application)
+        ).get(SignInViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -34,7 +37,7 @@ class PhoneInputFragment : Fragment(R.layout.frag_sign_in_phone) {
 
         val phoneTextWatcher = PhoneTextWatcher()
         binding.phoneInput.addTextChangedListener(phoneTextWatcher)
-        binding.toolbar.setNavigationOnClickListener(viewModel::navigateBack)
+        binding.toolbar.setNavigationOnClickListener(viewModel::navigateBackFromPhoneInput)
     }
 
     private class PhoneTextWatcher : TextWatcher {

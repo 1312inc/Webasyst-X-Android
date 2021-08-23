@@ -1,4 +1,4 @@
-package com.webasyst.x.intro
+package com.webasyst.x.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,16 +6,17 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.Button
 import androidx.annotation.ColorInt
-import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
-import com.webasyst.x.MainActivity
-import com.webasyst.x.R
-import com.webasyst.x.auth.WelcomeFragment
+import com.webasyst.x.common.XComponentProvider
 import net.openid.appauth.AuthState
 
 class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
+    private val xComponentProvider: XComponentProvider by lazy {
+        application as XComponentProvider
+    }
+
     override val layoutId = R.layout.activity_intro
 
     private val intro: View by lazy(LazyThreadSafetyMode.NONE) { findViewById(R.id.background) }
@@ -68,13 +69,9 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
         setBackArrowColor(controlColor)
         setNextArrowColor(controlColor)
 
-        addSlide(Fragment(R.layout.frag_intro_hello_world))
-
-        addSlide(Fragment(R.layout.frag_intro_projects))
-
-        addSlide(GithubFragment())
-
-        addSlide(WelcomeFragment())
+        xComponentProvider
+            .introSlides()
+            .forEach(this::addSlide)
     }
 
     override fun onPageSelected(position: Int) {
@@ -83,7 +80,7 @@ class IntroActivity : AppIntro(), WebasystAuthStateStore.Observer {
 
     override fun onAuthStateChange(authState: AuthState) {
         if (authState.isAuthorized) {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, xComponentProvider.mainActivityClass())
             startActivity(intent)
             finish()
         }

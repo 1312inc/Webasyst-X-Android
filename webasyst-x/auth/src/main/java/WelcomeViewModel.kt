@@ -1,11 +1,10 @@
-package com.webasyst.x.intro
+package com.webasyst.x.auth
 
 import android.content.Intent
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.x.common.getActivity
-import com.webasyst.x.signin.SignInActivity
 
 class WelcomeViewModel : ViewModel() {
     fun onPhoneSignIn(view: View) {
