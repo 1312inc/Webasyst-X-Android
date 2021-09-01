@@ -21,4 +21,5 @@ dependencies {
     implementation "com.webasyst:webasyst:$webasyst_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh_version"
 }

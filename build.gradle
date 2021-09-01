@@ -15,6 +15,7 @@ buildscript {
         nav_version = '2.3.5'
         recyclerview_version = '1.2.1'
         room_version = '2.3.0'
+        swipe_refresh_version = '1.1.0'
         webasyst_version = '1.1.0-SNAPSHOT'
 
         compile_sdk_version = 30

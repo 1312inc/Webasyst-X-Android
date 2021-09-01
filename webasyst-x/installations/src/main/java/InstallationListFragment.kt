@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.webasyst.x.common.InstallationListStore
 import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.common.findRootNavController
+import com.webasyst.x.common.setWebasystBrandColors
 import com.webasyst.x.installations.databinding.FragInstallationListBinding
 import kotlinx.coroutines.runBlocking
 
@@ -49,6 +50,8 @@ class InstallationListFragment : Fragment(R.layout.frag_installation_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.swipeRefresh.setWebasystBrandColors()
 
         viewModel.navController = view.findRootNavController()
 
