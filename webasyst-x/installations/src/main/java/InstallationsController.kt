@@ -49,14 +49,26 @@ class InstallationsController private constructor(componentProvider: XComponentP
                 Log.d(TAG, "Failed to update installations", installationsResponse.getFailureCause())
                 return@launch
             }
-            val installations = installationsResponse.getSuccess().map {
+            val rawInstallations = installationsResponse.getSuccess().map {
                 Installation(it)
             }
-            Log.d(TAG, "Loaded ${installations.size} installations from WAID")
-            mutableInstallations.value = installations
-            if (installations.isNotEmpty() && selectedInstallation == null) {
-                selectedInstallation = installations.first().id
+            Log.d(TAG, "Loaded ${rawInstallations.size} installations from WAID")
+            if (rawInstallations.isNotEmpty() && selectedInstallation == null) {
+                selectedInstallation = rawInstallations.first().id
             }
+            val existingInstallations = dataCache.getInstallations()
+            val installations = rawInstallations.map { installation ->
+                val existing = existingInstallations.firstOrNull { it.id == installation.id }
+                if (null != existing) {
+                    installation.copy(
+                        name = existing.name,
+                        icon = Installation.Icon(existing)
+                    )
+                } else {
+                    installation
+                }
+            }
+//            mutableInstallations.value = installations
             dataCache.setInstallationList(installations)
             Log.d(TAG, "Saved ${installations.size} installations to local storage")
             val namedInstallations = installations

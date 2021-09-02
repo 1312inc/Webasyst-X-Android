@@ -92,6 +92,8 @@ data class Installation(
                 override fun compareTo(other: ResolutionKey): Int =
                     compare(this, other)
 
+                override fun toString() = "${resolution}x${resolution}@${scale}x"
+
                 companion object : Comparator<ResolutionKey> by compareBy( { it.physicalResolution }, { it.scale } )
             }
 
