@@ -10,6 +10,7 @@ import com.webasyst.x.common.SingletonHolder
 import com.webasyst.x.common.XComponentProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,8 +41,11 @@ class InstallationsController private constructor(componentProvider: XComponentP
         mutableCurrentInstallation.value = null
     }
 
+    private var updateJob: Job? = null
     fun updateInstallations(callback: () -> Unit) {
-        GlobalScope.launch(Dispatchers.IO) {
+        if (updateJob?.isActive == true) return
+
+        updateJob = GlobalScope.launch(Dispatchers.IO) {
             var selectedInstallation = currentInstallation.value?.id
             Log.d(TAG, "Updating installations...")
             val installationsResponse = waidClient.getInstallationList()
