@@ -31,9 +31,8 @@ class InstallationListAdapter(
 
     fun setSelectedItem(position: Int) {
         if (position < itemCount) {
-            notifyItemChanged(selectedPosition)
             selectedPosition = position
-            notifyItemChanged(selectedPosition)
+            notifyDataSetChanged()
             val installation = getItem(position)
             runBlocking {
                 InstallationsController.instance(componentProvider)
