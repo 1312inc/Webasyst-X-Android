@@ -176,12 +176,7 @@ data class Installation(
                         .joinToString(separator = "")
                     )
                 } else if (logo.mode == InstallationInfo.Logo.LOGO_MODE_IMAGE && logo.image != null) {
-                    AutoIcon(info.name.split(" ")
-                        .map { it.first().toUpperCase() }
-                        .filterIndexed { index, _ -> index < 4 }
-                        .joinToString(separator = "")
-                    )
-//                    ImageIcon(logo.image!!)
+                    ImageIcon(logo.image!!)
                 } else {
                     GradientIcon(
                         logo.text.value,
