@@ -65,10 +65,12 @@ class DomainListFragment : Fragment(R.layout.frag_site_domain_list) {
         viewModel.domainList.observe(viewLifecycleOwner, { t -> adapter.submitList(t) })
     }
 
+    @Deprecated("")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.std_tab_menu, menu)
     }
 
+    @Deprecated("")
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.refresh -> {

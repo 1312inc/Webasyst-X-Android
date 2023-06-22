@@ -60,6 +60,7 @@ class MainFragment : Fragment() {
         onTabChange(binding.bottomNav.selectedItemId)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

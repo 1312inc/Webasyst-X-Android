@@ -88,7 +88,7 @@ class DomainListViewModel(
         private val installationId: String?,
         private val installationUrl: String?
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        override fun <T : ViewModel> create(modelClass: Class<T>): T =
             DomainListViewModel(application, installationId, installationUrl) as T
     }
 

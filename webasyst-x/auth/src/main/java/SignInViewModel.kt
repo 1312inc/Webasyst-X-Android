@@ -201,7 +201,7 @@ class SignInViewModel(
         private val navigator: Navigator,
         private val application: Application,
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass == SignInViewModel::class.java) {
                 return SignInViewModel(application, navigator) as T
             } else {

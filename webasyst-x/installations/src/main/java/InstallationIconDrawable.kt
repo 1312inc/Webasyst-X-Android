@@ -76,6 +76,7 @@ class InstallationIconDrawable(context: Context, val icon: Installation.Icon) : 
                 }
                 iconMatrix.setRotate(icon.angle.toFloat(), size / 2, size / 2)
             }
+            else -> {}
         }
         textPaint.textSize = when(icon.text.length) {
             3 -> 9 * size / 32
@@ -138,5 +139,6 @@ class InstallationIconDrawable(context: Context, val icon: Installation.Icon) : 
         gradientPaint.colorFilter = colorFilter
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getOpacity(): Int = PixelFormat.TRANSPARENT
 }

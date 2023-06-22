@@ -84,7 +84,7 @@ class PostListViewModel(
         private val installationId: String?,
         private val installationUrl: String?
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        override fun <T : ViewModel> create(modelClass: Class<T>): T =
             PostListViewModel(application, installationId, installationUrl) as T
     }
 

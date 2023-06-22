@@ -10,7 +10,7 @@ import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresApi
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -36,12 +36,12 @@ class ConnectivityUtil(private val context: Context) {
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                sendBlocking(ONLINE)
+                trySendBlocking(ONLINE)
             }
 
             override fun onLost(network: Network) {
                 super.onLost(network)
-                sendBlocking(OFFLINE)
+                trySendBlocking(OFFLINE)
             }
         }
 
@@ -63,9 +63,9 @@ class ConnectivityUtil(private val context: Context) {
                     if (intent.action == Intent.ACTION_AIRPLANE_MODE_CHANGED) {
                         intent.extras?.let { extras ->
                             if (extras.getBoolean("state", false)) {
-                                sendBlocking(OFFLINE)
+                                trySendBlocking(OFFLINE)
                             } else {
-                                sendBlocking(ONLINE)
+                                trySendBlocking(ONLINE)
                             }
                         }
                     }

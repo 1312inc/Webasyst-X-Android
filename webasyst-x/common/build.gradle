@@ -10,10 +10,6 @@ android {
         minSdkVersion min_sdk_version
         vectorDrawables.useSupportLibrary = true
     }
-
-    kotlinOptions {
-        languageVersion = "1.4"
-    }
 }
 
 dependencies {
@@ -21,5 +17,5 @@ dependencies {
     implementation "com.webasyst:webasyst:$webasyst_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "com.google.android.material:material:$material_version"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh_version"
+    api "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh_version"
 }

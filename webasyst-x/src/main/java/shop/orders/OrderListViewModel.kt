@@ -84,7 +84,7 @@ class OrderListViewModel(
         private val installationId: String?,
         private val installationUrl: String?
     ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+        override fun <T : ViewModel> create(modelClass: Class<T>): T =
             OrderListViewModel(application, installationId, installationUrl) as T
     }
 

@@ -32,7 +32,7 @@ android {
     }
 
     kotlinOptions {
-        languageVersion = "1.4"
+        //languageVersion = "1.4"
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 

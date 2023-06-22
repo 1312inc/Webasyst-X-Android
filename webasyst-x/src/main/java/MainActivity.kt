@@ -169,6 +169,7 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
         viewModel.setAuthState(state)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (!handleBackButton()) {
             super.onBackPressed()
