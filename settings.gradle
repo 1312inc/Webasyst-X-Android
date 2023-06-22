@@ -1,5 +1,6 @@
 rootProject.name = 'Webasyst X Android'
 include ':webasyst-x'
 include ':webasyst-x:auth'
+include ':webasyst-x:barcode'
 include ':webasyst-x:common'
 include ':webasyst-x:installations'

@@ -19,4 +19,16 @@
     <string name="sign_in_err_code_invalid">Неверный код</string>
     <string name="sign_in_btn_send_again">Отправить еще раз</string>
     <string name="generic_error_retry_later">Произошла ошибка. Попробуйте позже.</string>
+    <string name="btn_sign_in_with_qr">Войти по QR-коду</string>
+
+    <string name="auth_qr_title">Отсканируйте QR-код</string>
+    <string name="auth_qr_hint">Перейдите в свой профиль на сайте или в бекенде\n Webasyst в браузере и нажмите на кнопку\n «Войти по QR-коду» вверху справа.</string>
+    <string name="auth_qr_err_code_invalid">Неверный код. Попробуйте еще раз.</string>
+    <string name="auth_qr_connection">Авторизация…</string>
+    <string name="auth_qr_permission">Разрешение на использование камеры\n не было предоставлено.</string>
+    <string name="auth_qr_err_code_irrelevant">Да, это QR-код, но он никак не связан с Webasyst.</string>
+    <string name="auth_express_text">Пожалуйста, уточните свой номер телефона, чтобы создать новый профиль Webasyst ID и привязать его к мобильному приложению.</string>
+    <string name="auth_btn_confirm">Подтвердить номер телефона</string>
+    <string name="auth_qr_err_code_improper">Это не тот QR-код! Вы уже авторизованы в приложении с Webasyst ID и сканируете QR-код для входа с другим Webasyst ID. А нужный вам QR-код в бекенде Webasyst на вашем сайте в вашем профиле в «Команде» — там особый типа кода, который свяжет ваш Webasyst ID с новым сайтом, к которому вы пока не подключены.</string>
+    <string name="auth_qr_adding_wa">Подключаем Webasyst ID к аккаунту…</string>
 </resources>

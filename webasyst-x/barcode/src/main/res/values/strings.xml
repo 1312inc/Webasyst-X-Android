@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="auth_qr_title">Scan the QR code</string>
+</resources>

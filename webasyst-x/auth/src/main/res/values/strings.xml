@@ -19,4 +19,17 @@
     <string name="sign_in_err_code_invalid">Invalid code</string>
     <string name="sign_in_btn_send_again">Send again</string>
     <string name="generic_error_retry_later">An error occurred. Please try again later.</string>
+    <string name="btn_sign_in_with_qr">Sign in using  QR</string>
+
+    <string name="auth_qr_title">Scan the QR code</string>
+    <string name="auth_qr_hint">Open your user profile in the Webasyst\n backend in a browser and click the\n “Sign in using QR” button on the right.</string>
+    <string name="auth_qr_err_code_invalid">Invalid code. Try again.</string>
+    <string name="auth_qr_connection">Authorizing…</string>
+    <string name="auth_qr_permission">Permission to the camera\n has not been granted</string>
+    <string name="auth_qr_err_code_irrelevant">The code does not related to the Webasyst</string>
+    <string name="auth_express_text">Please specify your phone number to create a new Webasyst ID user profile and link it to the mobile application.</string>
+    <string name="auth_express_title" translatable="false">Webasyst ID</string>
+    <string name="auth_btn_confirm">Confirm your phone number</string>
+    <string name="auth_qr_err_code_improper">This is a wrong code! You are scanning a QR code to sign in with Webasyst ID while being authorized with another Webasyst ID already. But the code you need is located in your Webasyst backend profile on your custom domain in the Team app — this code will connect your current Webasyst ID to an new account which is not linked yet.</string>
+    <string name="auth_qr_adding_wa">Link the account with your Webasyst ID…</string>
 </resources>

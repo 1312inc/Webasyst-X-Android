@@ -106,7 +106,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/appintro2_bottombar_height"
+            android:layout_marginBottom="8dp"
             android:onClick="@{viewModel::onSignIn}"
             android:text="@string/btn_sign_in_with_waid"
             android:textColor="?colorOnSurface"
@@ -115,6 +115,23 @@
             app:iconSize="24dp"
             app:iconTint="#0000"
             app:iconTintMode="add"
+            app:layout_constraintBottom_toTopOf="@+id/button5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/button5"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/appintro2_bottombar_height"
+            android:onClick="@{viewModel::onQRSignIn}"
+            android:text="@string/btn_sign_in_with_qr"
+            android:textColor="?colorOnSurface"
+            app:icon="@drawable/baseline_qr_code_scanner_24"
+            app:iconGravity="textStart"
+            app:iconSize="24dp"
+            app:iconTint="?colorOnSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -2,6 +2,7 @@ package com.webasyst.x.auth
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.View
@@ -19,6 +20,7 @@ import com.google.i18n.phonenumbers.Phonenumber
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.waid.HeadlessCodeRequestResult
+import com.webasyst.x.barcode.QrHandlerInterface
 import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.common.getActivity
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +33,7 @@ import kotlinx.coroutines.withContext
 class SignInViewModel(
     application: Application,
     private val navigator: Navigator,
-) : AndroidViewModel(application) {
+) : AndroidViewModel(application), QrHandlerInterface {
     private val xComponentProvider = application as XComponentProvider
 
     private val phoneNumberUtil by lazy { PhoneNumberUtil.getInstance() }
@@ -184,6 +186,67 @@ class SignInViewModel(
         }
     }
 
+    private val _qrCodeSuccess = MutableLiveData(false)
+    private val _qrCodeHint = MutableLiveData(application.resources.getString(R.string.auth_qr_hint))
+
+    override val qrCodeSuccess = _qrCodeSuccess
+    override val qrCodeHint = _qrCodeHint
+
+    override val qrKonfetti: MutableStateFlow<String>
+        get() = MutableStateFlow("")
+
+    override fun handleBarcode(barcode: String, context: Context): Boolean {
+        if (barcode.indexOf(WEBASYSTID_ADDACCOUNT) > 0){
+            _qrCodeHint.value = (getApplication() as Application).resources.getString(R.string.auth_qr_hint)
+            _qrCodeSuccess.postValue(true)
+            _qrCodeSuccess.postValue(false)
+            navigateToExpressSignIn(barcode)
+            return true
+        } else if (barcode.indexOf(WEBASYSTID_SIGNIN) > 0){
+            onSubmitQrCode(barcode)
+            return true
+        }
+        return false
+    }
+
+    override suspend fun onInvalidCode(context: Context){
+        _qrCodeSuccess.postValue(true)
+        _qrCodeHint.postValue(context.resources.getString(R.string.auth_qr_err_code_irrelevant))
+        delay(3000)
+        _qrCodeSuccess.postValue(false)
+        _qrCodeHint.postValue(context.resources.getString(R.string.auth_qr_hint))
+    }
+
+    override fun onSetInitHint(){
+        _qrCodeHint.value = (getApplication() as Application).resources.getString(R.string.auth_qr_hint)
+    }
+
+    override fun onSetCameraPermissionDeniedHint(){
+        _qrCodeHint.value = (getApplication() as Application).resources.getString(R.string.auth_qr_permission)
+    }
+
+    var submitQrCodeJob: Job? = null
+    private fun onSubmitQrCode(qrCode: String) {
+        submitQrCodeJob?.cancel()
+        submitQrCodeJob = viewModelScope.launch(Dispatchers.IO) { submitQrCode(qrCode) }
+    }
+
+    private suspend fun submitQrCode(qrCode: String) {
+        try {
+            _qrCodeSuccess.postValue(true)
+            _qrCodeHint.postValue((getApplication() as Application).resources.getString(R.string.auth_qr_connection))
+            oAuth.qrToken(
+                code = qrCode,
+            )
+        } catch (e: Throwable) {
+            _qrCodeHint.postValue((getApplication() as Application).resources.getString(R.string.auth_qr_err_code_invalid))
+            delay(3000)
+            _qrCodeSuccess.postValue(false)
+        } finally {
+            _qrCodeHint.postValue((getApplication() as Application).resources.getString(R.string.auth_qr_hint))
+        }
+    }
+
     fun navigateBackFromPhoneInput(view: View) {
         view.getActivity()?.onBackPressed()
     }
@@ -208,5 +271,10 @@ class SignInViewModel(
                 throw IllegalArgumentException()
             }
         }
+    }
+
+    companion object{
+        const val WEBASYSTID_ADDACCOUNT = "WEBASYSTID-ADDACCOUNT"
+        const val WEBASYSTID_SIGNIN = "WEBASYSTID-SIGNIN"
     }
 }

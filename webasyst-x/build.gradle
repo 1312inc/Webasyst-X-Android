@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         applicationId 'com.webasyst.x'
-        minSdkVersion 16
+        minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
         multiDexEnabled true
         def versionMajor = 1
@@ -75,7 +75,7 @@ android {
 }
 
 dependencies {
-    def webasyst_version = '1.1.0-SNAPSHOT'
+    def webasyst_version = '1.1.1-SNAPSHOT'
     implementation project(':webasyst-x:auth')
     implementation project(':webasyst-x:installations')
     implementation "com.webasyst:app-blog:$webasyst_version"

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
 import com.webasyst.auth.WebasystAuthStateStore
+import com.webasyst.x.barcode.QRCodeFragment
 import com.webasyst.x.common.XComponentProvider
 import net.openid.appauth.AuthState
 
@@ -24,8 +25,12 @@ class SignInActivity : AppCompatActivity(), WebasystAuthStateStore.Observer, Sig
         setContentView(R.layout.activity_sign_in)
         frame = findViewById(R.id.frame)
 
+        val fragment = when(intent?.getIntExtra(ARG_AUTH_TYPE, AUTH_TYPE_PHONE)){
+            AUTH_TYPE_QR -> QRCodeFragment()
+            else -> PhoneInputFragment()
+        }
         supportFragmentManager.beginTransaction().also { transaction ->
-            transaction.add(R.id.frame, PhoneInputFragment())
+            transaction.add(R.id.frame, fragment)
             transaction.commit()
         }
     }
@@ -60,5 +65,11 @@ class SignInActivity : AppCompatActivity(), WebasystAuthStateStore.Observer, Sig
 
     override fun popBackStack() {
         supportFragmentManager.popBackStack()
+    }
+
+    companion object{
+        const val ARG_AUTH_TYPE = "auth_type"
+        const val AUTH_TYPE_PHONE = 0
+        const val AUTH_TYPE_QR = 1
     }
 }

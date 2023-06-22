@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="reticle_ripple">#9AFFFFFF</color>
+    <color name="barcode_reticle_background">#99000000</color>
+    <color name="barcode_reticle_stroke">#40000000</color>
+    <color name="toolbar_bg">#30000000</color>
+    <color name="toolbar_color">#FFEEEEEE</color>
+</resources>
