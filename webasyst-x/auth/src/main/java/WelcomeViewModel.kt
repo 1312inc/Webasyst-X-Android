@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.x.auth.SignInActivity.Companion.ARG_AUTH_TYPE
 import com.webasyst.x.auth.SignInActivity.Companion.AUTH_TYPE_PHONE
+import com.webasyst.x.auth.SignInActivity.Companion.AUTH_TYPE_QR
 import com.webasyst.x.common.getActivity
 
 class WelcomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -26,7 +27,7 @@ class WelcomeViewModel(application: Application) : AndroidViewModel(application)
 
     fun onQRSignIn(view: View) {
         val intent = Intent(view.context, SignInActivity::class.java).apply {
-            putExtras(bundleOf(ARG_AUTH_TYPE to AUTH_TYPE_PHONE))
+            putExtras(bundleOf(ARG_AUTH_TYPE to AUTH_TYPE_QR))
         }
         view.context.startActivity(intent)
     }

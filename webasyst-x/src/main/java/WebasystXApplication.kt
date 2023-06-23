@@ -30,6 +30,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XComponentProvider {
     override fun onCreate() {
@@ -45,6 +47,10 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
         }
 
         WebasystAuthStateStore.getInstance(this).addObserver(this)
+
+        startKoin {
+            androidContext(this@WebasystXApplication)
+        }
     }
 
     override fun webasystScope() = listOf(

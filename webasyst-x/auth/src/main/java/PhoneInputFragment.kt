@@ -14,11 +14,7 @@ import com.webasyst.x.auth.databinding.FragSignInPhoneBinding
 class PhoneInputFragment : Fragment(R.layout.frag_sign_in_phone) {
     private lateinit var binding: FragSignInPhoneBinding
     private val viewModel: SignInViewModel by lazy(LazyThreadSafetyMode.NONE) {
-        val activity = requireActivity()
-        ViewModelProvider(
-            requireActivity(),
-            SignInViewModel.Factory(activity as SignInViewModel.Navigator, activity.application)
-        ).get(SignInViewModel::class.java)
+        ViewModelProvider(requireActivity())[SignInViewModel::class.java]
     }
 
     override fun onCreateView(

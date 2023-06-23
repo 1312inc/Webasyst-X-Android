@@ -200,7 +200,7 @@ class SignInViewModel(
             _qrCodeHint.value = (getApplication() as Application).resources.getString(R.string.auth_qr_hint)
             _qrCodeSuccess.postValue(true)
             _qrCodeSuccess.postValue(false)
-            navigateToExpressSignIn(barcode)
+            //navigateToExpressSignIn(barcode)
             return true
         } else if (barcode.indexOf(WEBASYSTID_SIGNIN) > 0){
             onSubmitQrCode(barcode)
@@ -235,9 +235,15 @@ class SignInViewModel(
         try {
             _qrCodeSuccess.postValue(true)
             _qrCodeHint.postValue((getApplication() as Application).resources.getString(R.string.auth_qr_connection))
-            oAuth.qrToken(
+            val res = waidClient.postQrToken(
+                clientId = xComponentProvider.clientId(),
+                scope = xComponentProvider.webasystScope(),
                 code = qrCode,
             )
+
+            val tokenResponse = waidClient.tokenResponseFromHeadlessRequest(res)
+
+            authStateStore.updateAfterTokenResponse(tokenResponse, null)
         } catch (e: Throwable) {
             _qrCodeHint.postValue((getApplication() as Application).resources.getString(R.string.auth_qr_err_code_invalid))
             delay(3000)

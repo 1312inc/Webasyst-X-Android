@@ -63,6 +63,7 @@ class QRCodeFragment : Fragment(R.layout.frag_sign_in_qr) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragSignInQrBinding.bind(view)
+        binding.lifecycleOwner = this
         try {
             viewModel = get() as QrHandlerInterface
             binding.viewModel = viewModel

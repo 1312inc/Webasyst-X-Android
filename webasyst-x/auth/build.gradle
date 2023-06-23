@@ -30,4 +30,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     api 'com.github.AppIntro:AppIntro:6.1.0'
+    implementation "io.insert-koin:koin-android:$koin_version"
 }

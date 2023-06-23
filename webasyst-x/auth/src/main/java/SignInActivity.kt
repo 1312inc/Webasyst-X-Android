@@ -4,13 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.ViewModelProvider
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.barcode.QRCodeFragment
+import com.webasyst.x.barcode.QrHandlerInterface
 import com.webasyst.x.common.XComponentProvider
 import net.openid.appauth.AuthState
+import org.koin.android.ext.android.getKoin
+import org.koin.dsl.module
 
 class SignInActivity : AppCompatActivity(), WebasystAuthStateStore.Observer, SignInViewModel.Navigator {
     lateinit var frame: FragmentContainerView
+    private val viewModel: SignInViewModel by lazy(LazyThreadSafetyMode.NONE) {
+        val activity = this
+        ViewModelProvider(
+            this,
+            SignInViewModel.Factory(activity as SignInViewModel.Navigator, activity.application)
+        )[SignInViewModel::class.java]
+    }
 
     private val xComponentProvider by lazy(LazyThreadSafetyMode.NONE) {
         (application as XComponentProvider)
@@ -19,8 +30,13 @@ class SignInActivity : AppCompatActivity(), WebasystAuthStateStore.Observer, Sig
         WebasystAuthStateStore.getInstance(this)
     }
 
+    private val qrHandlerModule = module(override = true) {
+        factory<QrHandlerInterface>{ viewModel }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getKoin().loadModules(listOf(qrHandlerModule))
 
         setContentView(R.layout.activity_sign_in)
         frame = findViewById(R.id.frame)
@@ -33,6 +49,11 @@ class SignInActivity : AppCompatActivity(), WebasystAuthStateStore.Observer, Sig
             transaction.add(R.id.frame, fragment)
             transaction.commit()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        getKoin().unloadModules(listOf(qrHandlerModule))
     }
 
     override fun onStart() {
