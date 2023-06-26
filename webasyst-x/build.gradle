@@ -106,6 +106,9 @@ dependencies {
     implementation 'org.danilopianini:gson-extras:0.2.2'
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.coil-kt:coil-base:$coil_version"
+    implementation "io.coil-kt:coil-svg:$coil_version"
+
 
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }

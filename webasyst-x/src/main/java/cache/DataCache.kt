@@ -10,15 +10,44 @@ import com.google.gson.typeadapters.RuntimeTypeAdapterFactory
 import com.webasyst.waid.UserInfo
 import com.webasyst.x.common.InstallationInterface
 import com.webasyst.x.common.InstallationListStore
+import com.webasyst.x.common.UserInfoStore
 import com.webasyst.x.installations.Installation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.reflect.KProperty
 
-class DataCache(context: Context) : InstallationListStore {
+class DataCache(
+    context: Context,
+    scope: CoroutineScope
+) : InstallationListStore, UserInfoStore {
     private val prefs = context
         .applicationContext
         .getSharedPreferences(PREFERENCES_STORE, Context.MODE_PRIVATE)
     var selectedInstallationId by prefs.stringPreference(SELECTED_INSTALLATION)
     private val gson = gson()
+
+    private val _userInfo = MutableStateFlow<UserInfo?>(null)
+    override val userInfo: StateFlow<UserInfo?> = _userInfo
+
+    init {
+        scope.launch(Dispatchers.IO) {
+            _userInfo.value = readUserInfo()
+        }
+    }
+
+    override suspend fun setUserInfo(userInfo: UserInfo) = withContext(Dispatchers.IO) {
+        storeUserInfo(userInfo)
+        _userInfo.value = userInfo
+    }
+
+    override suspend fun sweepUserInfo() {
+        clearUserInfo()
+        _userInfo.value = null
+    }
 
     override suspend fun getSelectedInstallationId(): String {
         return selectedInstallationId

@@ -34,7 +34,7 @@ class UserInfoStoreImpl private constructor(
         _userInfo.value = userInfo
     }
 
-    override suspend fun clearUserInfo() {
+    override suspend fun sweepUserInfo() {
         prefs.edit {
             remove(KEY_USER_INFO)
         }

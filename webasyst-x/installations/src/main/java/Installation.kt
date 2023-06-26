@@ -73,7 +73,7 @@ data class Installation(
 
         data class ImageIcon(
             internal val thumbs: SortedMap<ResolutionKey, String>
-        ) : Icon() {
+        ) : Icon(), Serializable {
             override val text = ""
             override val twoLine = false
 
@@ -85,7 +85,7 @@ data class Installation(
                 return thumbs[key] ?: ""
             }
 
-            data class ResolutionKey(val resolution: Int, val scale: Int) : Comparable<ResolutionKey> {
+            data class ResolutionKey(val resolution: Int, val scale: Int) : Comparable<ResolutionKey>, Serializable {
                 private val physicalResolution
                     get() = resolution * scale
 
@@ -164,6 +164,7 @@ data class Installation(
                             .toMap()
                     )
                 )
+                else -> null
             }
 
         companion object {

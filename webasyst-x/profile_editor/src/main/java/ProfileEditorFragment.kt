@@ -21,7 +21,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -32,7 +31,6 @@ import coil.request.ImageRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.webasyst.waid.UpdateUserInfo
-import com.webasyst.x.auth.SignInViewModel
 import com.webasyst.x.common.binding.viewBinding
 import com.webasyst.x.common.errorTexts
 import com.webasyst.x.common.findRootNavController

@@ -10,8 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.bumptech.glide.Glide
 import com.webasyst.x.R
-import com.webasyst.x.WebasystXApplication
-import com.webasyst.x.common.UserInfoNavigator
 import com.webasyst.x.databinding.NavHeaderAuthorizedBinding
 
 class UserInfoFragment : Fragment() {

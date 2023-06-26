@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.StateFlow
 interface UserInfoStore {
     val userInfo: StateFlow<UserInfo?>
     suspend fun setUserInfo(userInfo: UserInfo)
-    suspend fun clearUserInfo()
+    suspend fun sweepUserInfo()
 }

@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import androidx.fragment.app.Fragment
+import coil.ImageLoader
+import coil.decode.SvgDecoder
 import com.google.gson.GsonBuilder
 import com.webasyst.api.ApiClient
 import com.webasyst.api.TokenCache
@@ -67,14 +69,21 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
 
             modules(
                 module {
-                    single {
+                    /*single {
                         UserInfoStoreImpl(applicationScope, prefs, get())
-                    }
+                    }*/
                     single {
                         GsonBuilder()
                             .registerTypeAdapter(List::class.java, ListAdapter())
                             .serializeNulls()
                             .create()
+                    }
+                    single {
+                        ImageLoader.Builder(get())
+                            .components {
+                                add(SvgDecoder.Factory())
+                            }
+                            .build()
                     }
                 }
             )
@@ -87,7 +96,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
         BlogApiClient.SCOPE,
         WebasystApiClient.SCOPE,
     ).joinToString(
-        prefix = "token:",
+        prefix = "profile:write token:",
         separator = "."
     )
 
@@ -111,8 +120,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
         )
     }
 
-    private val userInfoStore: UserInfoStore by inject()
-    override fun userInfoStore(): UserInfoStore = userInfoStore
+    override fun userInfoStore(): UserInfoStore = dataCache
 
     private val apiClient_: ApiClient by lazy {
         ApiClient {
@@ -136,7 +144,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
     }
 
     val dataCache by lazy {
-        DataCache(this)
+        DataCache(this, applicationScope)
     }
 
     override fun getInstallationListStore(): InstallationListStore = dataCache

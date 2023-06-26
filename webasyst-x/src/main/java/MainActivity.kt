@@ -50,6 +50,8 @@ class MainActivity : WebasystAuthActivity(),
     }
     val toolbar by lazy(LazyThreadSafetyMode.NONE) { binding.toolbar }
 
+    var previousInstallation: Installation? = null
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
@@ -125,7 +127,6 @@ class MainActivity : WebasystAuthActivity(),
         }
 
         lifecycleScope.launch {
-            var previousInstallation: Installation? = null
             installationsController.currentInstallation.collect {
                 if (it != null && previousInstallation?.id != it.id) {
                     Log.d(TAG, "Navigating to ${it.domain}")
@@ -154,6 +155,10 @@ class MainActivity : WebasystAuthActivity(),
                             binding.toolbar.visibility = View.VISIBLE
                             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                             binding.toolbar.setTitle(R.string.app_name)
+                        }
+                        R.id.profileEditorFragment -> {
+                            binding.toolbar.visibility = View.GONE
+                            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                         }
                     }
                 }

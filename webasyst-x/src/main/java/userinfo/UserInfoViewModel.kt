@@ -15,7 +15,6 @@ import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.common.UserInfoNavigator
-import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.common.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,8 +32,6 @@ class UserInfoViewModel(val app: Application) :
         WebasystAuthStateStore.getInstance(getApplication())
     }
     private val cache by lazy { getApplication<WebasystXApplication>().dataCache }
-    private val userInfoStore by lazy { (getApplication() as XComponentProvider).userInfoStore() }
-    private val userInfo = userInfoStore.userInfo
 
     private val mutableUserName = MutableLiveData<String>()
     val userName: LiveData<String> = mutableUserName
