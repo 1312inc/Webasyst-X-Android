@@ -13,4 +13,5 @@ interface XComponentProvider {
     fun introSlides(): List<Fragment>
     fun webasystScope(): String
     fun clientId(): String
+    fun userInfoStore(): UserInfoStore
 }

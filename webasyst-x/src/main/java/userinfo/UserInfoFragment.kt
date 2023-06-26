@@ -1,5 +1,6 @@
 package com.webasyst.x.userinfo
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,14 +11,11 @@ import androidx.lifecycle.observe
 import com.bumptech.glide.Glide
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.common.UserInfoNavigator
 import com.webasyst.x.databinding.NavHeaderAuthorizedBinding
 
 class UserInfoFragment : Fragment() {
     private lateinit var binding: NavHeaderAuthorizedBinding
-    private val waidClient by lazy(LazyThreadSafetyMode.NONE) {
-        (requireActivity().application as WebasystXApplication)
-            .waidClient
-    }
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider(this).get(UserInfoViewModel::class.java)
     }
@@ -36,6 +34,9 @@ class UserInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (Build.VERSION.SDK_INT >= 29) {
+            binding.userpicView.isForceDarkAllowed = false
+        }
 
         viewModel.userpicUrl.observe(viewLifecycleOwner) { url ->
             if (url.isEmpty()) {
@@ -55,9 +56,5 @@ class UserInfoFragment : Fragment() {
         super.onResume()
 
         viewModel.updateUserInfo()
-    }
-
-    companion object {
-        private const val MAX_USERPIC_AGE = 1000 * 60 * 60 * 2 // 2 hours
     }
 }

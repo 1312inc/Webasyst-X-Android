@@ -6,6 +6,10 @@ apply plugin: 'idea'
 android {
     compileSdkVersion compile_sdk_version
 
+    buildFeatures {
+        dataBinding true
+    }
+
     defaultConfig {
         minSdkVersion min_sdk_version
         vectorDrawables.useSupportLibrary = true

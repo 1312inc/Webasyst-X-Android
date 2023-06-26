@@ -23,6 +23,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
@@ -31,6 +32,7 @@ import coil.request.ImageRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.webasyst.waid.UpdateUserInfo
+import com.webasyst.x.auth.SignInViewModel
 import com.webasyst.x.common.binding.viewBinding
 import com.webasyst.x.common.errorTexts
 import com.webasyst.x.common.findRootNavController
@@ -46,9 +48,14 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class ProfileEditorFragment : Fragment(R.layout.frag_profile_editor), ProfileEditorViewModel.ProfileEditor {
-    private val viewModel: ProfileEditorViewModel by viewModels()
     private val binding by viewBinding(FragProfileEditorBinding::bind)
     private val imageLoader: ImageLoader by inject()
+    private val viewModel: ProfileEditorViewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProvider(
+            this,
+            ProfileEditorViewModel.Factory(requireActivity().application)
+        )[ProfileEditorViewModel::class.java]
+    }
 
     private val isEmptyUser: Boolean
         get() = arguments?.getBoolean(IS_EMPTY_USER) ?: false

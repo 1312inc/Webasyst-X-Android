@@ -77,8 +77,10 @@ android {
 dependencies {
     def webasyst_version = '1.1.1-SNAPSHOT'
     implementation project(':webasyst-x:auth')
+    implementation project(':webasyst-x:i18n')
     implementation project(':webasyst-x:installations')
     implementation project(':webasyst-x:profile_editor')
+
     implementation "com.webasyst:app-blog:$webasyst_version"
     implementation "com.webasyst:app-shop:$webasyst_version"
     implementation "com.webasyst:app-site:$webasyst_version"
@@ -86,6 +88,7 @@ dependencies {
     implementation "com.webasyst:common:$webasyst_version"
     implementation "com.webasyst:waid:$webasyst_version"
     implementation "com.webasyst:webasyst:$webasyst_version"
+
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"

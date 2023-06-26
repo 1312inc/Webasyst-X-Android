@@ -4,10 +4,8 @@
     <string name="webasyst">Webasyst</string>
     <string name="installation_insecure_connection">Insecure connection</string>
     <string name="app_name_placeholder">My App</string>
-    <string name="btn_sign_out">Sign out</string>
     <string name="btn_sign_up">Sign up</string>
     <string name="btn_dismiss">Dismiss</string>
-    <string name="userpic">Userpic</string>
     <string name="sign_out_failed">Sign out failed:\n%1$s</string>
     <string name="waid_error">Webasyst ID error:\n%1$s</string>
     <string name="err_could_not_connect">Could not connect to %1$s</string>
@@ -57,4 +55,13 @@
     <string name="empty_api_response">The %1$s app returned no records (API: %2$s).</string>
 
     <string name="app_redirect_scheme" translatable="false">com.webasyst.x</string>
+
+    <!-- User info & menu -->
+    <string name="userpic">Userpic</string>
+    <string name="btn_sign_out">Sign out</string>
+    <string name="pin_btn_set_pin">Passcode</string>
+    <string name="pin_btn_remove_pin">Remove passcode lock</string>
+    <string name="password_removed_successfully">Passcode-lock has been successfully disabled</string>
+    <string name="my_profile">My profile</string>
+
 </resources>

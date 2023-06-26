@@ -14,7 +14,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="?navigationDrawerHeaderHeight"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
         android:clipToPadding="false"
+        android:focusable="true"
+        android:onClick="@{viewModel::onEditProfile}"
         android:paddingLeft="?screenPaddingHorizontal"
         android:paddingTop="16dp"
         android:paddingRight="?screenPaddingHorizontal"
@@ -62,14 +66,15 @@
             app:lineHeight="20dp"
             tools:text="email@example.com" />
 
-        <Button
+        <ImageButton
             android:id="@+id/signOutButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{viewModel::onSignOut}"
-            android:text="@string/btn_sign_out"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:onClick="@{viewModel::onShowMenu}"
+            android:src="@drawable/more_vert"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/userpicView" />
+            app:layout_constraintTop_toTopOf="@+id/userpicView"
+            app:tint="?attr/colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

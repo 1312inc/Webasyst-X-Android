@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,8 @@ import com.webasyst.waid.UserInfo
 import com.webasyst.x.MainActivity
 import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
+import com.webasyst.x.common.UserInfoNavigator
+import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.common.getActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +33,8 @@ class UserInfoViewModel(val app: Application) :
         WebasystAuthStateStore.getInstance(getApplication())
     }
     private val cache by lazy { getApplication<WebasystXApplication>().dataCache }
+    private val userInfoStore by lazy { (getApplication() as XComponentProvider).userInfoStore() }
+    private val userInfo = userInfoStore.userInfo
 
     private val mutableUserName = MutableLiveData<String>()
     val userName: LiveData<String> = mutableUserName
@@ -107,6 +112,53 @@ class UserInfoViewModel(val app: Application) :
                 }
         }
     }
+
+    fun onShowMenu(view: View) {
+        PopupMenu(view.context, view).apply {
+            inflate(R.menu.menu_user)
+            /*if (pinCodeStore.hasPinCode()) {
+                menu.findItem(R.id.setPin).isVisible = false
+            } else {
+                menu.findItem(R.id.removePin).isVisible = false
+            }*/
+
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.myProfile -> {
+                        onEditProfile(view)
+                        true
+                    }
+
+                    R.id.setPin -> {
+                        onSetPin(view)
+                        true
+                    }
+
+                    R.id.removePin -> {
+                        onRemovePin(view)
+                        true
+                    }
+
+                    R.id.signOut -> {
+                        //pinCodeStore.removePinCode()
+                        onSignOut(view)
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }.show()
+    }
+
+    fun onSetPin(view: View) =
+        (view.getActivity() as UserInfoNavigator).goToPinCode()
+
+    fun onRemovePin(view: View) =
+        (view.getActivity() as UserInfoNavigator).goToPinCode(true)
+
+    fun onEditProfile(view: View) =
+        (view.getActivity() as UserInfoNavigator).openProfileEditor()
 
     companion object {
         private const val TAG = "user_info"

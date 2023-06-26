@@ -3,8 +3,10 @@
     <item name="mainFragment" type="id" />
     <item name="navRoot" type="id" />
     <item name="toolbar" type="id" />
+    <item type = "id" name = "listenerId" />
 
     <item name="action_global_noInstallationsFragment" type="id" />
     <item name="action_mainFragment_to_addWebasystFragment" type="id" />
     <item name="action_noInstallationsFragment_to_addWebasystFragment" type="id" />
+    <item name="action_profileEditorFragment_to_photoDetailFragment" type="id" />
 </resources>

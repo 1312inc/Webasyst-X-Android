@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -18,6 +19,7 @@ import com.webasyst.auth.WebasystAuthActivity
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.x.auth.AuthViewModel
+import com.webasyst.x.common.UserInfoNavigator
 import com.webasyst.x.databinding.ActivityMainBinding
 import com.webasyst.x.installations.Installation
 import com.webasyst.x.installations.InstallationIconDrawable
@@ -25,13 +27,16 @@ import com.webasyst.x.installations.InstallationListFragment
 import com.webasyst.x.installations.InstallationsController
 import com.webasyst.x.intro.IntroActivity
 import com.webasyst.x.util.BackPressHandler
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
 import java.lang.ref.WeakReference
 
-class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, InstallationListFragment.InstallationListView {
+class MainActivity : WebasystAuthActivity(),
+    WebasystAuthStateStore.Observer,
+    InstallationListFragment.InstallationListView,
+    UserInfoNavigator
+{
     lateinit var binding: ActivityMainBinding
     private val viewModel by lazy {
         ViewModelProvider(this).get(MainActivityViewModel::class.java)
@@ -237,6 +242,25 @@ class MainActivity : WebasystAuthActivity(), WebasystAuthStateStore.Observer, In
     override fun updateInstallations(idToSelect: String?) {
         (supportFragmentManager.findFragmentById(R.id.installationList) as InstallationListFragment)
             .updateInstallations(idToSelect)
+    }
+
+    override fun openProfileEditor() {
+        if (navController.currentDestination?.id != R.id.profileEditorFragment)
+            navController.navigate(
+                NavDirections.actionGlobalProfileEditorFragment(),
+                FragmentNavigator
+                    .Extras
+                    .Builder()
+                    .build()
+            )
+    }
+
+    override fun goToPinCode(forRemove: Boolean) {
+        /*navController.navigate(
+            NavDirections.actionGlobalPinCodeFragment(
+                forRemove
+            )
+        )*/
     }
 
     companion object {

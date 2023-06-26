@@ -2,9 +2,12 @@ package com.webasyst.x
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import androidx.fragment.app.Fragment
+import com.google.gson.GsonBuilder
 import com.webasyst.api.ApiClient
 import com.webasyst.api.TokenCache
+import com.webasyst.api.adapter.ListAdapter
 import com.webasyst.api.blog.BlogApiClient
 import com.webasyst.api.blog.BlogApiClientFactory
 import com.webasyst.api.shop.ShopApiClient
@@ -20,20 +23,30 @@ import com.webasyst.waid.WAIDClient
 import com.webasyst.x.auth.WelcomeFragment
 import com.webasyst.x.cache.DataCache
 import com.webasyst.x.common.InstallationListStore
+import com.webasyst.x.common.UserInfoStore
 import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.installations.InstallationsController
 import com.webasyst.x.intro.GithubFragment
+import com.webasyst.x.userinfo.UserInfoStoreImpl
 import com.webasyst.x.util.TokenCacheImpl
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.android.Android
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.dsl.module
 
 class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XComponentProvider {
+    private val applicationScope = MainScope()
+    private val prefs by lazy {
+        this.getSharedPreferences("config", Context.MODE_PRIVATE)
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -44,12 +57,27 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
             setHost(BuildConfig.WEBASYST_HOST)
             setCallbackUri(BuildConfig.APPLICATION_ID + "://oidc_callback")
             setScope(webasystScope())
+            setDeviceId("deviceId")
         }
 
         WebasystAuthStateStore.getInstance(this).addObserver(this)
 
         startKoin {
             androidContext(this@WebasystXApplication)
+
+            modules(
+                module {
+                    single {
+                        UserInfoStoreImpl(applicationScope, prefs, get())
+                    }
+                    single {
+                        GsonBuilder()
+                            .registerTypeAdapter(List::class.java, ListAdapter())
+                            .serializeNulls()
+                            .create()
+                    }
+                }
+            )
         }
     }
 
@@ -82,6 +110,9 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
             waidHost = BuildConfig.WEBASYST_HOST,
         )
     }
+
+    private val userInfoStore: UserInfoStore by inject()
+    override fun userInfoStore(): UserInfoStore = userInfoStore
 
     private val apiClient_: ApiClient by lazy {
         ApiClient {

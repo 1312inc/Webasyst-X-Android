@@ -4,10 +4,8 @@
     <string name="webasyst">Webasyst</string>
     <string name="installation_insecure_connection">Соединение не защищено</string>
     <string name="app_name_placeholder">My App</string>
-    <string name="btn_sign_out">Выйти</string>
     <string name="btn_sign_up">Зарегистрироваться</string>
     <string name="btn_dismiss">Закрыть</string>
-    <string name="userpic">Юзерпик</string>
     <string name="sign_out_failed">Не удалось выполнить выход:\n%1$s</string>
     <string name="waid_error">Ошибка Webasyst ID:\n%1$s</string>
     <string name="err_could_not_connect">Ошибка подключения к %1$s</string>
@@ -54,4 +52,12 @@
     <string name="app_blog_article_list_signature">%1$s, %2$te %2$tB %2$tR</string>
 
     <string name="empty_api_response">Приложение %1$s вернуло пустой ответ (API: %2$s).</string>
+
+    <!-- User info & menu -->
+    <string name="userpic">Юзерпик</string>
+    <string name="btn_sign_out">Выйти</string>
+    <string name="pin_btn_set_pin">Код-пароль</string>
+    <string name="pin_btn_remove_pin">Отключить код-пароль</string>
+    <string name="password_removed_successfully">Вход с кодом-паролем успешно отключен</string>
+    <string name="my_profile">Мой профиль</string>
 </resources>
