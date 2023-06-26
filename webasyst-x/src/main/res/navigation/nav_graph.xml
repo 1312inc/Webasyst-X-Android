@@ -29,11 +29,13 @@
             app:argType="com.webasyst.x.installations.Installation"
             app:nullable="true" />
     </fragment>
+
     <fragment
         android:id="@+id/addWebasystFragment"
         android:name="com.webasyst.x.add_wa.AddWebasystFragment"
         android:label="frag_add_webasyst"
         tools:layout="@layout/frag_add_webasyst" />
+
     <fragment
         android:id="@+id/noInstallationsFragment"
         android:name="com.webasyst.x.installations.NoInstallationsFragment"
@@ -49,9 +51,11 @@
         app:launchSingleTop="true"
         app:popUpTo="@id/nav"
         app:popUpToInclusive="true" />
+
     <action
         android:id="@+id/action_global_mainFragment"
         app:destination="@id/mainFragment" />
+
     <fragment
         android:id="@+id/loadingFragment"
         android:name="com.webasyst.x.intro.LoadingFragment"
@@ -66,4 +70,33 @@
         app:destination="@id/loadingFragment"
         app:popUpTo="@id/nav"
         app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/profileEditorFragment"
+        android:name="com.webasyst.x.profile_editor.ProfileEditorFragment"
+        android:label="profile_editor"
+        tools:layout="@layout/frag_profile_editor" >
+        <argument
+            android:name="is_empty_user"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_profileEditorFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_profileEditorFragment"
+        app:destination="@id/profileEditorFragment"/>
+
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        android:name="com.webasyst.x.profile_editor.PhotoDetailFragment"
+        android:label="PhotoDetailFragment"
+        tools:layout="@layout/frag_photo_detail">
+        <argument
+            android:name="photoUrlBundle"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
 </navigation>

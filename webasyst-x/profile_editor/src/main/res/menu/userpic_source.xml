@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/from_gallery"
+        android:title="@string/profile_editor_btn_from_gallery" />
+    <item
+        android:id="@+id/take_photo"
+        android:title="@string/profile_editor_btn_take_photo" />
+</menu>

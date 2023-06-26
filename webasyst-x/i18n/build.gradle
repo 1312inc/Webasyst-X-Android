@@ -1,0 +1,8 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'idea'
+
+android {
+    compileSdkVersion compile_sdk_version
+    namespace 'com.webasyst.x.i18n'
+}

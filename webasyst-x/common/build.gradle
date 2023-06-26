@@ -13,6 +13,7 @@ android {
 }
 
 dependencies {
+    implementation project(':webasyst-x:i18n')
     implementation "com.webasyst:waid:$webasyst_version"
     implementation "com.webasyst:webasyst:$webasyst_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"

@@ -78,6 +78,7 @@ dependencies {
     def webasyst_version = '1.1.1-SNAPSHOT'
     implementation project(':webasyst-x:auth')
     implementation project(':webasyst-x:installations')
+    implementation project(':webasyst-x:profile_editor')
     implementation "com.webasyst:app-blog:$webasyst_version"
     implementation "com.webasyst:app-shop:$webasyst_version"
     implementation "com.webasyst:app-site:$webasyst_version"
