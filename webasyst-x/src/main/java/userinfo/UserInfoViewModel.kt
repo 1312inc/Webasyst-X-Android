@@ -16,10 +16,12 @@ import com.webasyst.x.R
 import com.webasyst.x.WebasystXApplication
 import com.webasyst.x.common.UserInfoNavigator
 import com.webasyst.x.common.getActivity
+import com.webasyst.x.pin_code.PinCodeStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthState
+import org.koin.java.KoinJavaComponent.inject
 import java.util.concurrent.atomic.AtomicLong
 
 class UserInfoViewModel(val app: Application) :
@@ -32,6 +34,7 @@ class UserInfoViewModel(val app: Application) :
         WebasystAuthStateStore.getInstance(getApplication())
     }
     private val cache by lazy { getApplication<WebasystXApplication>().dataCache }
+    private val pinCodeStore: PinCodeStore by inject(PinCodeStore::class.java)
 
     private val mutableUserName = MutableLiveData<String>()
     val userName: LiveData<String> = mutableUserName
@@ -113,11 +116,11 @@ class UserInfoViewModel(val app: Application) :
     fun onShowMenu(view: View) {
         PopupMenu(view.context, view).apply {
             inflate(R.menu.menu_user)
-            /*if (pinCodeStore.hasPinCode()) {
+            if (pinCodeStore.hasPinCode()) {
                 menu.findItem(R.id.setPin).isVisible = false
             } else {
                 menu.findItem(R.id.removePin).isVisible = false
-            }*/
+            }
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {

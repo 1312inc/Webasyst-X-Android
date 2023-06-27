@@ -29,7 +29,8 @@ import com.webasyst.x.common.UserInfoStore
 import com.webasyst.x.common.XComponentProvider
 import com.webasyst.x.installations.InstallationsController
 import com.webasyst.x.intro.GithubFragment
-import com.webasyst.x.userinfo.UserInfoStoreImpl
+import com.webasyst.x.pin_code.PinCodeStore
+import com.webasyst.x.pin_code.PinCodeStoreImpl
 import com.webasyst.x.util.TokenCacheImpl
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.android.Android
@@ -38,7 +39,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
-import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
@@ -69,9 +69,6 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
 
             modules(
                 module {
-                    /*single {
-                        UserInfoStoreImpl(applicationScope, prefs, get())
-                    }*/
                     single {
                         GsonBuilder()
                             .registerTypeAdapter(List::class.java, ListAdapter())
@@ -84,6 +81,9 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
                                 add(SvgDecoder.Factory())
                             }
                             .build()
+                    }
+                    single<PinCodeStore> {
+                        PinCodeStoreImpl(get())
                     }
                 }
             )

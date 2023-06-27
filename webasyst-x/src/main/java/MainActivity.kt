@@ -8,8 +8,10 @@ import android.view.View
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigator
 import com.bumptech.glide.Glide
@@ -26,10 +28,13 @@ import com.webasyst.x.installations.InstallationIconDrawable
 import com.webasyst.x.installations.InstallationListFragment
 import com.webasyst.x.installations.InstallationsController
 import com.webasyst.x.intro.IntroActivity
+import com.webasyst.x.pin_code.PinCodeStore
 import com.webasyst.x.util.BackPressHandler
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
+import org.koin.android.ext.android.inject
 import java.lang.ref.WeakReference
 
 class MainActivity : WebasystAuthActivity(),
@@ -51,6 +56,10 @@ class MainActivity : WebasystAuthActivity(),
     val toolbar by lazy(LazyThreadSafetyMode.NONE) { binding.toolbar }
 
     var previousInstallation: Installation? = null
+
+    private val pinCodeStore: PinCodeStore by inject()
+    private var isStartHappenedPin = true
+
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
@@ -109,35 +118,39 @@ class MainActivity : WebasystAuthActivity(),
             }
             wasAuthorized = state.isAuthorized
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                installationsController.installations.collect {
+                    if (it == null) {
+                        Log.d(TAG, "Navigating to LoadingFragment")
+                        navController.navigate(NavDirections.actionGlobalLoadingFragment())
+                    } else if (it.isEmpty()) {
+                        Log.d(TAG, "Navigating to NoInstallationsFragment")
+                        navController.navigate(NavDirections.actionGlobalNoInstallationsFragment())
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                installationsController.currentInstallation.collect {
+                    if (it != null
+                        && previousInstallation?.id != it.id
+                        && navController.currentDestination?.id != R.id.pinCodeFragment
+                    ) {
+                        onInstallationChange(it)
+                    }
+                }
+            }
+        }
+
+
     }
 
     override fun onStart() {
         super.onStart()
-
-        lifecycleScope.launch {
-            installationsController.installations.collect {
-                if (it == null) {
-                    Log.d(TAG, "Navigating to LoadingFragment")
-                    navController.navigate(NavDirections.actionGlobalLoadingFragment())
-                } else if (it.isEmpty()) {
-                    Log.d(TAG, "Navigating to NoInstallationsFragment")
-                    navController.navigate(NavDirections.actionGlobalNoInstallationsFragment())
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            installationsController.currentInstallation.collect {
-                if (it != null && previousInstallation?.id != it.id) {
-                    Log.d(TAG, "Navigating to ${it.domain}")
-                    navController.navigate(NavDirections.actionGlobalMainFragment(installation = it))
-                    binding.drawerLayout.closeDrawers()
-                }
-                it?.icon?.let { icon -> updateToolbarIcon(icon) }
-                previousInstallation = it
-            }
-        }
-
         findNavController(R.id.navRoot)
             .addOnDestinationChangedListener { _, destination, _ ->
                 runOnUiThread {
@@ -155,8 +168,13 @@ class MainActivity : WebasystAuthActivity(),
                             binding.toolbar.visibility = View.VISIBLE
                             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                             binding.toolbar.setTitle(R.string.app_name)
+                            lifecycleScope.launch {
+                                val it = installationsController.currentInstallation.first()
+                                if (it != null && previousInstallation?.id != it.id)
+                                    onInstallationChange(it)
+                            }
                         }
-                        R.id.profileEditorFragment -> {
+                        R.id.profileEditorFragment, R.id.pinCodeFragment -> {
                             binding.toolbar.visibility = View.GONE
                             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                         }
@@ -165,14 +183,38 @@ class MainActivity : WebasystAuthActivity(),
             }
     }
 
+    private fun onInstallationChange(it: Installation){
+        Log.d(TAG, "Navigating to ${it.domain}")
+        navController.navigate(
+            NavDirections.actionGlobalMainFragment(installation = it)
+        )
+        binding.drawerLayout.closeDrawers()
+
+        updateToolbarIcon(it.icon)
+        previousInstallation = it
+    }
+
     override fun onResume() {
         super.onResume()
         stateStore.addObserver(this)
+
+        if ((pinCodeStore.hasPinCodeWithTime()
+                && navController.currentDestination?.id != R.id.pinCodeFragment) ||
+            (pinCodeStore.hasPinCode() && isStartHappenedPin)
+        ) {
+            navController.navigate(NavDirections.actionGlobalPinCodeFragment())
+        }
+        isStartHappenedPin = false
     }
 
     override fun onPause() {
         super.onPause()
         stateStore.removeObserver(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        pinCodeStore.setLastEnterTime()
     }
 
     override fun onAuthStateChange(state: AuthState) {
@@ -261,11 +303,15 @@ class MainActivity : WebasystAuthActivity(),
     }
 
     override fun goToPinCode(forRemove: Boolean) {
-        /*navController.navigate(
+        navController.navigate(
             NavDirections.actionGlobalPinCodeFragment(
                 forRemove
             )
-        )*/
+        )
+    }
+
+    override fun popBackStack() {
+        navController.popBackStack()
     }
 
     companion object {

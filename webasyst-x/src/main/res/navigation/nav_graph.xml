@@ -99,4 +99,19 @@
             android:defaultValue="" />
     </fragment>
 
+    <fragment
+        android:id="@+id/pinCodeFragment"
+        android:name="com.webasyst.x.pin_code.PinCodeFragment"
+        android:label="PinCodeFragment"
+        tools:layout="@layout/frag_pincode">
+        <argument
+            android:name="forRemove"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_pinCodeFragment"
+        app:destination="@id/pinCodeFragment"
+        app:popUpToInclusive="true" />
+
 </navigation>

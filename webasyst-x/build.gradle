@@ -79,6 +79,7 @@ dependencies {
     implementation project(':webasyst-x:auth')
     implementation project(':webasyst-x:i18n')
     implementation project(':webasyst-x:installations')
+    implementation project(':webasyst-x:pin_code')
     implementation project(':webasyst-x:profile_editor')
 
     implementation "com.webasyst:app-blog:$webasyst_version"

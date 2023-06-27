@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/b_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password_exit"
+        android:textSize="14sp"
+        android:textFontWeight="500"
+        android:textColor="#A9ACA9"
+        android:padding="15dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_title_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_password"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/codeDots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="32dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/circleNumber1"
+                android:layout_width="@dimen/DotsSize"
+                android:layout_height="@dimen/DotsSize"
+                android:layout_margin="@dimen/DotsMargin"
+                app:cardBackgroundColor="@color/disableDots"
+                app:strokeColor="@android:color/transparent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/circleNumber2"
+                android:layout_width="@dimen/DotsSize"
+                android:layout_height="@dimen/DotsSize"
+                android:layout_margin="@dimen/DotsMargin"
+                app:cardBackgroundColor="@color/disableDots"
+                app:strokeColor="@android:color/transparent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/circleNumber3"
+                android:layout_width="@dimen/DotsSize"
+                android:layout_height="@dimen/DotsSize"
+                android:layout_margin="@dimen/DotsMargin"
+                app:cardBackgroundColor="@color/disableDots"
+                app:strokeColor="@android:color/transparent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/circleNumber4"
+                android:layout_width="@dimen/DotsSize"
+                android:layout_height="@dimen/DotsSize"
+                android:layout_margin="6dp"
+                app:cardBackgroundColor="@color/disableDots"
+                app:strokeColor="@android:color/transparent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_keyboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/b1"
+                    style="@style/PasswordButton"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/b2"
+                    style="@style/PasswordButton"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/b3"
+                    style="@style/PasswordButton"
+                    android:text="3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/b4"
+                    style="@style/PasswordButton"
+                    android:text="4" />
+
+                <Button
+                    android:id="@+id/b5"
+                    style="@style/PasswordButton"
+                    android:text="5" />
+
+                <Button
+                    android:id="@+id/b6"
+                    style="@style/PasswordButton"
+                    android:text="6" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/b7"
+                    style="@style/PasswordButton"
+                    android:text="7" />
+
+                <Button
+                    android:id="@+id/b8"
+                    style="@style/PasswordButton"
+                    android:text="8" />
+
+                <Button
+                    android:id="@+id/b9"
+                    style="@style/PasswordButton"
+                    android:text="9" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/b_fingerprint"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="@dimen/PasswordButtonSize"
+                    android:layout_height="@dimen/PasswordButtonSize"
+                    android:src="@drawable/fingerprint"
+                    android:layout_margin="@dimen/PasswordButtonMargin"
+                    app:tint="?colorOnSurface" />
+
+                <Button
+                    android:id="@+id/b0"
+                    style="@style/PasswordButton"
+                    android:text="0" />
+
+                <ImageButton
+                    android:id="@+id/b_remove"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="@dimen/PasswordButtonSize"
+                    android:layout_height="@dimen/PasswordButtonSize"
+                    android:layout_margin="@dimen/PasswordButtonMargin"
+                    android:src="@drawable/clear"
+                    android:clickable="false"
+                    app:tint="@color/removeButtonDisable" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PasswordButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">@dimen/PasswordButtonSize</item>
+        <item name="android:layout_height">@dimen/PasswordButtonSize</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">@dimen/PasswordTextSize</item>
+        <item name="android:layout_margin">@dimen/PasswordButtonMargin</item>
+    </style>
+</resources>

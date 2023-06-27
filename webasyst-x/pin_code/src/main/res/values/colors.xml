@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="disableDots">#E1E3DF</color>
+    <color name="enterSymbolDots">#00C27C</color>
+    <color name="wrongDots">#DE3730</color>
+    <color name="removeButton">#757875</color>
+    <color name="removeButtonDisable">#C5C7C4</color>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="PasswordButtonSize">62dp</dimen>
+    <dimen name="PasswordButtonMargin">20dp</dimen>
+    <dimen name="PasswordTextSize">29dp</dimen>
+    <dimen name="DotsSize">15dp</dimen>
+    <dimen name="DotsMargin">6dp</dimen>
+</resources>
