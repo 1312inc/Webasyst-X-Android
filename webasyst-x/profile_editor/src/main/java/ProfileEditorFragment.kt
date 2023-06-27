@@ -181,7 +181,7 @@ class ProfileEditorFragment : Fragment(R.layout.frag_profile_editor), ProfileEdi
                             val file = takePictureFile()
                             takePictureUri = FileProvider.getUriForFile(
                                 requireContext(),
-                                "com.webasyst.shopscript.provider",
+                                "${requireContext().packageName}.provider",
                                 file
                             )
                             takePicture.launch(takePictureUri)
