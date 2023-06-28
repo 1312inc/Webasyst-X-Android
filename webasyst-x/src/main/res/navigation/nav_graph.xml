@@ -34,7 +34,17 @@
         android:id="@+id/addWebasystFragment"
         android:name="com.webasyst.x.add_wa.AddWebasystFragment"
         android:label="frag_add_webasyst"
-        tools:layout="@layout/frag_add_webasyst" />
+        tools:layout="@layout/frag_add_webasyst_new">
+        <action
+            android:id="@+id/action_addWebasystFragment_to_qrCodeFragment"
+            app:destination="@id/qrCodeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/qrCodeFragment"
+        android:name="com.webasyst.x.barcode.QRCodeFragment"
+        android:label="QRCode"
+        tools:layout="@layout/frag_sign_in_qr" />
 
     <fragment
         android:id="@+id/noInstallationsFragment"

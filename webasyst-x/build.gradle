@@ -77,6 +77,8 @@ android {
 dependencies {
     def webasyst_version = '1.1.1-SNAPSHOT'
     implementation project(':webasyst-x:auth')
+    implementation project(':webasyst-x:barcode')
+    implementation project(':webasyst-x:common:binding')
     implementation project(':webasyst-x:i18n')
     implementation project(':webasyst-x:installations')
     implementation project(':webasyst-x:pin_code')
@@ -109,6 +111,7 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin_version"
     implementation "io.coil-kt:coil-base:$coil_version"
     implementation "io.coil-kt:coil-svg:$coil_version"
+    implementation "nl.dionsegijn:konfetti-xml:$konfetti_version"
 
 
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"

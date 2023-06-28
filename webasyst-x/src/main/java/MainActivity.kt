@@ -160,7 +160,7 @@ class MainActivity : WebasystAuthActivity(),
                             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                         }
                         R.id.addWebasystFragment -> {
-                            binding.toolbar.visibility = View.VISIBLE
+                            binding.toolbar.visibility = View.GONE
                             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                             binding.toolbar.setTitle(R.string.add_webasyst)
                         }

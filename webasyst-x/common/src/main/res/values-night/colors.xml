@@ -7,4 +7,7 @@
     <color name="highContrastOnSurface">#fff</color>
 
     <color name="webasyst_logo_web">#fff</color>
+
+    <color name="install_wa_alt_bg">#000000</color>
+    <color name="secondary_bg">#1F1F2E</color>
 </resources>
