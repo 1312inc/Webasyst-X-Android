@@ -4,9 +4,12 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -14,9 +17,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
+import com.webasyst.api.WebasystException
 import com.webasyst.auth.WebasystAuthHelper
 import com.webasyst.auth.WebasystAuthStateStore
 import com.webasyst.waid.HeadlessCodeRequestResult
@@ -29,6 +34,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URLDecoder
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class SignInViewModel(
     application: Application,
@@ -134,7 +142,7 @@ class SignInViewModel(
             )
 
             val tokenResponse = waidClient.tokenResponseFromHeadlessRequest(res)
-
+            if (tokenResponse.accessToken != null) successSubmitCodeBlock?.invoke(view, tokenResponse.accessToken!!)
             val state = authStateStore.updateAfterTokenResponse(tokenResponse, null)
 
             if (state.isAuthorized) {
@@ -200,7 +208,7 @@ class SignInViewModel(
             _qrCodeHint.value = (getApplication() as Application).resources.getString(R.string.auth_qr_hint)
             _qrCodeSuccess.postValue(true)
             _qrCodeSuccess.postValue(false)
-            //navigateToExpressSignIn(barcode)
+            navigator.navigateToExpressSignIn(barcode)
             return true
         } else if (barcode.indexOf(WEBASYSTID_SIGNIN) > 0){
             onSubmitQrCode(barcode)
@@ -253,6 +261,43 @@ class SignInViewModel(
         }
     }
 
+    fun clearPhoneError() {
+        _phoneError.value = null
+    }
+
+    val title = MutableLiveData((getApplication() as Application).resources.getString(R.string.auth_express_title))
+    private var successSubmitCodeBlock: (suspend (view: View, accessToken: String) -> Unit)? = null
+
+    fun parseAddAccountCode(fullCode: String?){
+        val subStr = fullCode?.substringAfter(ADDACC_CLUE, "") ?: ""
+        if (subStr.isNotEmpty()){
+            val domain = subStr.substringAfter(ADDACC_SEPARATOR, "")
+            if (domain.isNotEmpty()) title.value = URLDecoder.decode(domain, "UTF-8")
+        }
+        fullCode?.let { code ->
+            successSubmitCodeBlock = { view, accessToken ->
+                val response = waidClient.connectInstallation(code, accessToken)
+                if (response.isFailure()) {
+                    val cause = response.getFailureCause() as? WebasystException
+                    Log.e("WADD", "Connect Installation failed for code=$code with cause:${cause?.webasystMessage}")
+                    withContext(Dispatchers.Main) {
+                        suspendCoroutine<Unit> { cont ->
+                            MaterialAlertDialogBuilder(view.context)
+                                .setMessage(
+                                    view.context.getString(R.string.add_webasyst_connect_installation_error_sign_in)
+                                )
+                                .setPositiveButton(R.string.btn_ok) { dialog, _ ->
+                                    cont.resume(Unit)
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fun navigateBackFromPhoneInput(view: View) {
         view.getActivity()?.onBackPressed()
     }
@@ -263,6 +308,7 @@ class SignInViewModel(
 
     interface Navigator {
         fun navigateFromPhoneInputToCodeInput()
+        fun navigateToExpressSignIn(code: String)
         fun popBackStack()
     }
 
@@ -279,8 +325,16 @@ class SignInViewModel(
         }
     }
 
+    fun onHelpClicked(view: View) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(view.context.getString(R.string.add_webasyst_new_user_help_url)))
+        ContextCompat.startActivity(view.context, browserIntent, null)
+    }
+
     companion object{
         const val WEBASYSTID_ADDACCOUNT = "WEBASYSTID-ADDACCOUNT"
         const val WEBASYSTID_SIGNIN = "WEBASYSTID-SIGNIN"
+
+        const val ADDACC_CLUE = "WEBASYSTID-ADDACCOUNT/"
+        const val ADDACC_SEPARATOR = "/?"
     }
 }

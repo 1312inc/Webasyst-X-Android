@@ -3,6 +3,7 @@ package com.webasyst.x.auth
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.ViewModelProvider
 import com.webasyst.auth.WebasystAuthStateStore
@@ -81,6 +82,18 @@ class SignInActivity : AppCompatActivity(), WebasystAuthStateStore.Observer, Sig
                 addToBackStack("code_input")
                 commit()
             }
+        }
+    }
+
+    override fun navigateToExpressSignIn(code: String){
+        if (supportFragmentManager.findFragmentByTag(ExpressSignInFragment.TAG) != null) popBackStack()
+        supportFragmentManager.beginTransaction().apply {
+            val fragment = ExpressSignInFragment().apply {
+                arguments = bundleOf(ExpressSignInFragment.ARG_CODE to code)
+            }
+            replace(R.id.frame, fragment, ExpressSignInFragment.TAG)
+            addToBackStack(ExpressSignInFragment.TAG)
+            commit()
         }
     }
 
