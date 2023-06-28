@@ -70,14 +70,6 @@ class AddWebasystFragment : Fragment(R.layout.frag_add_webasyst_new) {
 
         viewModel.showSignOut = showSignOut
 
-        viewModel.navigateToRoot = { installation ->
-            view.findRootNavController().navigate(
-                NavDirections.actionGlobalMainFragment(
-                    installation = installation,
-                    showAddWA = false,
-                ))
-        }
-
         binding.viewModel = viewModel
         binding.fragment = this
 
@@ -139,11 +131,6 @@ class AddWebasystFragment : Fragment(R.layout.frag_add_webasyst_new) {
                     .show()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.navigateToRoot = null
     }
 
     fun navigateToQr(view: View){

@@ -90,9 +90,6 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app), QrHandlerI
             }
     }
 
-    //lateinit var fragmentOpener: (Fragment) -> Unit
-    var navigateToRoot: ((installation: Installation) -> Unit)? = null
-
     private var addWebasystJob: Job? = null
     fun onAddWebasyst(view: View) {
         addWebasystJob?.cancel()
@@ -123,7 +120,6 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app), QrHandlerI
                                 continuation.resume(Unit)
                                 installationsController.setSelectedInstallation(result.id)
                                 dialog.dismiss()
-                                navigateToRoot?.invoke(Installation(result))
                             }
                         }
                     } else {
@@ -201,26 +197,6 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app), QrHandlerI
                         )
                     }
                 }
-                /*oAuthHelper.browserSignIn(
-                    mapOf(
-                        "change_user" to "1",
-                        "mergecode" to mergeCode.code,
-                    ),
-                    fragmentOpener,
-                ) {
-                    installationsController.updateInstallations {
-                        navigateToRoot()
-                    }
-
-                    GlobalScope.launch {
-                        val userInfo = waidClient.getUserInfo()
-                        if (userInfo.isFailure()) {
-                            Log.w(TAG, "Failed to fetch user info", userInfo.getFailureCause())
-                        } else {
-                            userInfoStore.setUserInfo(userInfo.getSuccess())
-                        }
-                    }
-                }*/
             } catch (e: Throwable) {
                 val msg = view.context.getString(R.string.add_webasyst_error_merge_failed)
                 MaterialAlertDialogBuilder(view.context)
@@ -286,7 +262,6 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app), QrHandlerI
                 installationsController.updateInstallations {
                     installationsController.setSelectedInstallation(result.id)
                     dialog.dismiss()
-                    navigateToRoot?.invoke(Installation(result))
                 }
             } else {
                 MaterialAlertDialogBuilder(view.context)
@@ -298,7 +273,7 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app), QrHandlerI
                     }
                 .show()
                 code.value = ""
-                Log.e("WADD", "connectInstallation for code=$s failed: ${response.getFailureCause().message ?: response.getFailureCause().localizedMessage}")
+                Log.e(TAG, "connectInstallation for code=$s failed: ${response.getFailureCause().message ?: response.getFailureCause().localizedMessage}")
             }
             inProgress_.value = false
             codeInProgress_.value = false
@@ -375,7 +350,6 @@ class AddWebasystViewModel(app: Application) : AndroidViewModel(app), QrHandlerI
                 installationsController.updateInstallations {
                     cont.resume(Unit)
                     installationsController.setSelectedInstallation(result.id)
-                    navigateToRoot?.invoke(Installation(result))
                 }
             }
             _qrKonfetti.emit("")

@@ -41,12 +41,10 @@ class DataCache(
 
     override suspend fun setUserInfo(userInfo: UserInfo) = withContext(Dispatchers.IO) {
         storeUserInfo(userInfo)
-        _userInfo.value = userInfo
     }
 
     override suspend fun sweepUserInfo() {
         clearUserInfo()
-        _userInfo.value = null
     }
 
     override suspend fun getSelectedInstallationId(): String {
@@ -83,6 +81,7 @@ class DataCache(
         prefs.edit {
             putString(KEY_USER_INFO, gson.toJson(userInfo))
         }
+        _userInfo.value = userInfo
     }
 
     fun readUserInfo(): UserInfo? {
@@ -96,6 +95,7 @@ class DataCache(
             remove(KEY_INSTALLATION_LIST)
             remove(SELECTED_INSTALLATION)
         }
+        _userInfo.value = null
     }
 
     fun SharedPreferences.stringPreference(key: String, default: String = ""): StringPreferenceDelegate {
