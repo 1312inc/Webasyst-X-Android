@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name -->
+
+    <!-- Navigation -->
+
+    <!-- Intro slides -->
+
+    <!-- Onboarding -->
+
+    <!-- About -->
+
+    <!-- Common -->
+    <string name="error_generic">Что-то пошло не так. Попробуйте еще раз чуть позже.</string>
+    <string name="error_account_suspended">Аккаунт заблокирован</string>
+    <string name="error_account_suspended_details">Срок действия аккаунта истек. Пожалуйста, свяжитесь со службой поддержки Webasyst в случае вопросов относительно оплаты и продления аккаунта.</string>
+    <string name="error_unsupported_scope">Ошибка API scope</string>
+    <string name="error_unsupported_scope_details">Указан неподдерживаемый список приложений в запросе на доступ к API</string>
+    <string name="this_may_take_up_to_a_couple_of_minutes">Может занять пару минут…</string>
+    <string name="btn_save">Сохранить</string>
+
+    <!-- Sign in -->
+    <string name="auth_btn_sign_in_via_browser">Войти с email и паролем</string>
+    <string name="auth_qr_title">Отсканируйте QR-код</string>
+    <string name="auth_qr_hint">Перейдите в свой профиль на сайте или в бекенде\n Webasyst в браузере и нажмите на кнопку\n «Войти по QR-коду» вверху справа.</string>
+    <string name="auth_qr_err_code_invalid">Неверный код. Попробуйте еще раз.</string>
+    <string name="auth_qr_connection">Авторизация…</string>
+    <string name="auth_qr_permission">Разрешение на использование камеры\n не было предоставлено.</string>
+    <string name="auth_qr_err_code_irrelevant">Да, это QR-код, но он никак не связан с Webasyst.</string>
+    <string name="auth_express_text">Пожалуйста, уточните свой номер телефона, чтобы создать новый профиль Webasyst ID и привязать его к мобильному приложению.</string>
+    <string name="auth_btn_confirm">Подтвердить номер телефона</string>
+    <string name="auth_qr_err_code_improper">Это не тот QR-код! Вы уже авторизованы в приложении с Webasyst ID и сканируете QR-код для входа с другим Webasyst ID. А нужный вам QR-код в бекенде Webasyst на вашем сайте в вашем профиле в «Команде» — там особый типа кода, который свяжет ваш Webasyst ID с новым сайтом, к которому вы пока не подключены.</string>
+    <string name="auth_qr_adding_wa">Подключаем Webasyst ID к аккаунту…</string>
+
+    <!-- Profile editor -->
+    <string name="profile_editor_first_name">Имя</string>
+    <string name="profile_editor_last_name">Фамилия</string>
+    <string name="profile_editor_btn_change_userpic">Изменить фото</string>
+    <string name="profile_editor_btn_delete_userpic">Удалить фото</string>
+    <string name="profile_editor_btn_set_userpic">Загрузить фото</string>
+    <string name="profile_editor_profile_updated">Профиль сохранен</string>
+    <string name="profile_editor_btn_take_photo">Камера</string>
+    <string name="profile_editor_btn_from_gallery">Выбрать файл</string>
+    <string name="profile_editor_email">E-mail</string>
+    <string name="profile_editor_phone">Телефон</string>
+    <string name="profile_editor_email_wrong">Неверный e-mail адрес</string>
+    <string name="profile_editor_save_email_error">Основной адрес электронной почты не может быть удален</string>
+    <string name="profile_editor_save_name_error">Ошибка: Требуется указать имя или фамилию</string>
+
+    <!-- Search -->
+
+    <!-- Pin Code -->
+    <string name="use_numeric_password">Использовать код-пароль</string>
+    <string name="finger_print_login">Войти по отпечатку пальца</string>
+    <string name="password_error">Неверный код-пароль</string>
+    <string name="password_repeat">Повторите код-пароль</string>
+    <string name="password_mismatch">Пароли не совпадают</string>
+    <string name="password_set">Установите код-пароль</string>
+    <string name="password_set_successfully">Пароль успешно установлен</string>
+    <string name="password_removed_successfully">Пароль успешно отключен</string>
+    <string name="enter_password">Введите код-пароль</string>
+    <string name="password_exit">Выйти</string>
+    <string name="password_cancel">Отменить</string>
+
+    <!-- Cloud sign up flow -->
+    <string name="add_webasyst">Добавить Webasyst</string>
+    <string name="add_webasyst_title">Добавить аккаунт</string>
+    <string name="add_webasyst_title_existing_user">Я уже использую Webasyst, но не вижу своих данных</string>
+    <string name="add_webasyst_existing_user">Скорее всего, вход в Webasyst на вашем сайте просто не привязан к вашему номеру телефона. Попробуйте войти в свой Webasyst ID «по старинке» — с email и паролем. Если не получится, смотрите инструкцию по ссылке ниже.</string>
+    <string name="add_webasyst_btn_existing_user_help">Что такое Webasyst ID?</string>
+    <string name="add_webasyst_title_new_user">Открыть новый облачный аккаунт Webasyst</string>
+    <string name="add_webasyst_new_user">В облаке Webasyst будет создан новый аккаунт. Вы сможете управлять товарами, обрабатывать заказы, отслеживать статистику по продажам.</string>
+    <string name="add_webasyst_error">Не удалось создать аккаунт:\n%1$s</string>
+    <string name="add_webasyst_error_limit_exceeded">Не удалось создать аккаунт Webasyst. Скорее всего, у вас уже есть бесплатные облачные аккаунты, и создать еще один не получается.</string>
+    <string name="btn_create_new_account">Создать облачный аккаунт</string>
+    <string name="create_new_account_30_days_free">30 дней бесплатно, далее от 999 рублей в месяц за команду до 10 человек</string>
+    <string name="webasyst_added">Облачный аккаунт Webasyst создан! Ссылка для подтверждения регистрации аккаунта: %1$s</string>
+    <string name="btn_open_wa_auth">Открыть в браузере</string>
+    <string name="add_webasyst_new_user_help_url">https://www.webasyst.ru/webasyst-id-how-to/</string>
+    <string name="add_webasyst_btn_how_webasyst_id_works">Как работает Webasyst ID?</string>
+    <string name="add_webasyst_connect_title">Подключить облачный аккаунт Webasyst</string>
+    <string name="add_webasyst_connect_text">Если облачный аккаунт Webasyst, с которым вы уже работаете, еще не подключен к вашему Webasyst ID (@{B=%s}), попросите у администратора облачного аккаунта 8-значный код подключения @{IMG} и введите его ниже:</string>
+    <string name="add_webasyst_connect_dialog_title">Где найти код</string>
+    <string name="add_webasyst_connect_dialog_text">Получить код администратор может внутри Webasyst в приложении «Команда» в правом верхнем углу страницы вашего профиля.</string>
+    <string name="add_webasyst_connect_text2">Или подключите облачный аккаунт Webasyst самостоятельно, сфотографировав QR-код в своем профиле Webasyst:</string>
+    <string name="add_webasyst_connect_text3">Позже вы сможете подключить к облачному аккаунту свое доменное имя и пригласить коллег для совместной работы.</string>
+    <string name="add_webasyst_connect_company_name_hint">Введите название облачного аккаунта…</string>
+    <string name="add_webasyst_connect_installation_error">Код приглашения недействителен.\nПопробуйте еще раз с новым кодом.</string>
+    <string name="add_webasyst_connect_installation_error_sign_in">Вы успешно зарегистрировались в Webasyst ID! Но подключение облачного аккаунта Webasyst завершилось ошибкой. Пожалуйста, заполните свой профиль и попробуйте еще раз.</string>
+    <string name="add_webasyst_via_QR_btn">Добавить по QR-коду</string>
+    <string name="add_webasyst_new_acc_created_success">Новый облачный аккаунт Webasyst успешно создан!</string>
+    <string name="add_webasyst_new_acc_connected_success">Ваш Webasyst ID был успешно подключен к %1$s</string>
+    <string name="add_webasyst_error_invalid_domain">Не удалось создать облачный аккаунт Webasyst. Некорректное имя домена.</string>
+    <string name="add_webasyst_error_domain_is_in_use">Не удалось создать облачный аккаунт Webasyst. Домен уже используется.</string>
+    <string name="add_webasyst_error_merge_not_eligible">Во избежание потери контактной информации, учетная запись Webasyst ID не может быть объединена. Пожалуйста, обратитесь в службу поддержки.</string>
+    <string name="add_webasyst_error_merge_failed">Не удалось объединить учетную запись Webasyst ID. Пожалуйста, обратитесь в службу поддержки.</string>
+
+    <!-- Commonly used -->
+    <string name="btn_cancel">Отмена</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_refresh">Обновить</string>
+    <string name="btn_dismiss">Закрыть</string>
+    <string name="empty_api_response">Приложение %1$s вернуло пустой ответ (API: %2$s).</string>
+    <string name="waid_error">Ошибка Webasyst ID:\n%1$s</string>
+    <string name="err_could_not_connect">Ошибка подключения к %1$s</string>
+    <string name="err_app_not_installed">Приложение %1$s не установлено на %2$s (ответ API: app_not_installed).</string>
+</resources>
