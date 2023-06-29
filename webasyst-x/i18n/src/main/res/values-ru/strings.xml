@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App name -->
+    <string name="app_name">Webasyst X</string>
+    <string name="webasyst">Webasyst</string>
+    <string name="app_name_placeholder">My App</string>
 
-    <!-- Navigation -->
+
+    <!-- Commonly used -->
+    <string name="btn_cancel">Отмена</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_refresh">Обновить</string>
+    <string name="btn_dismiss">Закрыть</string>
+    <string name="empty_api_response">Приложение %1$s вернуло пустой ответ (API: %2$s).</string>
+    <string name="waid_error">Ошибка Webasyst ID:\n%1$s</string>
+    <string name="err_could_not_connect">Ошибка подключения к %1$s</string>
+    <string name="err_app_not_installed">Приложение %1$s не установлено на %2$s (ответ API: app_not_installed).</string>
+    <string name="btn_sign_up">Зарегистрироваться</string>
+    <string name="sign_out_failed">Не удалось выполнить выход:\n%1$s</string>
+    <string name="installation_insecure_connection">Соединение не защищено</string>
 
     <!-- Intro slides -->
+    <string name="intro_slide_1_title">Hello, World!</string>
+    <string name="intro_slide_1_description">Webasyst X — это простое приложение-прототип, которое поможет разработать клиенсткое мобильное приложение для своего проекта на основе Webasyst. Быстро и просто.</string>
+    <string name="intro_slide_2_title">REST API</string>
+    <string name="intro_slide_2_description">Демо-приложение Webasyst X подключится к API приложений «Блог», «Сайт» и Shop-Script с целью показать, как все это работает. Вся скучная работа, связанная с подключением к API и авторизацией, уже решена в Webasyst X.</string>
+    <string name="intro_slide_3_title">Open Source</string>
+    <string name="intro_slide_3_description">Webasyst X — это проект с открытым кодом (лицензия MIT). Используйте его в качестве шаблона для собственных мобильных приложений и новых амбициозных проектов.</string>
+    <string name="intro_welcome_github_btn">Webasyst X на GitHub</string>
+    <string name="intro_btn_sign_in">Войти с Webasyst ID</string>
+    <string name="intro_btn_next">Далее</string>
 
-    <!-- Onboarding -->
 
-    <!-- About -->
+    <!-- Navigation -->
+    <string name="app_site">Сайт</string>
+    <string name="data_fetch_error">Не удалось загрузить данные.\n%1$s</string>
+    <string name="btn_error_details_malformed_response">Посмотреть ответ сервера</string>
+    <string name="error_details_title_response_body">Ответ сервера</string>
+    <string name="app_shop">Магазин</string>
+    <string name="app_blog">Блог</string>
+    <string name="app_blog_no_posts">Нет записей</string>
+    <string name="app_blog_article_list_signature">%1$s, %2$te %2$tB %2$tR</string>
+
+    <!-- User info & menu -->
+    <string name="userpic">Юзерпик</string>
+    <string name="btn_sign_out">Выйти</string>
+    <string name="pin_btn_set_pin">Код-пароль</string>
+    <string name="pin_btn_remove_pin">Отключить код-пароль</string>
+    <string name="my_profile">Мой профиль</string>
+
+    <!-- Installation -->
+    <string name="no_webasyst_accounts">К вашему Webasyst ID не подключено ни одного аккаунта Webasyst.</string>
+    <string name="installation_connection_not_secure">Небезопасное соединение</string>
+    <string name="expires_on">Истекает %s</string>
+    <string name="expired_on">Истекла %s</string>
+    <string name="btn_add_webasyst">Добавить аккаунт</string>
+
+    <!-- Auth -->
+    <string name="signing_in">Выполняется вход…</string>
+    <string name="btn_sign_in_with_waid">Войти c Webasyst ID</string>
+    <string name="intro_welcome_title">Webasyst X</string>
+    <string name="intro_welcome_text">Чтобы эта страница была не такой скучной, подставьте иконку и название своего приложения и напишите какой-нибудь классный приветственный текст.</string>
+    <string name="sign_in_btn_with_phone_number">Войти по номеру телефона</string>
+    <string name="sign_in_or">или</string>
+    <string name="sign_in_enter_phone_title">Введите свой номер телефона</string>
+    <string name="sign_in_enter_phone_subtitle">На этот номер мы отправим код подтверждения</string>
+    <string name="sign_in_btn_continue">Продолжить</string>
+    <string name="sign_in_err_number_format">Неверно указан номер телефона</string>
+    <string name="sign_in_enter_code_title">Введите код из сообщения</string>
+    <string name="sign_in_enter_code_sent_phone">Код был отправлен на номер</string>
+    <string name="sign_in_code">Код</string>
+    <string name="sign_in_code_not_received">Не пришло?</string>
+    <string name="sign_in_code_sent">Код отправлен</string>
+    <string name="sign_in_code_send_again_time">Отправить ещё раз можно через %1$s с</string>
+    <string name="sign_in_err_code_invalid">Неверный код</string>
+    <string name="sign_in_btn_send_again">Отправить еще раз</string>
+    <string name="generic_error_retry_later">Произошла ошибка. Попробуйте позже.</string>
+    <string name="btn_sign_in_with_qr">Войти по QR-коду</string>
 
     <!-- Common -->
     <string name="error_generic">Что-то пошло не так. Попробуйте еще раз чуть позже.</string>
@@ -19,7 +86,7 @@
     <string name="this_may_take_up_to_a_couple_of_minutes">Может занять пару минут…</string>
     <string name="btn_save">Сохранить</string>
 
-    <!-- Sign in -->
+    <!-- Sign in with QR-->
     <string name="auth_btn_sign_in_via_browser">Войти с email и паролем</string>
     <string name="auth_qr_title">Отсканируйте QR-код</string>
     <string name="auth_qr_hint">Перейдите в свой профиль на сайте или в бекенде\n Webasyst в браузере и нажмите на кнопку\n «Войти по QR-коду» вверху справа.</string>
@@ -31,6 +98,7 @@
     <string name="auth_btn_confirm">Подтвердить номер телефона</string>
     <string name="auth_qr_err_code_improper">Это не тот QR-код! Вы уже авторизованы в приложении с Webasyst ID и сканируете QR-код для входа с другим Webasyst ID. А нужный вам QR-код в бекенде Webasyst на вашем сайте в вашем профиле в «Команде» — там особый типа кода, который свяжет ваш Webasyst ID с новым сайтом, к которому вы пока не подключены.</string>
     <string name="auth_qr_adding_wa">Подключаем Webasyst ID к аккаунту…</string>
+
 
     <!-- Profile editor -->
     <string name="profile_editor_first_name">Имя</string>
@@ -47,8 +115,6 @@
     <string name="profile_editor_save_email_error">Основной адрес электронной почты не может быть удален</string>
     <string name="profile_editor_save_name_error">Ошибка: Требуется указать имя или фамилию</string>
 
-    <!-- Search -->
-
     <!-- Pin Code -->
     <string name="use_numeric_password">Использовать код-пароль</string>
     <string name="finger_print_login">Войти по отпечатку пальца</string>
@@ -62,14 +128,14 @@
     <string name="password_exit">Выйти</string>
     <string name="password_cancel">Отменить</string>
 
-    <!-- Cloud sign up flow -->
-    <string name="add_webasyst">Добавить Webasyst</string>
+    <!-- Add WA -->
+    <string name="add_webasyst">Подключить Webasyst</string>
     <string name="add_webasyst_title">Добавить аккаунт</string>
     <string name="add_webasyst_title_existing_user">Я уже использую Webasyst, но не вижу своих данных</string>
     <string name="add_webasyst_existing_user">Скорее всего, вход в Webasyst на вашем сайте просто не привязан к вашему номеру телефона. Попробуйте войти в свой Webasyst ID «по старинке» — с email и паролем. Если не получится, смотрите инструкцию по ссылке ниже.</string>
     <string name="add_webasyst_btn_existing_user_help">Что такое Webasyst ID?</string>
     <string name="add_webasyst_title_new_user">Открыть новый облачный аккаунт Webasyst</string>
-    <string name="add_webasyst_new_user">В облаке Webasyst будет создан новый аккаунт. Вы сможете управлять товарами, обрабатывать заказы, отслеживать статистику по продажам.</string>
+    <string name="add_webasyst_new_user">Скачайте фреймворк с сайта webasyst.ru и установите на свой хостинг (сервер) или создайте аккаунт в облаке Webasyst одной кнопкой — прямо сейчас.</string>
     <string name="add_webasyst_error">Не удалось создать аккаунт:\n%1$s</string>
     <string name="add_webasyst_error_limit_exceeded">Не удалось создать аккаунт Webasyst. Скорее всего, у вас уже есть бесплатные облачные аккаунты, и создать еще один не получается.</string>
     <string name="btn_create_new_account">Создать облачный аккаунт</string>
@@ -95,13 +161,4 @@
     <string name="add_webasyst_error_merge_not_eligible">Во избежание потери контактной информации, учетная запись Webasyst ID не может быть объединена. Пожалуйста, обратитесь в службу поддержки.</string>
     <string name="add_webasyst_error_merge_failed">Не удалось объединить учетную запись Webasyst ID. Пожалуйста, обратитесь в службу поддержки.</string>
 
-    <!-- Commonly used -->
-    <string name="btn_cancel">Отмена</string>
-    <string name="btn_ok">OK</string>
-    <string name="btn_refresh">Обновить</string>
-    <string name="btn_dismiss">Закрыть</string>
-    <string name="empty_api_response">Приложение %1$s вернуло пустой ответ (API: %2$s).</string>
-    <string name="waid_error">Ошибка Webasyst ID:\n%1$s</string>
-    <string name="err_could_not_connect">Ошибка подключения к %1$s</string>
-    <string name="err_app_not_installed">Приложение %1$s не установлено на %2$s (ответ API: app_not_installed).</string>
 </resources>

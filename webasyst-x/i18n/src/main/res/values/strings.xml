@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App name -->
+    <string name="app_name">Webasyst X</string>
+    <string name="webasyst">Webasyst</string>
+    <string name="app_name_placeholder">My App</string>
+    <string name="app_redirect_scheme" translatable="false">com.webasyst.x</string>
 
-    <!-- Navigation -->
+    <!-- Commonly used -->
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_refresh">Refresh</string>
+    <string name="btn_dismiss">Dismiss</string>
+    <string name="empty_api_response">The %1$s app returned no records (API: %2$s).</string>
+    <string name="waid_error">Webasyst ID error:\n%1$s</string>
+    <string name="err_could_not_connect">Could not connect to %1$s</string>
+    <string name="err_app_not_installed">%1$s is not installed on %2$s (API response: app_not_installed).</string>
+    <string name="btn_sign_up">Sign up</string>
+    <string name="sign_out_failed">Sign out failed:\n%1$s</string>
+    <string name="installation_insecure_connection">Insecure connection</string>
 
     <!-- Intro slides -->
+    <string name="intro_slide_1_title">Hello, World!</string>
+    <string name="intro_slide_1_description">Webasyst X is a simple demo app that helps developing native mobile client apps for Webasyst server-side apps. Quickly, easily, with all boring stuff handled out-of-the-box.</string>
+    <string name="intro_slide_2_title">REST API</string>
+    <string name="intro_slide_2_description">For demo purposes, this app connects to Blog, Site, and Shop-Script APIs. When switching this prototype to work with your custom app API, simply replace the logo and the API scope — and start working your app’s custom flow right away!</string>
+    <string name="intro_slide_3_title">Open Source</string>
+    <string name="intro_slide_3_description">Webasyst X is an open source project (MIT license). Feel free to use it as a foundation for your custom Webasyst-powered mobile client app or project.</string>
+    <string name="intro_welcome_github_btn">Webasyst X on GitHub</string>
+    <string name="intro_btn_sign_in">Sign in with Webasyst ID</string>
+    <string name="intro_btn_next">Next</string>
+    <string name="intro_welcome_github_repo_url" translatable="false">https://github.com/1312inc/Webasyst-X-Android/</string>
 
-    <!-- Onboarding -->
+    <!-- Navigation -->
+    <string name="app_site">Site</string>
+    <string name="data_fetch_error">Failed to fetch data.\n%1$s</string>
+    <string name="btn_error_details_malformed_response">See the full server response</string>
+    <string name="error_details_title_response_body">Server response</string>
+    <string name="app_shop">Store</string>
+    <string name="app_blog">Blog</string>
+    <string name="app_blog_no_posts">No posts</string>
+    <string name="app_blog_article_list_signature">%1$s, %2$te %2$tB %2$tI:%2$tM %2$Tp</string>
 
-    <!-- About -->
+    <!-- User info & menu -->
+    <string name="userpic">Userpic</string>
+    <string name="btn_sign_out">Sign out</string>
+    <string name="pin_btn_set_pin">Passcode</string>
+    <string name="pin_btn_remove_pin">Remove passcode lock</string>
+    <string name="my_profile">My profile</string>
+
+    <!-- Installation -->
+    <string name="no_webasyst_accounts">You don’t have any Webasyst accounts linked to your Webasyst ID.</string>
+    <string name="installation_connection_not_secure">Connection is not secure</string>
+    <string name="expires_on">Expires on %s</string>
+    <string name="expired_on">Expired on %s</string>
+    <string name="btn_add_webasyst">Add account</string>
+
+    <!-- Auth -->
+    <string name="signing_in">Signing in…</string>
+    <string name="btn_sign_in_with_waid">Sign in with Webasyst ID</string>
+    <string name="intro_welcome_title">Webasyst X</string>
+    <string name="intro_welcome_text">To make this screen look great, simply replace the app icon and the app name above with your project credentials, and add an encouraging welcome message.</string>
+    <string name="sign_in_btn_with_phone_number">Sign in with a phone number</string>
+    <string name="sign_in_or">or</string>
+    <string name="sign_in_enter_phone_title">Enter your phone number</string>
+    <string name="sign_in_enter_phone_subtitle">We’ll send you an authorization code via SMS</string>
+    <string name="sign_in_btn_continue">Continue</string>
+    <string name="sign_in_err_number_format">Invalid phone number</string>
+    <string name="sign_in_enter_code_title">Enter the code</string>
+    <string name="sign_in_enter_code_sent_phone">The code has been sent as an SMS to</string>
+    <string name="sign_in_code">Code</string>
+    <string name="sign_in_code_not_received">No message received?</string>
+    <string name="sign_in_code_sent">The code has been sent</string>
+    <string name="sign_in_code_send_again_time">Resend the code will be possible in %1$s s</string>
+    <string name="sign_in_err_code_invalid">Invalid code</string>
+    <string name="sign_in_btn_send_again">Send again</string>
+    <string name="generic_error_retry_later">An error occurred. Please try again later.</string>
+    <string name="btn_sign_in_with_qr">Sign in using  QR</string>
 
     <!-- Common -->
     <string name="error_generic">An error occurred. Please try again.</string>
@@ -19,7 +86,7 @@
     <string name="this_may_take_up_to_a_couple_of_minutes">This may take up to a couple of minutes…</string>
     <string name="btn_save">Save</string>
 
-    <!-- Sign in -->
+    <!-- Sign in with QR-->
     <string name="auth_btn_sign_in_via_browser">Sign in with email and password</string>
     <string name="auth_qr_title">Scan the QR code</string>
     <string name="auth_qr_hint">Open your user profile in the Webasyst\n backend in a browser and click the\n “Sign in using QR” button on the right.</string>
@@ -28,10 +95,10 @@
     <string name="auth_qr_permission">Permission to the camera\n has not been granted</string>
     <string name="auth_qr_err_code_irrelevant">The code does not related to the Webasyst</string>
     <string name="auth_express_text">Please specify your phone number to create a new Webasyst ID user profile and link it to the mobile application.</string>
-    <string name="auth_express_title" translatable="false">Webasyst ID</string>
     <string name="auth_btn_confirm">Confirm your phone number</string>
     <string name="auth_qr_err_code_improper">This is a wrong code! You are scanning a QR code to sign in with Webasyst ID while being authorized with another Webasyst ID already. But the code you need is located in your Webasyst backend profile on your custom domain in the Team app — this code will connect your current Webasyst ID to an new account which is not linked yet.</string>
     <string name="auth_qr_adding_wa">Link the account with your Webasyst ID…</string>
+    <string name="auth_express_title" translatable="false">Webasyst ID</string>
 
     <!-- Profile editor -->
     <string name="profile_editor_first_name">First name</string>
@@ -48,8 +115,6 @@
     <string name="profile_editor_save_email_error">Primary email address can not be deleted</string>
     <string name="profile_editor_save_name_error">Error: First name or last name is required</string>
 
-    <!-- Search -->
-
     <!-- Pin Code -->
     <string name="use_numeric_password">Use numeric password</string>
     <string name="finger_print_login">Login with fingerprint</string>
@@ -63,14 +128,14 @@
     <string name="password_exit">Exit</string>
     <string name="password_cancel">Cancel</string>
 
-    <!-- Cloud sign up flow -->
+    <!-- Add WA -->
     <string name="add_webasyst">Add Webasyst</string>
     <string name="add_webasyst_title">Add account</string>
     <string name="add_webasyst_title_existing_user">Using Webasyst already, but don’t see your accounts and data?</string>
     <string name="add_webasyst_existing_user">Most likely, your Webasyst account sign-in simply isn’t connected to your phone number. Sign in with your Webasyst ID the classic way — with an email and a password. In case of questions, follow the link below.</string>
     <string name="add_webasyst_btn_existing_user_help">What is Webasyst ID?</string>
     <string name="add_webasyst_title_new_user">Create a new cloud account</string>
-    <string name="add_webasyst_new_user">New private cloud workspace will be created where you and your teammates will be able to collaborate and send tasks to each other.</string>
+    <string name="add_webasyst_new_user">Either download Webasyst source code and install it on your own hosting (server) or create a new account instantly in the Webasyst Cloud with just a tap — right now.</string>
     <string name="add_webasyst_error">Cloud signup failed:\n%1$s</string>
     <string name="add_webasyst_error_limit_exceeded">Sorry, we cannot create another account for you at the moment. Most likely, a limit on the number of free Webasyst cloud accounts has been exceeded.</string>
     <string name="btn_create_new_account">Create account</string>
@@ -86,7 +151,6 @@
     <string name="add_webasyst_connect_text2">Or connect by scanning a QR code in your Webasyst backend profile or by signing in the classic way — with an email and a password:</string>
     <string name="add_webasyst_connect_text3">Once created, you will be able to link your custom domain name and to invite your teammates to manage cloud account together.</string>
     <string name="add_webasyst_connect_company_name_hint">Enter your company name…</string>
-    <string name="add_webasyst_add_shop_company_example" translatable="false">%s.webasyst.cloud</string>
     <string name="add_webasyst_connect_installation_error">The invitation code is invalid.\nAsk your teammate for a new code and try again.</string>
     <string name="add_webasyst_connect_installation_error_sign_in">You have successfully signed in with Webasyst ID. But the cloud account was not connected. Please fill in your profile and try again.</string>
     <string name="add_webasyst_via_QR_btn">Add account using QR</string>
@@ -96,15 +160,6 @@
     <string name="add_webasyst_error_domain_is_in_use">Failed to create a Webasyst cloud account. The domain is already in use.</string>
     <string name="add_webasyst_error_merge_not_eligible">In order to avoid loss of contact information, Webasyst ID cannot be merged. Please contact support.</string>
     <string name="add_webasyst_error_merge_failed">Failed to merge Webasyst ID. Please contact support.</string>
-
-    <!-- Commonly used -->
-    <string name="btn_cancel">Cancel</string>
-    <string name="btn_ok">OK</string>
-    <string name="btn_refresh">Refresh</string>
-    <string name="btn_dismiss">Dismiss</string>
-    <string name="empty_api_response">The %1$s app returned no records (API: %2$s).</string>
-    <string name="waid_error">Webasyst ID error:\n%1$s</string>
-    <string name="err_could_not_connect">Could not connect to %1$s</string>
-    <string name="err_app_not_installed">%1$s is not installed on %2$s (API response: app_not_installed).</string>
+    <string name="add_webasyst_add_shop_company_example" translatable="false">%s.webasyst.cloud</string>
 
 </resources>
