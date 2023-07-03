@@ -4,19 +4,36 @@
 
 ## Project structure
 
-This project consists of three (main) gradle modules:
+The project has a main module `webasyst-x` that provides the core structure of the sample Android application.
+Also have the following gradle submodules:
 
 ### `auth`
 
-Webasyst ID OAauth client (pure java). `auth/kt` contains some Kotlin extensions.
+The module contains on-boarding screens (intro) and activity for authorization. Implemented methods of authorization by password, by phone number, by QR Code. Also implemented is an express connection of the WAID-user to the installation using a QR Code.
 
-### `api`
+### `barcode`
 
-Contains Webasyst application's api clients
+Use this module if you need to login and connect users by QR Code.
 
-### `webasyst-x`
+### `common`
 
-Example Android application
+Сommon utility classes, functions and resources.
+
+### `i18n`
+
+String resources of the whole project (incl. submodules). See [note for translators](#note-for-translators)
+
+### `installations`
+
+A key module that allows you to get information about the user's installations. Contains both data layer objects and interface elements that allow the user to switch between installations.
+
+### `pin_code`
+
+Use this module if you need to protect sensitive user data. Call PinCodeStore.hasPinCode() or PinCodeStore.hasPinCodeWithTime() in onResume() of the corresponding activity or fragment.
+
+### `profile_editor`
+
+Adds user profile editing features.
 
 ## Creating new Webasyst application from scratch
 
@@ -57,7 +74,7 @@ If that's not an option (e.g. your Activity is an extension of some other activi
 
 ## Note for translators
 
-String resources are located in `/webasyst-x/src/main/res/values[-lang[-rREGION]]`
+String resources are located in `/webasyst-x/i18n/src/main/res/values[-lang[-rREGION]]`
 where `lang` is two-letter ISO 639-1 language code
 and `REGION` is two letter ISO 3166-1-alpha-2 region code (note the lowercase r).
 
@@ -84,3 +101,15 @@ webasyst.x.host="https://www.webasyst.com"
 4. In Android Studio choose file -> open and navigate to project directory.
 
 5. Detailed manual on running an app on the Android Emulator can be found here: https://developer.android.com/studio/run/emulator
+
+## Сreate your own application based on the example application
+
+1. Change unique application ID in the main module build.gradle file. More about application ID here: https://developer.android.com/build/configure-app-module
+
+2. Change the package attribute of the main Manifest.xml file and change the package name in all source files.
+
+3. Change application name in the string resources.
+
+4. Change `app_redirect_scheme` in string resources. It is recommended that you specify a package name or your web domain (in reverse domain name notation)
+
+5. Modify the source code at your own discretion.
