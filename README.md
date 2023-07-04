@@ -48,48 +48,11 @@ A key module that allows you to get information about the user's installations. 
 
 ### `pin_code`
 
-Use this module if you need to protect sensitive user data. Call PinCodeStore.hasPinCode() or PinCodeStore.hasPinCodeWithTime() in onResume() of the corresponding activity or fragment.
+Use this module if you need to protect sensitive user data. Call `PinCodeStore.hasPinCode()` or `PinCodeStore.hasPinCodeWithTime()` in `onResume()` of the corresponding activity or fragment.
 
 ### `profile_editor`
 
 Adds user profile editing features.
-
-## Creating new Webasyst application from scratch
-
-1. Enable `auth` dependency. In your app's module `build.gradle`:
-```groovy
-dependencies {
-  // For Java projects:
-  implementation project(':auth')
-  // For Kotlin projects:
-  implementation project(':auth:kt')
-}
-```
-
-2. In your app's `AndroidManifest.xml`, in `application` section, add authentication redirect activity.
-Note the comment on `<data android:scheme=` key
-```xml
-<activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
-  <intent-filter>
-    <action android:name="android.intent.action.VIEW"/>
-    <category android:name="android.intent.category.DEFAULT"/>
-    <category android:name="android.intent.category.BROWSABLE"/>
-    <!-- Authentication redirect scheme. It should be unique across the device. It is recommended to use app's package name. -->
-    <data android:scheme="webasyst-x"/>
-  </intent-filter>
-</activity>
-```
-
-3. Configure Webasyst ID (WAID) client. This should be done once, preferably early in application's lifecycle. The recommended option is to extend `Application` class and do configuration in its `onCreate()` method.
-See `WebasystAuthService.configure()` for details.
-
-4. Implement Authentication Activity.
-
-The easiest way to do it is to extend your Activity from `WebasystAuthActivity` and call its `waSignIn()` from your SignIn button `onClick()` callback.
-
-If that's not an option (e.g. your Activity is an extension of some other activity) you can use WebasystAuthHelper directly. See `WebasystAuthActivity` code for details.
-
-5. You are good to go. Use `WebasystAuthService`'s `withFreshAccessToken()` (or Kotlin extension) to perform api requests.
 
 ## Note for translators
 
@@ -108,7 +71,7 @@ For details on string resource format, follow the link https://developer.android
 
 1. Change unique application ID in the main module build.gradle file. More about application ID here: https://developer.android.com/build/configure-app-module
 
-2. Change the package attribute of the main Manifest.xml file and change the package name in all source files.
+2. Change the package attribute of the main `Manifest.xml` file and change the package name in all source files.
 
 3. Change application name in the string resources.
 
