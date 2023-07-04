@@ -3,6 +3,7 @@ package com.webasyst.x
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import coil.ImageLoader
 import coil.decode.SvgDecoder
@@ -42,12 +43,20 @@ import net.openid.appauth.AuthState
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import java.util.UUID
 
 class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XComponentProvider {
     private val applicationScope = MainScope()
     private val prefs by lazy {
         this.getSharedPreferences("config", Context.MODE_PRIVATE)
     }
+    private val deviceId: String
+        get() = prefs.getString(DEVICE_ID_KEY, null) ?: UUID.randomUUID().toString()
+            .replace("-", "").also { uuid ->
+                prefs.edit {
+                    putString(DEVICE_ID_KEY, uuid)
+                }
+            }
 
     override fun onCreate() {
         super.onCreate()
@@ -59,7 +68,7 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
             setHost(BuildConfig.WEBASYST_HOST)
             setCallbackUri(BuildConfig.APPLICATION_ID + "://oidc_callback")
             setScope(webasystScope())
-            setDeviceId("deviceId")
+            setDeviceId(deviceId)
         }
 
         WebasystAuthStateStore.getInstance(this).addObserver(this)
@@ -178,5 +187,6 @@ class WebasystXApplication : Application(), WebasystAuthStateStore.Observer, XCo
 
     companion object {
         lateinit var instance: WebasystXApplication
+        const val DEVICE_ID_KEY = "device_id"
     }
 }
