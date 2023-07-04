@@ -2,6 +2,25 @@
 
 ![webasyst-x-android-ru-v1-showcase-dev](https://user-images.githubusercontent.com/889083/117459691-5b5f0680-af54-11eb-9d3b-e7c79e4e66ac.jpg)
 
+Simple native boilerplate Android app that authenticates users via Webasyst ID and enables direct access to all linked Webasyst accounts APIs.
+
+## Running the example app with Android Studio
+
+1. Clone this repository
+
+2. Create new file `webasyst.properties` in repository root:
+```
+webasyst.x.client_id="YOUR_WEBASYSTID_APP_CLIENT_ID_HERE"
+webasyst.x.host="https://www.webasyst.com"
+```
+Get your Webasyst ID auth client id here: https://www.webasyst.com/my/waid/apps/
+
+3. Install Android Studio as described in https://developer.android.com/studio/install
+
+4. In Android Studio choose file -> open and navigate to project directory.
+
+5. Detailed manual on running an app on the Android Emulator can be found here: https://developer.android.com/studio/run/emulator
+
 ## Project structure
 
 The project has a main module `webasyst-x` that provides the core structure of the sample Android application.
@@ -84,23 +103,6 @@ resources, it falls back to default (`res/values/`)
 For details, follow the link https://developer.android.com/guide/topics/resources/localization
 
 For details on string resource format, follow the link https://developer.android.com/guide/topics/resources/string-resource
-
-## Running the example app with Android Studio
-
-1. Clone this repository
-
-2. Create new file `webasyst.properties` in repository root:
-```
-webasyst.x.client_id="YOUR_WEBASYSTID_APP_CLIENT_ID_HERE"
-webasyst.x.host="https://www.webasyst.com"
-```
-(obtain Webasyst ID app client id from Webasyst and save it into this configuration file)
-
-3. Install Android Studio as described in https://developer.android.com/studio/install
-
-4. In Android Studio choose file -> open and navigate to project directory.
-
-5. Detailed manual on running an app on the Android Emulator can be found here: https://developer.android.com/studio/run/emulator
 
 ## Сreate your own application based on the example application
 
